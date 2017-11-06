@@ -1,0 +1,70 @@
+<div class="">
+    <div class="breadcrumbs1">
+        <a href="#">{{candidature.offre.titre}}</a><span></span>
+    </div>
+</div>
+<div class="latest_news">
+    <div class="team1 clearfix">
+        <div class="caption">
+            <figure>
+                <img src="{{ asset('images/users/' ~ candidature.candidat.curriculum.imageName ~'')}}" alt="" height="200px" width="200px" class="img-responsive">
+            </figure>
+            <div class="txt1">{{candidature.candidat.username}}</div>
+            <div class="txt2">
+                <a href="mailto:{{candidature.candidat.email}}">{{candidature.candidat.email}}</a>
+            </div>
+            <div class="txt3">{{candidature.description}}.</div>
+            <div class="title5 pull-right"><b>{{candidature.getDateCandidature() | date}}</b></div>
+        </div>
+    </div>
+</div>
+<div class="latest_news">
+    <div class="quote_wrapper">
+        <div class="title4"><span>CURRICULUM VITAE</span></div>
+        <div id="note"></div>
+        <div id="fields">
+            <form id="ajax-contact-form" class="form-horizontal" action="javascript:alert('success!');">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputName">Nom</label>
+                            <input type="text" class="form-control" id="inputName" name="name" value="{{candidature.candidat.curriculum.nom}}" readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputLName">Prénom</label>
+                            <input type="text" class="form-control" id="inputLName" name="lname" value="{{candidature.candidat.curriculum.prenom}}" readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="text" class="form-control" id="inputEmail" name="email" value="{{candidature.candidat.email}}" readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputPhone">Téléphone</label>
+                            <input type="text" class="form-control" id="inputPhone" name="phone" value="{{candidature.candidat.curriculum.telephone}}" readonly="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputMessage">A propos</label>
+                            <textarea class="form-control" rows="5" id="inputMessage" name="content" readonly="true">{{candidature.candidat.curriculum.about}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                {% if candidature.candidat.cvFile is not null %}
+                    <a class="btn-default btn-cf-submit" href="{{ vich_uploader_asset(candidature.candidat.cvFile, 'cvFile') }}">Télécharger le CV</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mes Alertes{% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Mes alertes mail {% endblock %}
+
+{% block scontent %}
+    <div class="latest_news">
+        <div class="title7">Mes alertes mail</div>
+        <div>
+            {% if alerts|length > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Mot clés</th>
+                        <th>Contrat</th>
+                        <th>Experience</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for alert in alerts %}
+                        <tr>
+                            <td>{{ alert['criter']}}</td>
+                            <td>{{ alert['contrat']}}</td>
+                            <td>{{ alert['experience']}}</td>
+                            <td><a style="text-decoration:none; color: #ff4955;" href="{{ path('eco_job_candidat_alert_mail_delete',{'id': alert['id']})}}"><i class="fa fa-trash"></i> Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td><a style="text-decoration:none; color: #ff4955;" href="{{ path('eco_job_candidat_alert_mail_delete_all')}}"><i class="fa fa-trash"></i> Tout supprimer</a></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            {% else %}
+                <div>
+                    <p>Aucune alerte!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

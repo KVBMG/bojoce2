@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% block title %}{% endblock %}
+
+{% block content %} 
+    {{parent()}} 
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    
+                </div>                
+                <div class="col-sm-8">
+                    {% if app.request.hasPreviousSession %}
+                       {% for flashMessage in app.session.flashBag.get('success') %}
+                            <div class="alert alert-succes alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hi
+                    dden="true">&times;</span></button>
+                                    <strong>{{ flashMessage }}</strong>
+                            </div>
+                       {% endfor %}
+                    {% endif %}                    
+                    {% block scontent %}
+                    <div class="title6">Messagerie</div>
+                   <!-- <h1> {% trans from 'FOSMessageBundle' %}messenger{% endtrans %}</h1> -->
+
+        <ul>
+            <li><a href="{{ url('fos_message_inbox') }}">{% trans from 'FOSMessageBundle' %}inbox{% endtrans %}</a></li>
+            <li><a href="{{ url('fos_message_sent') }}">{% trans from 'FOSMessageBundle' %}sent{% endtrans %}</a></li>
+            <li><a href="{{ url('fos_message_deleted') }}">{% trans from 'FOSMessageBundle' %}deleted{% endtrans %}</a></li>
+        </ul>
+
+        {% block fos_message_content %}{% endblock %}
+                {% endblock %}    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}                

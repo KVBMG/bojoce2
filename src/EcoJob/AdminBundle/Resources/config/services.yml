@@ -1,0 +1,4 @@
+services:
+   eco_job_admin.suspendre_offre:
+        class: EcoJob\AdminBundle\Service\SuspendreOffreService
+        arguments: [@doctrine.orm.entity_manager]

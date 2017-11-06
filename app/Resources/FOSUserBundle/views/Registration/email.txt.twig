@@ -1,0 +1,19 @@
+    {% block subject %}
+    {% autoescape false %}
+    {{ 'Confirmez votre inscription sur eco-job.fr'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
+    {% endautoescape %}
+    {% endblock %}
+    {% block body_text %}
+    {% autoescape false %}
+    {{ 'Bonjour %username%
+
+    Merci de cliquer sur le lien suivant afin de confirmer votre inscription sur eco-job.fr:
+
+    %confirmationUrl% .Ce lien ne peut être utilisé qu\'une seule fois pour valider votre compte.
+
+        Cordialement,
+        L\'équipe    '|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
+
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}

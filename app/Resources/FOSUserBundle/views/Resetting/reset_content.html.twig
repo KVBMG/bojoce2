@@ -1,0 +1,40 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+<div class="row">
+    <div class="col-sm-12">        
+        <div class="form-group {% if(form_errors(form.plainPassword.first) | length >0) %}has-error{% endif %}">
+            {{ form_label(form.plainPassword.first,"Mot de passe", {'label_attr': {'class': 'control-label col-sm-3'}})}}   
+            <div class="col-sm-9">
+                {{form_widget(form.plainPassword.first,{'attr':{'class':'form-control','autocomplete':'off'}})}}
+            </div>
+            {{form_errors(form.plainPassword.first)}}
+        </div>         
+    </div>
+</div>   
+<br>
+<div class="row">
+    <div class="col-sm-12">        
+        <div class="form-group {% if(form_errors(form.plainPassword.second) | length >0) %}has-error{% endif %}">
+            {{ form_label(form.plainPassword.second,"Confirmation du mot de passe", {'label_attr': {'class': 'control-label col-sm-3'}})}}   
+            <div class="col-sm-9">
+                {{form_widget(form.plainPassword.second,{'attr':{'class':'form-control','autocomplete':'off'}})}}
+            </div>
+            {{form_errors(form.plainPassword.second)}}
+        </div>         
+    </div>
+</div> 
+<div class="row">
+    <div class="col-sm-12">        
+        <div class="form-group {% if(form_errors(form.captchaCode) | length >0) %}has-error{% endif %}">
+            {{ form_label(form.captchaCode,"", {'label_attr': {'class': 'control-label col-sm-3'}})}}   
+            <div class="col-sm-9">
+                {{form_widget(form.captchaCode,{'attr':{'class':'form-control','id':'captchaCodeError','aria-describedby':'captchaCodeError','autocomplete':'off'}})}}
+            </div>
+            {{form_errors(form.captchaCode,{'attr':{'id':'captchaCodeError','class':'help-block'}})}}
+        </div>         
+    </div>
+</div>             
+{{form_rest(form)}}   
+<input type="submit" class="btn-default btn-cf-submit" value="{{ 'resetting.reset.submit'|trans }}" />
+{{ form_end(form) }}

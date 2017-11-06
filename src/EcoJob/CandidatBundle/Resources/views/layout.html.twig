@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+{% block title %}{% endblock %}
+
+{% block content %} 
+    {{parent()}} 
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="latest_news">
+                        <div class="title7">Candidat side bar</div>
+                        <ul>
+                            <li><a href="{{path('eco_job_candidat_gerercv')}}"> Gérer mon CV</a></li>
+                            <li><a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a></li>
+                            <li><a href="{{path('eco_job_candidat_myoffres')}}"> Offres d'emploi sauvegardées ({{app.session.get('saved')}})</a></li>
+                            <li><a href="{{path('eco_job_candidat_postuled_offres')}}"> Offres d'emploi postulés ({{app.session.get('postuled')}})</a></li>
+                            <li><a href="{{path('eco_job_candidat_param')}}"> Paramètre d'alerte mail</a></li>
+                            <li><a href="{{path('fos_user_profile_edit')}}">Modifier nom et/ou email</a></li>
+                            <li><a href="{{path('fos_user_change_password')}}">Modifier nom mot de passe</a></li>
+                        </ul>
+                    </div>
+                </div>                
+                <div class="col-sm-8">
+                    {% block scontent %}
+                        <div class="title6">Contenu pour un candidat</div>
+
+                    {% endblock %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}                

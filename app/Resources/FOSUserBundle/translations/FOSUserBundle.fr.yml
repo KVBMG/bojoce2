@@ -1,0 +1,6 @@
+registration:
+    email:
+        subject: Confirmation de l'inscription
+        message: |
+            Merci de cliquer sur le lien suivant afin de confirmer votre inscription sur eco-job.fr
+            %confirmationUrl%.

@@ -1,0 +1,69 @@
+    {% if offres is not empty %}
+        {% if not app.user %}
+            {% for offre in offres %}
+                <div class="news1 ">                    
+                    <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
+                    <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>                
+                    <div class="txt3">{{offre.localisation}}</div>
+                    <div class="btn-group">
+                        <a href="#details" class="btn-default btn save">
+                            <span class="glyphicon glyphicon-save"></span>
+                        </a>
+                        <a class="btn btn-default" data-toggle="collapse" href="#collapseExample{{ offre.id }}"
+                           aria-expanded="false" aria-controls="collapseExample">
+                            <span class="glyphicon glyphicon-share"></span>
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseExample{{ offre.id }}">
+                        <div class="card card-block">
+                            <ul class="social clearfix">
+                                <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id}) }}"
+                                       class="fb-share"><i class="fa fa-facebook"></i></a>
+                                </li>
+                                <li><a class="twitter popup" href="http://twitter.com/share"><i
+                                            class="fa fa-twitter"></i></a></li>
+                                <li>
+                                    <script src="//platform.linkedin.com/in.js"
+                                    type="text/javascript"> lang: en_US</script>
+                                    <script type="IN/Share"
+                                            data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}"
+                                    data-counter="right"></script>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>                    
+                </div>
+            {% endfor %} 
+
+        {% else %}
+            {% for offre in offres %}
+                <div class="news1 ">
+                    <div class="txt1">{{offre.createdAt | date('d-m-y')}}</div>
+                    <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
+                    <div class="txt3">{{offre.contenu}}</div>
+                    {% if is_granted('ROLE_CANDIDAT') %}
+                        <div class="btn-group">
+                            {% if offre.added %}
+                                <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
+                            {% else %}
+                                <a class="cd-add-to-cart btn btn-default" data-offre-id="{{ offre.id }}">
+                                    <span class="glyphicon glyphicon-save"></span>
+                                </a>
+                            {% endif %}
+
+                            <a class="btn btn-default" data-toggle="collapse"
+                               href="#collapseExample{{ offre.id }}" aria-expanded="false"
+                               aria-controls="collapseExample">
+                                <span class="glyphicon glyphicon-share"></span>
+                            </a>
+                        </div>
+                    {% else %}    
+                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id }) }}" target="_blank" class="btn-default btn1">Voir</a>                
+                    {% endif %} 
+                </div>
+            {% endfor %}                                               
+           
+        {% endif %}   
+    {% else %}
+        aucun résultat 
+    {%endif %}

@@ -1,0 +1,52 @@
+eco_job_anonymous_map:
+    path:     /offres
+    defaults: { _controller: EcoJobAnonymousBundle:Default:map }
+    
+eco_job_anonymous_offre_search:
+    path:     /offres/filtering
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:search" }
+    methods:  POST
+    options: 
+        expose:  true   
+    
+eco_job_anonymous__offre_searchpage:
+    path:     /offre/search
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch" }
+    methods:  [GET,POST]     
+
+eco_job_anonymous_offre:
+    path:     /offre/{id}/show
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:showOffre" }
+    methods:  [GET,POST]    
+    
+
+eco_job_anonymous_offre_details:
+    path:     /offre/{id}/details
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:detailsOffre" }
+    methods:  [GET,POST]
+    options: 
+        expose:  true  
+        
+eco_job_anonymous_offres_json:
+    path:     /offres/gets/json
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:getAllJson" }
+    methods:  [GET,POST]
+    options: 
+        expose:  true  
+        
+eco_job_anonymous_offre_search_ajax:
+    path:     /offre/search_ajax
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:searchAjax" }
+    methods:  [GET,POST]    
+    options: 
+        expose:  true    
+eco_job_anonymous_offre_search_ajax_templated:
+    path:     /offre/search_ajax/templated
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:searchAjaxTemplated" }
+    methods:  [GET,POST]    
+    options: 
+        expose:  true   
+eco_job_anonymous_offre_integralite:
+    path:     /offre/{id}
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:integraliteOffre" }
+    methods:  [GET,POST]

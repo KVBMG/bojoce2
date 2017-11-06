@@ -1,0 +1,61 @@
+{% if (candidatures | length) == 0 %}
+    <li href="#" class="list-group-item list-group-item-danger candidature-item"><b>Aucun résultats!</b></li>
+{% endif %}
+{% for candidature in candidatures %}
+    <a class="list-group-item candidature-item" data-candidature-item-id="{{candidature.id}}">
+        <button type="button" class="close" data-toggle="modal" data-target="#modalDelete" data-candidature-id="{{ candidature.id }}">
+            <span aria-hidden="true">&times;</span>
+        </button>{{ candidature.candidat_username }} a postulé le :<b>{{ candidature[0].date_candidature |date }}</b></a>
+{% endfor %}
+<script>
+    $(function() {
+        var candidatureContainer = $('#candidatureList'), page2 = 1;
+        candidatureContainer.scroll(function() {
+            var $this = $(this);
+            var height = this.scrollHeight - $this.height(); // Get the height of the div
+            var scroll = $this.scrollTop(); // Get the vertical scroll position
+            var isScrolledToEnd = (scroll >= height);
+            if (isScrolledToEnd) {
+                page2++;
+                $(document).trigger('fetchMoreCandidature', [ page2 ]);
+            }
+        });
+
+         $(document).on('fetchMoreCandidature', function (event, start) {
+             console.log(start);
+             $.ajax({
+                 url: Routing.generate('eco_job_recruteur_offre_candidatures', {id: {{ offreId }}, offset: start}),
+                 method: 'GET',
+                 beforeSend : function () {
+                     $.blockUI({
+                         message: '<p class="loader"></p>',
+                         css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                     });
+                 },
+                 success: function (data) {
+                     var _data = JSON.parse(data);
+                     renderCITems(_data);
+                 },
+                 error: function (err) {
+                     console.warn(err);
+                 },
+                 complete: function () {
+                     $.unblockUI();
+                 }
+             });
+         });
+
+         function renderCITems(pageItem){
+             if(pageItem.length === 0) {
+                 console.warn("empty");
+                 page2 = page2 - 1; // aucune incrémentation
+             }else {
+                 pageItem.forEach(function (item, index, arr) {
+                     var _date = formatDate(item[0].date_candidature);
+                     var list = '<a class="list-group-item candidature-item">' + item.candidat_username +' date'+ item[0].date_candidature +'</a>';
+                     $('#candidatureList').append(list);
+                 });
+             }
+         }
+    });
+</script>

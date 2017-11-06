@@ -1,0 +1,37 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %} Mot de passe oublié{% endblock %}
+
+{% block content_title %}Profile {% endblock %}
+
+{% block content_stitle %}Réinitialiser mon mot de passe {% endblock %}
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quote_wrapper">
+          <div class="title4">Réinitialiser mon mot de passe</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <strong> Lien de réinitialisation envoyé!</strong> {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+            </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}

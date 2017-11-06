@@ -1,0 +1,109 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mes offres{% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Les offres d'emploi sauvegardées {% endblock %}
+
+{% block scontent %}   
+        {{parent()}} 
+
+    <div class="latest_news">
+        <div class="title7">Liste des offres d'emploi sauvegardées</div>
+        {% if offres is not empty %}
+            Total {{ offres|length }}
+            {% for offre in offres %}
+
+                <div class="news1">
+                    <div class="txt2"><a href="{{ path('eco_job_candidat_offre',{'id': offre.id})}}">{{offre.titre}}</a></div>
+                    <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
+                    <div class="txt3">{{offre.contenu}}</div>
+                    <a href="{{ path('eco_job_candidat_offre',{'id': offre.id})}}" class="btn-default btn3">Afficher</a>
+                    <a href="#" class="postulerBtn txt3" offreId="{{offre.id}}" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</a>                        
+                    <a href="{{ path('eco_job_candidat_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                    {% if offre.expired %}
+                        <div class="label label-warning"> Offre est expirée</div>     
+                    {% endif%}
+                </div>
+
+
+            {% endfor %}
+        {% else %}
+            aucune offre sauvegardée 
+        {%endif %}
+
+    </div>
+</div>
+
+<div id="m-m-u" class="modal fade" data-backdrop="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="candidatureForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Posulter pour l'offre </h4>
+                </div>
+                <div class="modal-body text-center p-lg">
+                    <div class="form-group row">
+                        <label for="libelle" class="col-sm-2 form-control-label">Qu'est-ce qui vous motive?</label>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" name="motivation" id="" cols="30" rows="15" required></textarea>
+                        </div>
+                    </div>
+                    <div class="alert" id="responseStore">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn success p-x-md" >Envoyer ma candidature</button>
+                    <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}  
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="{{asset('js/jquery.blockUI.js')}}"></script>
+    <script>
+        $(function () {
+            var offreId = 0;
+            $('.postulerBtn').click(function () {
+                offreId = $(this).attr('offreId');
+                $(this).addClass('clickedPostul');
+            });
+            $('#candidatureForm').submit(function (event) {
+                event.preventDefault();
+                var form_data = $(this).serialize();
+                console.log(form_data);
+                $.ajax({
+                    type: "POST",
+                    url: Routing.generate('eco_job_candidat_offre_postuler', {id: offreId}),
+                    data: form_data,
+                    beforeSend: function () {
+                        $.blockUI({
+                            message: '<p class="loader"></p>',
+                            css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                        });
+                    },
+                    error: function (err) {
+                        $('#responseStore').addClass('alert-danger').html("L'envoie de votre candidature a échoué").show();
+                    },
+                    success: function (data) {
+                        $('#responseStore').addClass('alert-success').html(data.message).show();
+                        $('.clickedPostul').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                        $(".clickedPostul").removeClass("clickedPostul");
+                        $('#m-m-u').modal('hide');
+                    },
+                    complete: function () {
+                        $.unblockUI();
+                    }
+                })
+            });
+        })
+    </script>
+{% endblock %}
+
+

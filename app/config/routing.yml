@@ -1,0 +1,76 @@
+eco_job_anonymous:
+    resource: "@EcoJobAnonymousBundle/Resources/config/routing.yml"
+    prefix:   /search
+
+eco_job_recruteur:
+    resource: "@EcoJobRecruteurBundle/Resources/config/routing.yml"
+    prefix:   /recruteur
+
+eco_job_candidat:
+    resource: "@EcoJobCandidatBundle/Resources/config/routing.yml"
+    prefix:   /candidat
+
+eco_job_main:
+    resource: "@EcoJobMainBundle/Resources/config/routing.yml"
+    prefix:   /
+
+eco_job_user:
+    resource: "@EcoJobUserBundle/Resources/config/routing.yml"
+    prefix:   /user
+    
+eco_job_admin:
+    resource: "@EcoJobAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+        
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /change-password 
+    
+
+recruteur_registration:
+    path:  /register/recruteur
+    defaults: { _controller: EcoJobUserBundle:RegistrationRecruteur:register }
+
+candidat_registration:
+    path:  /register/candidat
+    defaults: { _controller: EcoJobUserBundle:RegistrationCandidat:register }    
+
+captcha_routing:
+  resource: "@CaptchaBundle/Resources/config/routing.yml"    
+
+user_registration_resend_confirm:
+    path: /register/resend-confirm
+    defaults: { _controller: EcoJobUserBundle:Registration:resendConfirm }
+    requirements:
+        _method: GET|POST   
+#ando
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /messages
+   #/optional_routing_prefix
+eco_job_messagerie:
+    resource: "@EcoJobMessagerieBundle/Resources/config/routing.yml"
+    prefix:   /messagerie
+    

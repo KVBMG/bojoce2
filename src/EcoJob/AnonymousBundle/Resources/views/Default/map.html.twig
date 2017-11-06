@@ -1,0 +1,198 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{asset('css/map.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+{% endblock %}
+
+{% block title %} Offres d'emploi {% endblock %}
+
+{% block content_title %} Recherche {% endblock %}
+
+{% block content_stitle %} Offres d'emploi {% endblock %}
+
+{% block content %}
+    {{parent()}}
+    <div id="content" class="container">
+        <div >
+            <div class="title6 text-uppercase">Map</div>
+            <a href="{{path('eco_job_anonymous__offre_searchpage')}}">Sans carte de France</a>
+            <div class="row">
+                <div class="col-sm-5">
+                    <form id="searchForm" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label required" for="searchBar">Mots clés</label>
+                            <input size="65" type="text" id="searchBar" class="form-control" name="keywords" placeholder="Mots clés">
+                            <p class="help-block">Ex:"gestion,médecine,..."</p>
+                        </div>
+                        <div class="form-group" >
+                            <label for="exp" class="control-label required">Expérience:</label>
+                            <select name="experience" id="exp" class="form-control">
+                                <option value="0">Tous</option>
+                                <option value="1">1 an</option>
+                                <option value="2">2 ans</option>
+                                <option value="3">3 ans</option>
+                                <option value="4">4 ans</option>
+                                <option value="5">5 ans</option>
+                                <option value="6">6 ans</option>
+                                <option value="7">7 ans</option>
+                                <option value="8">8 ans</option>
+                                <option value="9">9 ans</option>
+                                <option value="10">10 ans</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contrat" class="control-label required">Type de contrat:</label>
+                            <select name="contrat" id="contrat" class="form-control">
+                                <option value="0">Tous</option>
+                                <option value="1">CDD</option>
+                                <option value="2">CDI</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="limit" class="control-label required">Nombre d'offre à afficher :</label>
+                            <select name="limit" id="limit" class="form-control">
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" id="offset" name="offset" value="0" />
+                        <br>
+                        <button class="btn-default btn1" id="reset">Reset</button>
+                    </form>
+                    <br/>
+                    <div id="google_map"></div>
+
+                </div>
+                <div class="col-sm-4 latest_news scroll_map" id="offreList">
+                    {% for offre in offres %}
+                        <div class="news1" >
+                            <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
+
+                            <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
+                            <div class="txt3">{{offre.localisation}}</div>
+                            <div class="btn-group">
+                                {% if not app.user %}
+                                    <a href="#details" class="btn btn-default save">
+                                        <span class="glyphicon glyphicon-save"></span>
+                                    </a>
+                                {% else %}
+                                    {% if is_granted('ROLE_CANDIDAT') %}
+
+                                        {% if offre.added %}
+                                            <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
+                                        {% else %}
+                                            <a class="cd-add-to-cart btn btn-default" data-offre-id="{{ offre.id }}">
+                                                <span class="glyphicon glyphicon-save"></span>
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id }) }}" target="_blank" class="btn-default btn1">Voir</a>                
+
+                                    {% endif %}
+                                {% endif %}
+
+                                <a class="btn btn-default" data-toggle="collapse" href="#collapseExample{{offre.id}}" aria-expanded="false" aria-controls="collapseExample">
+                                    <span class="glyphicon glyphicon-share"></span>
+                                </a>
+                            </div>
+                            <div class="collapse" id="collapseExample{{offre.id}}">
+                                <div class="card card-block">
+                                    <ul class="social clearfix">
+                                        <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id}) }}" class="fb-share"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a></li>
+                                        <li>
+                                            <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                                            <script type="IN/Share" data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}" data-counter="right"></script>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="cd-cart-container empty">
+                    <a href="#0" class="cd-cart-trigger">
+                        Cart
+                        <ul class="count"> <!-- cart items count -->
+                            <li>0</li>
+                            <li>0</li>
+                        </ul> <!-- .count -->
+                    </a>
+
+                    <div class="cd-cart">
+                        <div class="wrapper">
+                            <header>
+                                <h2>Offres sauveguardées</h2>
+                                <span class="undo">Item removed. <a href="#0">Undo</a></span>
+                            </header>
+
+                            <div class="body">
+                                <ul>
+                                    <!-- products added to the cart will be inserted here using JavaScript -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- .cd-cart -->
+                </div>                
+                <div class="col-sm-3" id="details">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Vous devez vous avoir un compte sur eco-job avant de pouvoir sauvegarder ou postuler à une offre d'emploi.
+                    Veuillez vous inscrire en cliquant <a href="{{ path('fos_user_registration_register')}}" class="btn-default">ici</a>
+                    ou vous connecter <a href="{{ path('fos_user_security_login')}}" class="btn-default">ici</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}                
+
+
+
+
+
+
+
+{% block javascripts %}
+    <!--[if lte IE 9 ]>
+        <script type="text/javascript">
+            window.location.href= '{{path('eco_job_anonymous__offre_searchpage')}}';
+        </script>
+    <![endif]-->
+
+    {{parent()}}
+    <script>
+        var assetsBaseDir = "{{ asset('images/') }}"
+    </script>
+    <script type="text/javascript" src="{{asset('js/jquery.debounce.js')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
+    <script src="{{asset('js/markerclusterer.js')}}">
+    </script>
+    <script type="text/javascript" src="{{asset('js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('js/addToCart.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/map_free.js')}}"></script>
+
+    <!-- social network scripts -->
+    <script type="text/javascript" src="{{asset('js/map_social_network.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/postuler_formulaire.js')}}"></script>
+{% endblock %}

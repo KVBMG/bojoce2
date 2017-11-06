@@ -1,0 +1,120 @@
+eco_job_candidat_index:
+    path:     /
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:index" }
+    methods:  GET
+eco_job_candidat_cv_fill:
+    path:     /cv/fill
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Fill" }
+    methods:  [GET,POST]
+eco_job_candidat_cv_show:
+    path:     /cv/show
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Show" }
+    methods:  [GET,POST]    
+eco_job_candidat_cv_edit:
+    path:     /cv/edit
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Edit" }
+    methods:  [GET,POST]   
+eco_job_candidat_cv_delete:
+    path:     /cv/delete
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Delete" }
+    methods:  [GET,POST]   
+
+eco_job_candidat_offre:
+    path:     /offre/{id}/show
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:showOffre" }
+    methods:  [GET,POST]      
+
+eco_job_candidat_offre_postuler:
+    path:     /offre/{id}/postuler
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postulerOffre" }
+    methods:  [GET,POST]
+    options:
+        expose:  true
+
+eco_job_candidat_offre_save:
+    path:     /offre/{id}/save
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:save" }
+    methods:  [GET,POST]
+eco_job_candidat_offre_save_async:
+    path:     /offre/{id}/saveAsync
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:saveAsync" }
+    methods:  [GET,POST]
+    options:
+        expose:  true
+
+eco_job_candidat_offre_delete:
+    path:     /offre/{id}/delete
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteOffre" }
+    methods:  [GET,POST]     
+eco_job_candidat_myoffres:
+    path:     /offres/get
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:myOffres" }
+    methods:  [GET,POST]
+ 
+
+eco_job_offres:
+    path:     /offres
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:map" }
+    methods:  GET        
+    
+eco_job_candidat_offre_details_2:
+    path:     /offre/details/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:detailsOffre2" }
+    methods:  GET 
+    
+    
+eco_job_candidat_param:
+    path: /compte/parametre
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Param" }
+    methods:  [GET,POST]
+eco_job_candidat_alert_mail:
+    path:     /alert_mail
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:alertMail" }
+    methods:  GET
+eco_job_candidat_uploadcv:
+    path:     /upload/cv
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:uploadCV" }
+    methods:  [GET,POST]
+
+eco_job_candidat_postuled_offres:
+    path:     /offres/postules
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postuledOffres" }
+    methods:  [GET,POST]
+
+eco_job_candidat_cancel_postuled:
+    path:     /offres/postules/{id}/annuler
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:cancelPosulation" }
+    methods:  [GET,POST]
+
+#endofmycode
+
+eco_job_offres:
+    path:     /offres
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:map" }
+    methods:  GET        
+    
+eco_job_candidat_offre_details_2:
+    path:     /offre/details/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:detailsOffre2" }
+    methods:  GET 
+    
+eco_job_candidat_param:
+    path: /compte/parametre
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:Param" }
+    methods:  [GET,POST]
+eco_job_candidat_alert_mail:
+    path:     /alert_mail
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:alertMail" }
+    methods:  GET
+eco_job_candidat_reset_param:
+    path:     /compte/parametre/reset
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:ResetParam" }
+    methods:  GET
+eco_job_candidat_gerercv:
+    path:     /cv/gestion
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:gererCV" }
+    methods:  GET
+eco_job_candidat_gerercv_stop:
+    path:     /cv/gestion/{id}/stop
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:stop" }
+    methods:  GET    

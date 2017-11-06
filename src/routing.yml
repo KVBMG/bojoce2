@@ -1,0 +1,90 @@
+eco_job_admin_index:
+    path:     /
+    defaults: { _controller: "EcoJobAdminBundle:Admin:index" }
+    methods:  GET
+eco_job_admin_users:
+    path:     /users/list
+    defaults: { _controller: "EcoJobAdminBundle:Admin:getUsers" }
+    methods:  GET
+eco_job_admin_candidat_cv:
+    path:     /users/cv/{id}
+    defaults: { _controller: "EcoJobAdminBundle:Admin:showCV" }
+    methods:  GET
+eco_job_admin_recruteur_offres:
+    path:     /users/offres/{id}
+    defaults: { _controller: "EcoJobAdminBundle:Admin:showOffres" }
+    methods:  GET  
+eco_job_admin_recruteur_offre:
+    path:     /users/offre/{id}
+    defaults: { _controller: "EcoJobAdminBundle:Admin:showOffre" }
+    methods:  GET     
+eco_job_admin_user_delete:
+    path:     /users/delete/{id}
+    defaults: { _controller: "EcoJobAdminBundle:Admin:delete" }
+    methods:  [GET,POST]
+eco_job_admin_recruteur_offre_delete:
+    path:     /users/offre/{id}/delete
+    defaults: { _controller: "EcoJobAdminBundle:Admin:deleteOffre" }
+    methods:  GET
+eco_job_admin_recruteur_offre_valider:
+    path:     /users/offre/{id}/valider
+    defaults: { _controller: "EcoJobAdminBundle:Admin:valideOffre" }
+    methods:  GET   
+eco_job_admin_offres_all:
+    path:     /offres/all-without-exception
+    defaults: { _controller: "EcoJobAdminBundle:Admin:getOffreAll" }
+    methods:  GET
+    options:
+        expose: true
+eco_job_admin_offre_delete_ajax:
+    path:     /offre/{id}/delete
+    defaults: { _controller: "EcoJobAdminBundle:Admin:deleteOffreAjax" }
+    methods:  GET
+    options:
+        expose: true
+eco_job_admin_offres:
+    path:     /offres/list
+    defaults: { _controller: "EcoJobAdminBundle:Admin:getOffreNews" }
+    methods:  GET     
+eco_job_admin_users_dashoard:
+    path:     /users
+    defaults: { _controller: "EcoJobAdminBundle:Admin:users" }
+    methods:  GET   
+    options:
+        expose: true
+eco_job_admin_users_delete_existing:
+    path:     /users/{id}/delete
+    defaults: { _controller: "EcoJobAdminBundle:Admin:suppr" }
+    methods:  GET   
+    options:
+        expose: true    
+eco_job_admin_showuser:
+    path:     /users/{id}/show
+    defaults: { _controller: "EcoJobAdminBundle:Admin:showuser" }
+    methods:  GET   
+    options:
+        expose: true        
+eco_job_admin_offres_categorie:
+    path:     /offres/categorie
+    defaults: { _controller: "EcoJobAdminBundle:Admin:offreCategorie" }
+    methods:  [GET,POST]
+eco_job_admin_suspendre:
+    path:     /offre/{id}/suspendre
+    defaults: { _controller: "EcoJobAdminBundle:Admin:suspendreOffre" }
+    methods:  GET     
+eco_job_admin_republier:
+    path:     /offre/{id}/republier
+    defaults: { _controller: "EcoJobAdminBundle:Admin:republier" }
+    methods:  GET     
+eco_job_admin_suspendre_all:
+    path:     /offre/suspendre
+    defaults: { _controller: "EcoJobAdminBundle:Admin:suspendreAllOffre" }
+    methods:  GET  
+eco_job_admin_offres_expirer:
+    path:     /offre/exprired
+    defaults: { _controller: "EcoJobAdminBundle:Admin:expriredOffre" }
+    methods:  GET  
+eco_job_admin_categorie_delete:
+    path:     /offre/categorie/{id}/delete
+    defaults: { _controller: "EcoJobAdminBundle:Admin:deleteCategorie" }
+    methods:  GET

@@ -1,0 +1,170 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mes offres{% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Offres d'emploi {% endblock %}
+
+{% block scontent %} 
+    {{parent()}}
+    <div class="latest_news">
+        <div class="title7">Offre numero {{offre.id}}</div>
+        <div class="news1">
+            <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
+
+            <div class="txt2"><a href="">{{offre.titre}}</a></div>
+            <div class="txt3">{{offre.contenu}}</div>
+
+        </div>
+        <div class="button-group">
+            {% if not app.user %}
+                <a href="{{ path('fos_user_registration_register')}}" class="btn-default btn1">Save</a>
+                <a href="{{ path('fos_user_registration_register')}}" class="btn-default btn1">Postuler</a>
+                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Share
+                </a>
+            {% else %}
+                {% if saved %}
+                    <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
+                {% else %}
+                    <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id})}}" class="btn-default btn1">Save</a>
+                {% endif %}
+                {% if postuled %}
+                    <a href="#" class="btn-default btn-warning">Déja postulé</a>
+                {% else %}
+                    <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</button>
+                {% endif %}
+                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Share
+                </a>
+                <a href="{{ path('eco_job_candidat_offre_delete',{'id': offre.id})}}" class="btn-default btn1">Supprimer</a>    
+
+            {% endif %}
+        </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-block">
+                <ul class="social clearfix">
+                    <li><a href="" id="fb-share"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a></li>
+                    <li>
+                        <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                        <script type="IN/Share" data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}" data-counter="right"></script>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="m-m-u" class="modal fade" data-backdrop="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="{{ path('eco_job_candidat_offre_postuler',{ 'id' : offre.id }) }}" id="candidatureForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Posulter pour l'offre : {{ offre.titre }}</h4>
+                    </div>
+                    <div class="modal-body text-center p-lg">
+                        <div class="form-group row">
+                            <label for="libelle" class="col-sm-2 form-control-label">Qu'est-ce qui vous motive?</label>
+                            <div class="col-lg-10">
+                                <textarea class="form-control" name="motivation" id="" cols="30" rows="15" required></textarea>
+                            </div>
+                        </div>
+                        <div class="alert" id="responseStore">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn success p-x-md" >Envoyer ma candidature</button>
+                        <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="{{asset('js/jquery.blockUI.js')}}"></script>
+    <script>
+                            $(function () {
+                                var _url = window.location.href;
+                                window.fbAsyncInit = function () {
+                                    FB.init({
+                                        appId: '1750551898578027',
+                                        xfbml: true,
+                                        version: 'v2.10'
+                                    });
+                                    FB.AppEvents.logPageView();
+                                };
+
+                                (function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) {
+                                        return;
+                                    }
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+
+                                $('#fb-share').click(function (e) {
+                                    e.preventDefault();
+                                    FB.ui({
+                                        method: 'share',
+                                        display: 'popup',
+                                        href: _url, // to change with the true hrefLink when production
+                                    }, function (response) {});
+                                    return false;
+                                });
+
+                                $('.popup').click(function (event) {
+                                    var width = 575,
+                                            height = 400,
+                                            left = ($(window).width() - width) / 2,
+                                            top = ($(window).height() - height) / 2,
+                                            url = this.href,
+                                            opts = 'status=1' +
+                                            ',width=' + width +
+                                            ',height=' + height +
+                                            ',top=' + top +
+                                            ',left=' + left;
+
+                                    window.open(url, 'twitter', opts);
+
+                                    return false;
+                                });
+
+                                $('#candidatureForm').submit(function (event) {
+                                    event.preventDefault();
+                                    var form_data = $(this).serialize();
+                                    console.log(form_data);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: $(this).attr('action'),
+                                        data: form_data,
+                                        beforeSend: function () {
+                                            $.blockUI({
+                                                message: '<p class="loader"></p>',
+                                                css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                                            });
+                                        },
+                                        error: function (err) {
+                                            $('#responseStore').addClass('alert-danger').html("L'envoie de votre candidature a échoué").show();
+                                        },
+                                        success: function (data) {
+                                            $('#responseStore').addClass('alert-success').html(data.message).show();
+                                            $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                                            $('#m-m-u').modal('hide');
+                                        },
+                                        complete: function () {
+                                            $.unblockUI();
+                                        }
+                                    })
+                                });
+                            })
+    </script>
+{% endblock %}

@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: sql5-2.aquaray.com
+    database_port: 3306
+    database_name: eco_job_fr
+    database_user: eco_job_fr
+    database_password: se%Y7ubyT
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: norazafindrakoto@gmail.com
+    mailer_password: valeryF100%
+    secret: 69e1868d7be44b3770cf8fa0f379bd32186665f1
+    elastic_host: localhost
+    elastic_port: 9200    

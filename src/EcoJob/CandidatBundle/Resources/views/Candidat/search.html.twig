@@ -1,0 +1,80 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mes offres{% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Offres d'emploi {% endblock %}
+
+{% block scontent %} 
+        {{parent()}} 
+
+    <div class="latest_news">
+        <div class="title7">Recherche</div>
+        <form id="searchForm">           
+            <input type="text" id="searchBar" name="keywords" placehodler="Mots clés">
+            <label for="exp">Expérience:</label>
+            <select name="experience" id="exp">
+                <option value="0">Tous</option>
+                <option value="1">1 an</option>
+                <option value="2">2 ans</option>
+            </select>           
+            <label for="radiobtn">Type de contrat:</label>
+                <div class="radio radio-danger">
+                    <input type="radio" name="contrat" id="contrat3" value=0 checked>
+                    <label for="contrat3">Tous</label>
+                </div>                
+                <div class="radio radio-danger">
+                    <input type="radio" name="contrat" id="contrat2" value=1 >
+                    <label for="contrat2">CDD</label>
+                </div>
+                <div class="radio radio-danger">
+                    <input type="radio" name="contrat" id="contrat1" value=2>
+                    <label for="contrat1">CDI</label>
+                </div>
+                <button class="btn-default btn1" id="reset">Reset</button>           
+        </form>
+        <br>
+        <div id="result">
+        {% for offre in offres %}
+            <div class="news1">
+                <div class="txt1">{{offre.createdAt}}</div>
+                <div class="txt2"><a href="#details">{{offre.titre}}</a></div>
+                <div class="txt3">{{offre.contenu}}</div>
+                {% if offre.added %}
+                    <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
+                {% else %}
+                    <!-- data-href a changer au lien menant au page de l'offre -->
+                    <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id})}}" class="btn-default btn1">Save</a>
+
+                    <!--==FACEBOOK LIKE and SHARE Buttons==-->
+                    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+                    <!--== LinkedIn share button==-->
+                    <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>
+                    <script type="IN/Share" data-url="http://platform.linkedin.com"{# change to the url to share e.g: http://eco-job.fr/developpement/ #}></script>
+                {% endif %}
+            </div>
+            <div class="divider"></div>
+        {% endfor %}      
+        </div>
+    </div>
+
+
+{% endblock %}  
+
+{% block javascripts %}
+    {{parent()}}
+    <!--=== Need to change the domain and URL from the facebook.developper to get a new Id ===-->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=1750551898578027";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script type="text/javascript" src="{{asset('js/search.js')}}"></script>
+
+{% endblock %}

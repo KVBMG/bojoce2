@@ -1,0 +1,4 @@
+eco_job_user_candidat:
+    resource: "@EcoJobUserBundle/Resources/config/routing/candidat.yml"
+    prefix:   /candidat
+

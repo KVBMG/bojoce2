@@ -1,0 +1,40 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mes offres{% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Les offres de mes candidatures {% endblock %}
+
+{% block scontent %}
+        {{parent()}} 
+
+    <div class="latest_news">
+        <div class="title7">Liste de mes candidatures</div>
+        {% if candidatures is not empty %}
+            Total {{ candidatures|length }}
+            {% for candidature in candidatures %}
+                <div class="news1">
+                    <div class="txt2"><a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': candidature.offre.id }) }}">{{candidature.offre.titre}}</a></div>
+
+                    <div class="txt3">{{candidature.offre.contenu}}</div>
+                    <div class="pull-right">
+                        <div class="txt3"><a href="">{{candidature.offre.recruteur.username}}</a></div>
+                        <span>{{candidature.datecandidature | date}}</span>
+                    </div>
+
+                    <a href="{{ path('eco_job_candidat_cancel_postuled',{'id':candidature.id}) }}" class="btn btn-default btn-warning">Annuler ma candidature</a>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            aucune offre postulé
+        {%endif %}
+
+    </div>
+    </div>
+
+
+{% endblock %}
+
+

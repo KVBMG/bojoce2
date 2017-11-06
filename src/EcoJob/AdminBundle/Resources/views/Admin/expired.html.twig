@@ -1,0 +1,31 @@
+{% extends "EcoJobAdminBundle::layout.html.twig"%}
+
+{% block title %} Offres d'emploi {% endblock %}
+
+{% block content_title %} Administrateur {% endblock %}
+
+{% block content_stitle %} Offres d'emploi expirés {% endblock %}
+
+{% block scontent %}   
+    <div class="latest_news">
+        <div class="title7">Offres d'emploi </div>
+        {% for offre in offres %}
+            <div class="title7">Offre numero {{offre.id}}</div>
+            <div class="news1">
+                <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
+                <div class="txt2"><a href="#">{{offre.titre}}</a> ({{ offre.categorie.designation }})</div>
+                <div class="txt3">{{offre.contenu}}</div>
+                <a href="{{ path('eco_job_admin_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                <a href="{{ path('eco_job_admin_suspendre',{'id': offre.id})}}" class="btn-default btn3">Suspendre</a>
+            </div>
+        {% endfor %}  
+        {% if offres | length > 0 %}
+            <a href="{{ path('eco_job_admin_suspendre_all')}}"><button type="submit" class="btn-default btn-cf-submit">Suspendre tous</button></a>
+        {% else %}
+            Aucun offres exprirés
+         {% endif %}
+    </div>
+
+    {{parent()}} 
+
+{% endblock %}  

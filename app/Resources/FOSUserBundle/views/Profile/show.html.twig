@@ -1,0 +1,35 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content_title %}Profil {% endblock %}
+
+{% block content_stitle %}Mon profil {% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quote_wrapper">
+          <div class="title4">Profil</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+                {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+                <a href="{{path('fos_user_profile_edit')}}" class="btn btn-default btn3">Modifier nom et/ou email</a>
+                <a href="{{path('fos_user_change_password')}}" class="btn btn-default btn3">Modifier nom mot de passe</a>                
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}

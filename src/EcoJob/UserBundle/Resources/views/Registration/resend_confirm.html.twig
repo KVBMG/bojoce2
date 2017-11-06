@@ -1,0 +1,38 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content_title %}Inscription {% endblock %}
+
+{% block content_stitle %}S'inscrire {% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quote_wrapper">
+          <div class="title4">Renvoyer l'e-mail de confirmation</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+                {% if error %}
+                    <div class="alert alert-danger text-center" stlye="border-radius:10px;">
+                        {{error}}
+                    </div>
+                {% endif %}                 
+            {% include "EcoJobUserBundle:Registration:resend_confirm_content.html.twig" %}
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}

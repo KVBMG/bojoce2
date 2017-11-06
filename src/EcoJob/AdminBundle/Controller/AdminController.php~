@@ -1,0 +1,66 @@
+<?php
+
+namespace EcoJob\AdminBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use EcoJob\UserBundle\Repository\CandidatRepository;
+use EcoJob\UserBundle\Entity\User;
+use EcoJob\RecruteurBundle\Entity\Offre;
+use Symfony\Component\HttpFoundation\Request;
+
+class AdminController extends Controller
+{
+    public function indexAction()
+    {
+        return $this->render('EcoJobAdminBundle:Admin:index.html.twig');
+    }
+    public function getUsersAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $candidats = $em->getRepository('EcoJobUserBundle:User')->getNewlyCandidat();        
+        $recruteurs = $em->getRepository('EcoJobUserBundle:User')->getNewlyRecruteur();        
+        return $this->render('EcoJobAdminBundle:Admin:users.html.twig',array('candidats' => $candidats,'recruteurs'=> $recruteurs));
+    }   
+    public function showCVAction(User $user)
+    {
+        $cv = $user->getCurriculum();
+        return $this->render('EcoJobAdminBundle:Candidat:cv.html.twig',array('cv' => $cv));
+    }
+    public function showOffresAction(User $user)
+    {
+        $offres = $user->getOffres();
+        return $this->render('EcoJobAdminBundle:Recruteur:offres.html.twig',array('offres' => $offres));
+    }
+    public function showOffreAction(Offre $offre)
+    {        
+        return $this->render('EcoJobAdminBundle:Recruteur:offre.html.twig',array('offre' => $offre));
+    }
+    public function deleteAction(User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($user);
+        $em->flush();        
+        return $this->redirectToRoute('eco_job_admin_users');
+    }    
+    public function deleteOffreAction(offre $offre, Request $request) {
+	$id = $offre->getRecruteur()->getId();
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($offre);
+        $em->flush();
+        return $this->redirect($this->generateUrl('eco_job_admin_recruteur_offres',array('id'=>$id)));
+    }
+    public function valideOffreAction(offre $offre, Request $request) {
+        $id = $offre->getRecruteur()->getId();
+        $em = $this->getDoctrine()->getEntityManager();
+        $offre->setValid(true);
+        $em->persist($offre);
+        $em->flush();
+        return $this->redirect($this->generateUrl('eco_job_admin_offres',array('id'=>$id)));
+    }
+    public function getOffreNewsAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $offres = $em->getRepository('EcoJobRecruteurBundle:Offre')->findByValid(false);
+        return $this->render('EcoJobAdminBundle:Admin:offres.html.twig',array('offres' => $offres));
+    }    
+}

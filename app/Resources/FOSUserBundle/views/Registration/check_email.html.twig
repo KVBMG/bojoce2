@@ -1,0 +1,36 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content_title %}Inscription {% endblock %}
+
+{% block content_stitle %}S'inscrire {% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quote_wrapper">
+          <div class="title4">S'inscrire</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <strong> Inscription réussi!</strong> Consulter votre e-mail pour valider votre inscription.
+              ou <a href="{{path('user_registration_resend_confirm')}}" >renvoyer l'e-mail de confirmation</a>
+            </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}

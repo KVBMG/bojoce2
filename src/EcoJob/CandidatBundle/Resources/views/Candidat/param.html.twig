@@ -1,0 +1,46 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Paramètre{% endblock %}
+
+{% block content_title %}Paramètre {% endblock %}
+
+{% block content_stitle %}Paramètre{% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quote_wrapper">
+          <div class="title4">Parametre du compte candidat</div>
+          <br>
+          <div id="note"></div>
+
+           
+          
+
+
+          <div id="fields">
+             <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
+                    {{ form_widget(form.categorie) }}
+                <button type="submit" class="btn-default btn-cf-submit">Sauvegarder</button>
+                <a  class="btn-default btn-cf-submit" href="{{ path('eco_job_candidat_reset_param') }}">Réinitialiser</a>
+            {{ form_end(form) }}                       
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}
+{% block javascripts %}
+    {{parent()}}    
+    <script type="text/javascript" src="{{asset('js/candidat.js')}}"></script>    
+{% endblock %}

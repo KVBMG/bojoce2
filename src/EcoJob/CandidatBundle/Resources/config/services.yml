@@ -1,0 +1,5 @@
+services:
+   eco_job_candidat.alert_mail:
+        class: EcoJob\CandidatBundle\Service\AlertMailService
+        arguments: [@doctrine.orm.entity_manager , @mailer , @service_container]
+

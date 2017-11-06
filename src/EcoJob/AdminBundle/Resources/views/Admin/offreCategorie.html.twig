@@ -1,0 +1,24 @@
+{% extends "EcoJobAdminBundle::layout.html.twig"%}
+
+{% block title %} Offres d'emploi {% endblock %}
+
+{% block content_title %} Administrateur {% endblock %}
+
+{% block content_stitle %} Catégorie des offres{% endblock %}
+
+{% block scontent %}   
+    <div class="latest_news">
+        <div class="title7">List des catégorie des offres </div>
+        <form method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+		<input type="submit" class="btn btn-primary" value="Ajouter"/>
+        </form>
+                                    
+        {%for categorie  in categories %}
+            {{ categorie.id ~ " - "~ categorie.designation }}  <a href="{{ path('eco_job_admin_categorie_delete',{'id': categorie.id})}}" class="btn-default btn3">Supprimer</a>    <br/>
+        {%endfor%}
+    </div>
+
+    {{parent()}} 
+
+{% endblock %}  

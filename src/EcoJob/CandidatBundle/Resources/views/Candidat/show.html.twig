@@ -1,0 +1,53 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mon CV {% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Mon CV {% endblock %}
+
+{% block scontent %}   
+    {{parent()}} 
+
+    <div class="title6">Mon CV </div>
+
+    <div class="team1 clearfix">
+        {% if cv is not null %}
+            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>                        
+            <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
+            <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
+            {% if cv.showable %}
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
+            {% else %}
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la banque de CV</a>                
+            {% endif %}
+
+            <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
+            <div class="caption">
+                <div class="txt1">{{cv.nom}} {{cv.prenom}}</div>
+                <div class="txt2">{{cv.telephone}}</div>
+                <div class="txt3">{{cv.poste}}</div>            
+                <div class="txt3">A propos de moi: {{cv.about}}</div>
+                <div class="txt3">Lieu: {{cv.localisation}}</div>
+                <div class="txt3">Années d'experience: {{cv.experience}}</div>
+                {% if cv.secteur is not null %}
+                    <div class="txt2">Secteur(s) d'activité(s)</div>
+                    <ul>
+                        {% for s in cv.secteur %}
+                            <li> <div class="txt3">{{s.designation}}</div> </li>                                 
+                            {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+            {% if app.user.cvFile is not null %}
+                <a href="{{ vich_uploader_asset(app.user.cvFile, 'cvFile') }}">Aperçu du CV envoyé</a>
+                <div class="txt3">{{app.user.cvFile.lm}}</div>
+            {% endif %}
+        {% else %}
+            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
+        
+        {% endif %}
+    </div>
+
+{% endblock %}  

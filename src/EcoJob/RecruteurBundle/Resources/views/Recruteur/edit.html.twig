@@ -1,0 +1,45 @@
+{% extends "EcoJobRecruteurBundle::layout.html.twig"%}
+
+{% block title %} Modifer offre {% endblock %}
+
+{% block content_title %} Recruteur {% endblock %}
+
+{% block content_stitle %} Offres d'emloi {% endblock %}
+
+{% block scontent %}   
+{{parent()}}    
+    <div class="quote_wrapper">
+        <div class="title4"> Modifier une <span>offre d'emploi</span></div>
+        <div class="title5">contact us for more information</div>
+        <br>
+        <div id="note"></div>
+        <div id="fields">        
+            <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <button type="submit" class="btn-default btn-cf-submit">Valider</button>
+                {{ form_end(form) }}   
+        </div>               
+    </form>    
+</div>
+{% endblock %}  
+{% block javascripts %}
+    {{parent()}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
+    <script>
+        var autocomplete;
+        function initialize() {
+            autocomplete = new google.maps.places.Autocomplete(
+                    /** @type {HTMLInputElement} */(document.getElementById('ecojob_recruteurbundle_offre_localisation')),
+                    {types: ['geocode']});
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('ecojob_recruteurbundle_offre_latitude').value = place.geometry.location.lat();
+                document.getElementById('ecojob_recruteurbundle_offre_longitude').value = place.geometry.location.lng();                
+            });
+        }
+       $(function() {
+        initialize();
+
+        });
+    </script>
+{% endblock %}

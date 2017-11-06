@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: eco_job_fr
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_user: ecobojoce@gmail.com
+    mailer_password: ecobojoce2017
+    mailer_auth_mode: login
+    mailer_encryption: tls
+    mailer_port: 587
+    secret: 69e1868d7be44b3770cf8fa0f379bd32186665f1

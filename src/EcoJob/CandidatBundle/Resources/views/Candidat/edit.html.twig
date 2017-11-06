@@ -1,0 +1,25 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mon CV {% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Mon CV {% endblock %}
+
+{% block scontent %}   
+    {{parent()}} 
+    
+    <div class="quote_wrapper">
+        <div class="title4"> Mon <span>Curriculum Vitae</span></div>
+        <div class="title5">contact us for more information</div>
+        <br>
+        <div id="note"></div>
+        <div id="fields">        
+            <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <button type="submit" class="btn-default btn-cf-submit">Modifier</button>
+            {{ form_end(form) }}                       
+        </div>
+    </div>
+
+{% endblock %}  

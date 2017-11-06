@@ -1,0 +1,18 @@
+<form action="{{ path('user_registration_resend_confirm') }}" {{ form_enctype(form) }} method="POST" class="user_registration_resend_confirm">
+    <div class="row">      
+        <div class="form-group {% if(form_errors(form.email) | length >0) %}has-error{% endif %}">
+            {{ form_label(form.email,"Adresse e-mail", {'label_attr': {'class': 'control-label col-sm-2'}})}}   
+            <div class="col-sm-9">
+                {{form_widget(form.email,{'attr':{'class':'form-control','autocomplete':'off'}})}}
+            </div>
+            {{form_errors(form.email)}}
+        </div>         
+        {{form_rest(form)}}    
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn-default btn-cf-submit" value="Renvoyer" /> 
+            </div>
+        </div>                        
+    </div>
+
+</form> 

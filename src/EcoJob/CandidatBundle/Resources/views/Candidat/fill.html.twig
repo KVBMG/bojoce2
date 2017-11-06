@@ -1,0 +1,48 @@
+{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+
+{% block title %} Mon CV {% endblock %}
+
+{% block content_title %} Candidat {% endblock %}
+
+{% block content_stitle %} Mon CV {% endblock %}
+
+{% block scontent %}   
+    {{parent()}} 
+    
+    <div class="quote_wrapper">
+        <div class="title4"> Mon <span>Curriculum Vitae</span></div>
+        <div class="title5">contact us for more information</div>
+        <br>
+        <div id="note"></div>
+        <div id="fields">        
+            Veuillez remplir votre CV. Toutes les informations inscrites ci-dessous feront l'objet de votre CV sur ecojob.fr.
+            Si vous voulez envoyer un CV numérique, veuillez l'envoyer <a href='{{path('eco_job_candidat_uploadcv')}}'>ici</a>
+            <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                <button type="submit" class="btn-default btn-cf-submit">Sauvegarder</button>
+            {{ form_end(form) }}                       
+        </div>
+    </div>
+
+{% endblock %}  
+{% block javascripts %}
+    {{parent()}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
+    <script>
+        var autocomplete;
+        function initialize() {
+            autocomplete = new google.maps.places.Autocomplete(
+                    /** @type {HTMLInputElement} */(document.getElementById('ecojob_candidatbundle_cuvi_localisation')),
+                    {types: ['geocode']});
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('ecojob_candidatbundle_cuvi_latitude').value = place.geometry.location.lat();
+                document.getElementById('ecojob_candidatbundle_cuvi_longitude').value = place.geometry.location.lng();                
+            });
+        }
+       $(function() {
+        initialize();
+
+        });
+    </script>
+{% endblock %}

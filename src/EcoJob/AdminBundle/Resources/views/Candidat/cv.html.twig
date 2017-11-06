@@ -1,0 +1,28 @@
+{% extends "EcoJobAdminBundle::layout.html.twig"%}
+
+{% block title %} CV candidat {% endblock %}
+
+{% block content_title %} Administrateur {% endblock %}
+
+{% block content_stitle %} Aperçu CV {% endblock %}
+
+{% block scontent %}   
+    <div class="title6"> Curriculum Vitae </div>
+
+    <div class="team1 clearfix">
+        {% if cv is not null %}
+            <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" /></figure>
+            <div class="caption">
+                <div class="txt1">{{cv.nom}} {{cv.prenom}}</div>
+                <div class="txt2">{{cv.telephone}}</div>
+                <div class="txt3">{{cv.about}}</div>
+                <a href="{{ path('eco_job_candidat_cv_delete')}}" class="btn-default btn3">Supprimer</a>
+            </div>
+        {% else %}
+            Ce candidat n'a pas encore rempli son CV.
+        {% endif %}
+    </div>
+</div>
+{{parent()}} 
+
+{% endblock %}  

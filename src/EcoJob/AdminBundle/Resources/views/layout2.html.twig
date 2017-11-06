@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+{% block title %}{% endblock %}
+{% block content_stitle %} Administration {% endblock %}
+{% block content %} 
+    {{parent()}} 
+
+    {% block scontent %}
+        <div class="title6">Contenu pour un administrateur</div>
+    {% endblock %}    
+
+{% endblock %}                

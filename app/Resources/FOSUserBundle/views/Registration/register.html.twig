@@ -1,0 +1,54 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+  <link href="{{ path('captcha_layout_stylesheet_url') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content_title %}Inscription {% endblock %}
+
+{% block content_stitle %}S'inscrire {% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="title6 text-uppercase">Contact Information</div>
+          Phone:
+        <div class="phone3">1-800-123-1234</div>
+          Email:
+        <div class="mail3"><a href="#">example@website.com</a></div>
+          Address:
+        <div class="address3">8901 Marmora Road,<br>
+Glasgow, D04 89GR.</div>
+        <p>
+          Follow Us:
+        </p>
+        <div class="social3_wrapper">
+          <ul class="social3 clearfix">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="quote_wrapper">
+          <div class="title4">S'inscrire</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+            {% include "@FOSUser/Registration/register_content.html.twig" %}
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}

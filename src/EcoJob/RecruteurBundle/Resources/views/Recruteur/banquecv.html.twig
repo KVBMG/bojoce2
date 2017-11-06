@@ -1,0 +1,97 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Banque de CV {% endblock %}
+
+{% block content_title %} Recruteur {% endblock %}
+
+{% block content_stitle %} Triage de CV {% endblock %}
+
+{% block content %} 
+    <div class="latest_news">
+        <div class="title7">Recherche</div>
+        <div class="row">
+            <div class="col-sm-3">
+                <form id="searchForm">   
+                    <div class="form-group">
+                        <label class="control-label required" for="searchBar">Mots clés</label>                    
+                        <input type="text" id="searchBar" class="form-control" name="keywords" placeholder="Mots clés">
+                        <p class="help-block">Ex:"informaticien,..."</p>
+                    </div>
+                    <div class="form-group">                                        
+                        <label class="control-label required" for="exp">Expérience:</label>
+                        <select name="experience" id="exp" class="form-control">
+                            <option value="0">Tous</option>
+                            <option value="1">1 an</option>
+                            <option value="2">2 ans</option>
+                            <option value="3">3 ans</option>
+                            <option value="4">4 ans</option>
+                            <option value="5">5 ans</option>
+                            <option value="6">6 ans</option>
+                            <option value="7">7 ans</option>
+                            <option value="8">8 ans</option>
+                            <option value="9">9 ans</option>
+                            <option value="10">10 ans</option>
+                        </select>    
+                    </div>
+                    <div class="form-group">                    
+                        <label for="localisation" class="control-label required">Lieu:</label>                                        
+                        <input type="text" id="localisation" class="form-control" name="localisation" placeholder="Ville ou région de France">
+                        <p class="help-block">Ex:"Lyon,Paris,..."</p>
+                    </div>
+                    <label for="radiobtn" class="control-label required">Secteur d'activité</label>
+                    <select name="secteur" id="secteur" class="form-control">
+                        <option value="0">Tous</option>
+                        {% for s in secteurs %}
+                            <option value="{{s.id}}">{{s.designation}}</option>                                                 
+                        {% endfor %}                       
+                    </select>           
+                    <label for="limit" class="control-label required">Nombre de CV à afficher :</label>
+                    <select name="limit" id="limit" class="form-control">
+                        <option value="10">10</option>
+                        <option value="15">15</option>                            
+                        <option value="20">20</option>
+                    </select>                        
+                    <input type="hidden" id="offset" name="offset" value="0" />  
+                    <br>
+                    <button class="btn-default btn1" id="reset">Reset</button>           
+                </form> 
+            </div> 
+            <div class="col-sm-9 latest_news srollko" id="cvList">
+                {% if cv is not empty %}
+                    {% for c in cv %}
+                        <div class="news1 cv" cvId="{{c.id}}">
+                            <div class="txt1">Ajouté le {{c.updatedAt | date('d-m-y')}}</div>
+                            <div class="txt2"><a href="#">{{c.nom}} {{c.prenom}}</a></div>
+                            <div class="txt3">{{c.about}}</div>
+                            <a href="#" cvId="{{ c.id }}" class="btn-default btn1 cv">Afficher</a>                
+                        </div>
+                    {% endfor %}                                               
+                {% else %}
+                    aucun résultat 
+                {% endif %}
+            </div>                    
+        </div>
+        <br>
+    </div>
+
+    <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Afficher le cv</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}  
+
+{% block javascripts %}
+    {{parent()}}    
+    <script type="text/javascript" src="{{asset('js/jquery.blockUI.js')}}"></script>    
+    <script type="text/javascript" src="{{asset('js/jquery.debounce.js')}}"></script>          
+    <script type="text/javascript" src="{{asset('js/banquecv.js')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
+{% endblock %}

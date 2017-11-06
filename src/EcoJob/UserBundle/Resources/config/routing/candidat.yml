@@ -1,0 +1,24 @@
+_index:
+    path:     /
+    defaults: { _controller: "EcoJobUserBundle:Candidat:index" }
+    methods:  GET
+
+_show:
+    path:     /{id}/show
+    defaults: { _controller: "EcoJobUserBundle:Candidat:show" }
+    methods:  GET
+
+_new:
+    path:     /new
+    defaults: { _controller: "EcoJobUserBundle:Candidat:new" }
+    methods:  [GET, POST]
+
+_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EcoJobUserBundle:Candidat:edit" }
+    methods:  [GET, POST]
+
+_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EcoJobUserBundle:Candidat:delete" }
+    methods:  DELETE

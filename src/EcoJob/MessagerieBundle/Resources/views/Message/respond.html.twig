@@ -1,0 +1,69 @@
+{% extends "EcoJobMessagerieBundle::layout.html.twig"%}
+
+{% block title %} Message {% endblock %}
+
+{% block content_title %}
+    {% if form.vars.data.message.subject|length > 20 %}
+        {{ form.vars.data.message.subject|slice(0,20) ~ "..." }}
+    {% else %}
+        {{ form.vars.data.message.subject }}
+    {% endif %}
+{% endblock %}
+
+{% block content_stitle %} Message {% endblock %}
+
+{% block mcontent %}
+    <div style="margin-left: 10px; margin-right: 20px;">
+        <div>
+            <div>
+                <h2><b>{{ form.vars.data.message.subject }}</b></h2>
+            </div>
+            <div>
+                <p style="font-size: 18px;"><b>{{ form.vars.data.message.sender.username }}</b> <span style="color:#c3a6a6; font-size: 12px;">{{ form.vars.data.message.date|date('d-m-Y H:i') }}</span></p>
+            </div>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-11">
+                    <p>
+                        {{ form.vars.data.message.content|nl2br }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        {% for submessage in form.vars.data.message.submessages %}
+            <div>
+                <div>
+                    <p style="font-size: 18px;"><b>{{ submessage.sender.username }}</b> <span style="color:#c3a6a6; font-size: 12px;">{{ submessage.date|date('d-m-Y H:i') }}</span></p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-11">
+                        <p>
+                            {{ submessage.content|nl2br }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        {% endfor %}
+
+        {{ form_start(form, {'method': 'post', 'attr': {'class': 'form-horizontal'}}) }}
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                {{ form_widget(form.content) }}
+                {{ form_errors(form.content) }}
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+
+        <div style="text-align: right;">
+            <input type="submit" style="border-radius: 2px;" class="btn-default btn1" value="Répondre">
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

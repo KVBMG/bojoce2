@@ -1,0 +1,139 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@EcoJobUserBundle/Resources/config/services.yml" }
+    - { resource: "@EcoJobMainBundle/Resources/config/services.yml" }
+    - { resource: "@EcoJobAdminBundle/Resources/config/services.yml" }
+    - { resource: "@EcoJobCandidatBundle/Resources/config/services.yml" }
+    - { resource: "@EcoJobRecruteurBundle/Resources/config/services.yml" }  
+    - { resource: "@EcoJobAnonymousBundle/Resources/config/services.yml" }
+    - { resource: "@EcoJobMessagerieBundle/Resources/config/services.yml" }  
+    
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        handler_id: session.handler.pdo            
+    fragments: ~
+    http_method_override: true
+    translator: { fallback: %locale% }
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form:
+        resources: ['bootstrap_3_layout.html.twig']    
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"                 
+        entity_managers:
+            default:
+                dql:
+                    string_functions:
+                        MATCH_AGAINST: EcoJob\CandidatBundle\Extension\Doctrine\MatchAgainst             
+                        regexp: DoctrineExtensions\Query\Mysql\Regexp
+                        DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                        NOW : DoctrineExtensions\Query\Mysql\Now
+                        INTERVAL: DoctrineExtensions\Query\Mysql\Interval
+                        DAY: DoctrineExtensions\Query\Mysql\Day
+                auto_mapping: true  
+                naming_strategy: doctrine.orm.naming_strategy.underscore    
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    auth_mode: '%mailer_auth_mode%'
+    encryption: '%mailer_encryption%'
+    port:      '%mailer_port%'
+    stream-options:
+        ssl:
+            allow_self_signed : true
+            verify_peer: false
+    #spool: { type: memory }
+#vich_uploader
+vich_uploader:
+    db_driver: orm
+    mappings:
+        user_image:
+            uri_prefix:         /ecojob/web/images/users
+            upload_destination: %kernel.root_dir%/../web/images/users
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true       
+        candidat_cv:
+            uri_prefix:         /ecojob/web/cv
+            upload_destination: %kernel.root_dir%/../web/cv
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true              
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: EcoJob\UserBundle\Entity\User   
+  
+    registration:
+        confirmation:
+            enabled: true  
+            from_email:
+                address:        postmaster@eco-job.fr
+                sender_name:    eco-job.fr 
+        form:
+            type: EcoJob\UserBundle\Form\Type\RegistrationFormType            
+            
+    from_email:
+        address:        postmaster@eco-job.fr
+        sender_name:    eco-job.fr 
+    resetting:
+        email:
+            from_email:
+                address:        postmaster@eco-job.fr
+                sender_name:    eco-job.fr
+        
+fos_message:
+    db_driver: orm
+    thread_class: EcoJob\MessagerieBundle\Entity\Thread
+    message_class: EcoJob\MessagerieBundle\Entity\Message
+    

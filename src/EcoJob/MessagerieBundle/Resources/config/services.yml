@@ -1,0 +1,6 @@
+services:
+    eco_job_messagerie.menu_message_extension:
+        class: EcoJob\MessagerieBundle\Twig\MenuMessageExtension
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+        tags:
+            -  { name: twig.extension }

@@ -1,0 +1,4 @@
+services:
+#    eco_job_anonymous.example:
+#        class: EcoJob\AnonymousBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,81 @@
+<?php
+
+namespace EcoJob\MessagerieBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use EcoJob\MessagerieBundle\Model\BaseMessage;
+
+/**
+ * Message
+ *
+ * @ORM\Table(name="message")
+ * @ORM\Entity(repositoryClass="EcoJob\MessagerieBundle\Repository\MessageRepository")
+ */
+class Message extends BaseMessage
+{
+    /**
+     * @var integer
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\MessagerieBundle\Entity\SubMessage",mappedBy="message",cascade={"remove"})
+     */
+    private $subMessages;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=255)
+     */
+    private $subject;
+
+
+    /**
+     * Add subMessage
+     *
+     * @param \EcoJob\MessagerieBundle\Entity\SubMessage $subMessage
+     *
+     * @return Message
+     */
+    public function addSubMessage(\EcoJob\MessagerieBundle\Entity\SubMessage $subMessage)
+    {
+        $this->subMessages[] = $subMessage;
+
+        return $this;
+    }
+
+    /**
+     * Remove subMessage
+     *
+     * @param \EcoJob\MessagerieBundle\Entity\SubMessage $subMessage
+     */
+    public function removeSubMessage(\EcoJob\MessagerieBundle\Entity\SubMessage $subMessage)
+    {
+        $this->subMessages->removeElement($subMessage);
+    }
+
+    /**
+     * Get subMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubMessages()
+    {
+        return $this->subMessages;
+    }
+}

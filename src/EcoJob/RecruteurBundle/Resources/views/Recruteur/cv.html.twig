@@ -1,0 +1,27 @@
+    <div class="title6">CV de {{cv.nom}} </div>
+
+    <div class="team1 clearfix">
+        
+        <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
+        <div class="caption">
+            <div class="txt1">{{cv.nom}} {{cv.prenom}}</div>
+            <div class="txt2">{{cv.telephone}}</div>
+            <div class="txt3">{{cv.poste}}</div>            
+            <div class="txt3">A propos de moi: {{cv.about}}</div>
+            <div class="txt3">Lieu: {{cv.localisation}}</div>
+            <div class="txt3">Années d'experience: {{cv.experience}}</div>
+            {% if cv.secteur is not null %}
+                <div class="txt2">Secteur(s) d'activité(s)</div>
+                    <ul>
+                {% for s in cv.secteur %}
+                    <li> <div class="txt3">{{s.designation}}</div> </li>                                 
+                {% endfor %}
+                <ul>
+            {% endif %}            
+        </div>
+            {% if app.user.cvFile is not null %}
+            <a href="{{ vich_uploader_asset(app.user.cvFile, 'cvFile') }}">Aperçu du CV en format numérique</a>
+        {% endif %}
+    </div>
+</div>
+

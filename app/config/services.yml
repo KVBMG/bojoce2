@@ -1,0 +1,39 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+  redirect.after.logout:
+    class: EcoJob\UserBundle\Redirection\AfterLogoutRedirection
+    arguments: ['@router', '@security.authorization_checker']
+
+  redirect.after.login:
+    class: EcoJob\UserBundle\Redirection\AfterLoginRedirection
+    arguments: ['@router', '@doctrine.orm.entity_manager', '@service_container']
+  session.handler.pdo:
+    class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+    public:    false
+    arguments:
+        - "mysql:host=%database_host%;dbname=%database_name%"
+        - { db_username: %database_user%, db_password: %database_password% }    
+
+  user.resend_confirm.form.factory:
+    class: FOS\UserBundle\Form\Factory\FormFactory
+    arguments: ['@form.factory', 'user_resend_confirm', '@user.resend_confirm.form.type', ['ResendConfirm']]
+          
+  user.resend_confirm.form.type:
+    class: EcoJob\UserBundle\Form\Type\ResendConfirmFormType
+    arguments: [%fos_user.model.user.class%]
+    tags:
+        - { name: form.type, alias: user_resend_confirm }          
+
+  user.resend_confirm:
+    class: EcoJob\UserBundle\EventListener\EmailConfirmationListener
+    arguments: [@fos_user.mailer, @fos_user.util.token_generator, @router, @session]
+    tags:
+        - { name: kernel.event_listener, event: user.resend_confirm, method: onResendConfirm }        
+  ecojob.form.registration:
+    class: EcoJob\UserBundle\Form\Type\RegistrationFormType
+    tags:
+        - { name: form.type, alias: ecojob_user_registration }

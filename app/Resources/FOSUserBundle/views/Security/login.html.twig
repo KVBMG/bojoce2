@@ -1,0 +1,76 @@
+{% extends "EcoJobMainBundle::layout.html.twig" %}
+{% block title %}Se connecter{% endblock %}
+
+{% block content_title %}Connexion {% endblock %}
+
+{% block content_stitle %}Se connecter {% endblock %}
+
+{% block content %}
+{{parent()}}
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="title6 text-uppercase">Contact Information</div>
+          Phone:
+        <div class="phone3">1-800-123-1234</div>
+          Email:
+        <div class="mail3"><a href="#">example@website.com</a></div>
+          Address:
+        <div class="address3">8901 Marmora Road,<br>
+Glasgow, D04 89GR.</div>
+        <p>
+          Follow Us:
+        </p>
+        <div class="social3_wrapper">
+          <ul class="social3 clearfix">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="quote_wrapper">
+          <div class="title4">Se connecter</div>
+          <br>
+          <div id="note"></div>
+          <div id="fields">
+            <form class="ajax-contact-form" class="form-horizontal" action="{{ path('fos_user_security_check') }}" method="post">
+                {% if error %}
+                    <div class="alert alert-danger text-center" stlye="border-radius:10px;">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}                    
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />  
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                      <label for="inputEmail">Email or username</label>
+                      <input type="text" class="form-control" id="inputEmail" name="_username" placeholder="Email or username">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                      <label for="inputPassword">Last Name</label>
+                      <input type="password" class="form-control" id="inputPassword" name="_password" placeholder="Password">
+                  </div>
+                </div>
+                <div class="col-sm-12">  
+                    <a href="{{path('fos_user_registration_register')}}">S'inscrire</a>
+                    <a class="pull-right" href="{{ path('fos_user_resetting_request') }}">Mot de passe perdu ?</a>                  
+                </div>    
+              </div>
+              <button type="submit" class="btn-default btn-cf-submit">Connexion</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+      
+{% endblock content %}
+
+

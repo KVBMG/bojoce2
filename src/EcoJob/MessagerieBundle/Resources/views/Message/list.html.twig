@@ -1,0 +1,56 @@
+{% extends "EcoJobMessagerieBundle::layout.html.twig"%}
+
+{% block title %} Messages {% endblock %}
+
+{% block content_title %} Messages {% endblock %}
+
+{% block content_stitle %} Messages {% endblock %}
+
+{% block mcontent %}
+    <table class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <td></td>
+                <th>Membre</th>
+                <th>Offre</th>
+                <th>Contenu</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            {% set style_tr = 'style="cursor:pointer;"' %}
+            {% set style_voir = '' %}
+            {% set envelop = "fa-envelope-open-o" %}
+            {% if not message.isRead %}
+                {% set style_tr = 'style="cursor:pointer;background-color:#cdf2f2;color:#6b6363;font-weight:bold;"' %}
+                {% set style_voir = 'style="color:#6b6363;"' %}
+                {% set envelop = "fa-envelope" %}
+            {% endif %}
+            <tr {% autoescape 'html' %}{{ style_tr|raw }}{% endautoescape %} class="clickable-row" data-href="{{ path('eco_job_messagerie_respond', {'message_id' : message.id}) }}">
+                <td align="center"><i class="fa {{ envelop }}"></i></td>
+                <td>{{ message.member }}</td>
+                <td>{{ message.subject }}</td>
+                <td>{{ message.content }}</td>
+                <td>{{ message.date|date('d-m-Y H:i') }}</td>
+                <td align="center">
+                    <a href="{{ path('eco_job_messagerie_respond', {'message_id' : message.id}) }}"  {% autoescape 'html' %}{{ style_voir|raw }}{% endautoescape %} title="Voir"><i class="fa fa-eye fa-2x"> </i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".clickable-row").click(function() {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+{% endblock %}

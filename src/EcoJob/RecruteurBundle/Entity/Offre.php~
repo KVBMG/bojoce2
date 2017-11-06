@@ -1,0 +1,603 @@
+<?php
+
+namespace EcoJob\RecruteurBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use FOS\ElasticaBundle\Configuration\Search;
+use JMS\Serializer\Annotation\Exclude;
+
+/**
+ * Offre
+ * @Search(repositoryClass="EcoJob\RecruteurBundle\Entity\SearchRepository\OffreRepository")
+ * @ORM\Table(name="offre")
+ * @ORM\Entity(repositoryClass="EcoJob\RecruteurBundle\Repository\OffreRepository")
+ */
+class Offre
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="experience", type="integer")
+     * @Assert\NotNull()
+     */
+    private $experience;    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255)
+     * @Assert\NotBlank()          
+     */
+    private $titre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contenu", type="string", length=255)
+     * @Assert\NotBlank()         
+     */
+    private $contenu;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\RecruteurBundle\Entity\ContratType",inversedBy="offres")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude 
+    */      
+    private $contrat;  
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\UserBundle\Entity\User",inversedBy="offres")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude    
+    */    
+    private $recruteur;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="valid", type="boolean",options={"default": false},nullable=false)
+     */
+    private $valid;    
+
+    
+     /**
+     * @var bool
+     *
+     * @ORM\Column(name="suspendu", type="boolean",options={"default": false},nullable=false)
+     */
+    private $suspendu;  
+    
+     /**
+     * @var bool
+     *
+     * @ORM\Column(name="modification_valided", type="boolean",options={"default": true},nullable=false)
+     */
+    private $modificationValided;     
+    
+    private $added;
+    
+      /**
+     * @var bool
+     */
+    private $expired;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="latitude", type="float")
+     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
+     */    
+    private $latitude;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="longitude", type="float")
+     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
+     */    
+    private $longitude;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="localisation", type="string", length=20)
+     * @Assert\NotBlank()          
+     */    
+    private $localisation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Candidature",
+     *     mappedBy="offre", fetch="EXTRA_LAZY",cascade={"remove"})
+     */
+    private $candidatures;
+
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $createdAt; 
+     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer",nullable=true,options={"default": 90})
+     */
+    private $expireAt;
+     /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\RecruteurBundle\Entity\ContratCategorie",inversedBy="offres")
+    * @ORM\JoinColumn(nullable=false)
+    * @Exclude 
+    */   
+    private $categorie;  
+    
+      /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $validAt;
+    
+    
+      /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $suspenduAt;
+    
+    public function __construct()
+    {
+      $this->valid = false;
+      $this->createdAt = new \DateTime();
+      $this->suspendu = false; 
+    } 
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }    
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }    
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Offre
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set contenu
+     *
+     * @param string $contenu
+     *
+     * @return Offre
+     */
+    public function setContenu($contenu)
+    {
+        $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    /**
+     * Get contenu
+     *
+     * @return string
+     */
+    public function getContenu()
+    {
+        return $this->contenu;
+    }
+
+    /**
+     * Set contrat
+     *
+     * @param \EcoJob\RecruteurBundle\Entity\Contrat $contrat
+     *
+     * @return Offre
+     */
+    public function setContrat(\EcoJob\RecruteurBundle\Entity\ContratType $contrat = null)
+    {
+        $this->contrat = $contrat;
+
+        return $this;
+    }
+
+    /**
+     * Get contrat
+     *
+     * @return \EcoJob\RecruteurBundle\Entity\Contrat
+     */
+    public function getContrat()
+    {
+        return $this->contrat;
+    }
+
+
+
+    /**
+     * Set recruteur
+     *
+     * @param \EcoJob\UserBundle\Entity\User $recruteur
+     *
+     * @return Offre
+     */
+    public function setRecruteur(\EcoJob\UserBundle\Entity\User $recruteur)
+    {
+        $this->recruteur = $recruteur;
+
+        return $this;
+    }
+
+    /**
+     * Get recruteur
+     *
+     * @return \EcoJob\UserBundle\Entity\User
+     */
+    public function getRecruteur()
+    {
+        return $this->recruteur;
+    }
+
+    /**
+     * Set experience
+     *
+     * @param integer $experience
+     *
+     * @return Offre
+     */
+    public function setExperience($experience)
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
+    /**
+     * Get experience
+     *
+     * @return integer
+     */
+    public function getExperience()
+    {
+        return $this->experience;
+    }
+
+    /**
+     * Set valid
+     *
+     * @param boolean $valid
+     *
+     * @return Offre
+     */
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * Get valid
+     *
+     * @return boolean
+     */
+    public function getValid()
+    {
+        return $this->valid;
+    }
+    public function setAdded($added)
+    {
+        $this->added = $added;
+
+        return $this;
+    }
+
+    /**
+     * Get valid
+     *
+     * @return boolean
+     */
+    public function getAdded()
+    {
+        return $this->added;
+    }    
+
+    /**
+     * Set latitude
+     *
+     * @param integer $latitude
+     *
+     * @return Offre
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return integer
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param integer $longitude
+     *
+     * @return Offre
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return integer
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set localisation
+     *
+     * @param string $localisation
+     *
+     * @return Offre
+     */
+    public function setLocalisation($localisation)
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    /**
+     * Get localisation
+     *
+     * @return string
+     */
+    public function getLocalisation()
+    {
+        return $this->localisation;
+    }
+
+
+    /**
+     * Add candidature
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Candidature $candidature
+     *
+     * @return Offre
+     */
+    public function addCandidature(\EcoJob\CandidatBundle\Entity\Candidature $candidature)
+    {
+        $this->candidatures[] = $candidature;
+    }
+
+    /**
+     * Set suspendu
+     *
+     * @param boolean $suspendu
+     *
+     * @return Offre
+     */
+    public function setSuspendu($suspendu)
+    {
+        $this->suspendu = $suspendu;
+    
+        return $this;
+    }
+
+    /**
+     * Get suspendu
+     *
+     * @return boolean
+     */
+    public function getSuspendu()
+    {
+        return $this->suspendu;
+    }
+
+    /**
+     * Set expireAt
+     *
+     * @param integer $expireAt
+     *
+     * @return Offre
+     */
+    public function setExpireAt($expireAt)
+    {
+        $this->expireAt = $expireAt;
+        return $this;
+    }
+
+    /**
+     * Remove candidature
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Candidature $candidature
+     */
+    public function removeCandidature(\EcoJob\CandidatBundle\Entity\Candidature $candidature)
+    {
+        $this->candidatures->removeElement($candidature);
+    }
+
+    /**
+     * Get candidatures
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCandidatures()
+    {
+        return $this->candidatures;
+    }
+     /* Get expireAt
+     *
+     * @return integer
+     */
+    public function getExpireAt()
+    {
+        return $this->expireAt;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \EcoJob\RecruteurBundle\Entity\ContratCategorie $categorie
+     *
+     * @return Offre
+     */
+    public function setCategorie(\EcoJob\RecruteurBundle\Entity\ContratCategorie $categorie)
+    {
+        $this->categorie = $categorie;
+    
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \EcoJob\RecruteurBundle\Entity\ContratCategorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+    
+    public function setExpired($expired)
+    {
+        $this->expired = $expired;
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean
+     */
+    public function getExpired()
+    {
+        $now = date_format(new \DateTime(), 'Y-m-d');
+        
+        if($this->getValidAt() != null && $this->getExpireAt() != null){
+            $date_limit = date_format(date_add($this->getValidAt(), new \DateInterval('P'.$this->getExpireAt().'D')), 'Y-m-d');
+            $this->expired = (strtotime($date_limit) - strtotime($now) < 0 );
+        }else{
+            $this->expired = false;
+        }
+            
+        return $this->expired;
+    }  
+
+    /**
+     * Set validAt
+     *
+     * @param \DateTime $validAt
+     *
+     * @return Offre
+     */
+    public function setValidAt($validAt)
+    {
+        $this->validAt = $validAt;
+        return $this;
+    }
+
+    /**
+     * Get validAt
+     *
+     * @return \DateTime
+     */
+    public function getValidAt()
+    {
+        return $this->validAt;
+    }
+
+
+    /**
+     * Set modificationValided
+     *
+     * @param boolean $modificationValided
+     *
+     * @return Offre
+     */
+    public function setModificationValided($modificationValided)
+    {
+        $this->modificationValided = $modificationValided;
+    
+        return $this;
+    }
+
+    /**
+     * Get modificationValided
+     *
+     * @return boolean
+     */
+    public function getModificationValided()
+    {
+        return $this->modificationValided;
+    }
+}

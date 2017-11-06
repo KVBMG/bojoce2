@@ -1,0 +1,4 @@
+services:
+#    eco_job_main.example:
+#        class: EcoJob\MainBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

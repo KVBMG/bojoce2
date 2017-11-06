@@ -1,0 +1,36 @@
+eco_job_messagerie_messages:
+    path:     /messages
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:index }
+    methods:  GET
+eco_job_messagerie_inbox:
+    path:   /inbox
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:inbox }
+    methods:  GET
+eco_job_messagerie_sent:
+    path:   /sent
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:sent }
+    methods:  GET
+eco_job_messagerie_deleted:
+    path:   /deleted
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:deleted }
+    methods:  GET
+eco_job_messagerie_thread:
+    path:   /thread
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:thread }
+    methods:  GET   
+eco_job_messagerie_newThread:
+    path:   /new
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:newThread }
+    methods:  GET
+eco_job_messagerie_delete:
+    path:   /{threadId}/delete
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:delete }
+    methods:  GET | DELETE
+eco_job_messagerie_undelete:
+    path:   /{threadId}/delete
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:undelete }
+    methods:  GET | DELETE
+eco_job_messagerie_search:
+    path:   /search
+    defaults: { _controller: EcoJobMessagerieBundle:Messagerie:search }
+    methods:  GET | DELETE

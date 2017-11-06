@@ -1,0 +1,79 @@
+{% extends "EcoJobAdminBundle::layout.html.twig"%}
+
+{% block title %} Espace administration {% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">    
+{% endblock %}
+
+{% block content_title %} Administrateur {% endblock %}
+
+{% block content_stitle %} {{parent()}} Liste des utilisateurs{% endblock %}
+
+
+{% block scontent %}   
+    {{parent()}} 
+    <table id="userTable" class="table table-striped jambo_table bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr role="row">
+                <th>Id</th>                
+                <th>Nom</th>
+                <th>E-mail</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>                
+                <th>Nom</th>
+                <th>E-mail</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table> 
+    <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Etes-vous sûr de vouloir supprimer cet utilisateur?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary valider">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="profilModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Profil
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>            
+            </div>
+        </div>
+    </div>    
+{% endblock %}  
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('js/jquery.blockUI.js')}}"></script>     
+    <script src="{{ asset("js/jquery.dataTables.min.js")}}"></script>    
+    <script src="{{ asset("js/dataTables.bootstrap.min.js")}}"></script>
+    <script src="{{asset('js/fnReloadAjax.js')}}"></script>
+    <script> var table = "";</script>
+    <script src="{{asset('js/user.js')}}"></script>
+{% endblock %}
