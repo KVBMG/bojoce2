@@ -13,13 +13,19 @@
 
     <div class="team1 clearfix">
         {% if cv is not null %}
-            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>                        
+            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>    
+            {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
+                or cv.experience is null or cv.secteur is null %}
+            <a href="{{ path('eco_job_candidat_cv_edit')}}" >Reprendre le remplissage du CV</a>
+            {% endif %}            
             <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
             <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
+            <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
+            
             {% if cv.showable %}
                 <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
             {% else %}
-                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la banque de CV</a>                
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la banque de CV(activer la publication de mon CV)</a>                
             {% endif %}
 
             <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
@@ -46,7 +52,7 @@
             {% endif %}
         {% else %}
             <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
-        
+
         {% endif %}
     </div>
 
