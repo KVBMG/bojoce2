@@ -110,6 +110,7 @@ class CuVi
      * @ORM\Column(type="string", length=255, nullable=false)
      *
      * @var string
+     * @Assert\NotBlank()      
      */
     private $poste;    
     

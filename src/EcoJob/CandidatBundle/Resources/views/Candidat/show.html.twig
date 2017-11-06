@@ -15,7 +15,7 @@
         {% if cv is not null %}
             <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>    
             {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
-                or cv.experience is null or cv.secteur is null %}
+                or cv.experience is null or cv.secteur is null) %}
             <a href="{{ path('eco_job_candidat_cv_edit')}}" >Reprendre le remplissage du CV</a>
             {% endif %}            
             <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
