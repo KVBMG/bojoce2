@@ -10,8 +10,11 @@
                     <div class="latest_news">
                         <div class="title7">Candidat side bar</div>
                         <ul>
+                            {% if app.user.curriculum is not null %}
                             <li><a href="{{path('eco_job_candidat_gerercv')}}"> Gérer mon CV</a></li>
-                            <li><a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a></li>
+                            {% else %}
+                            <li><a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon CV</a></li>                            
+                            {% endif %}
                             <li><a href="{{path('eco_job_candidat_myoffres')}}"> Offres d'emploi sauvegardées ({{app.session.get('saved')}})</a></li>
                             <li><a href="{{path('eco_job_candidat_postuled_offres')}}"> Offres d'emploi postulés ({{app.session.get('postuled')}})</a></li>
                             <li><a href="{{path('eco_job_candidat_param')}}"> Paramètre d'alerte mail</a></li>

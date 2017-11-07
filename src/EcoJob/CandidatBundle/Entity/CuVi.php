@@ -37,7 +37,6 @@ class CuVi
      *     pattern=true,
      *     message="Cette valeur ne doit pas contenir des métacaractères."
      * )   
-     * @Assert\NotBlank()       
      */
     private $nom;
 
@@ -50,16 +49,14 @@ class CuVi
      *     pattern=true,
      *     message="Cette valeur ne doit pas contenir des métacaractères."
      * )    
-     * @Assert\NotBlank() 
      */
     private $prenom;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="telephone", type="integer")
+     * @ORM\Column(name="telephone", type="integer",nullable=true)
      * 
-     * @Assert\NotBlank() 
      * @Assert\Regex("/^[0-9 ]+$/") 
      * @Assert\Regex(
      *     pattern="/\t | \b/",
@@ -72,12 +69,11 @@ class CuVi
     /**
      * @var string
      *
-     * @ORM\Column(name="about", type="string", length=255)
+     * @ORM\Column(name="about", type="string", length=255,nullable=true)
      * @Assert\Regex("/^[-éêè><û\/&-zA-Z0-9, '’àô()]+$/",
      *     pattern=true,
      *     message="Cette valeur ne doit pas contenir des métacaractères à part: '-éêè><ôû\/&'’ô()"
      * )       
-     * @Assert\NotBlank() 
      */
     private $about;
 
@@ -107,40 +103,35 @@ class CuVi
     private $updatedAt;
     
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
-     * @Assert\NotBlank()      
      */
     private $poste;    
     
     /**
      * @var int
      *
-     * @ORM\Column(name="latitude", type="float")
-     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
+     * @ORM\Column(name="latitude", type="float",nullable=true)
      */    
     private $latitude;
     /**
      * @var int
      *
-     * @ORM\Column(name="longitude", type="float")
-     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
+     * @ORM\Column(name="longitude", type="float",nullable=true)
      */    
     private $longitude;
     /**
      * @var string
      *
-     * @ORM\Column(name="localisation", type="string", length=20)
-     * @Assert\NotBlank()          
+     * @ORM\Column(name="localisation", type="string", length=20,nullable=true)
      */    
     private $localisation;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="experience", type="integer")
-     * @Assert\NotNull()
+     * @ORM\Column(name="experience", type="integer",nullable=true)
      */
     private $experience;    
 
@@ -153,7 +144,7 @@ class CuVi
     /**
      * @var bool
      *
-     * @ORM\Column(name="showable", type="boolean",options={"default": true},nullable=false)
+     * @ORM\Column(name="showable", type="boolean",options={"default": true},nullable=true)
      */
     private $showable;     
     

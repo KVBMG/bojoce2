@@ -17,43 +17,66 @@
             {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
                 or cv.experience is null or cv.secteur is null) %}
             <a href="{{ path('eco_job_candidat_cv_edit')}}" >Reprendre le remplissage du CV</a>
-            {% endif %}            
-            <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
-            <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
-            <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
-            
+        {% endif %}            
+        <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
+        <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
+        <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
+
+        {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
+                or cv.experience is null or cv.secteur is null) %}
+            <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
+        {% else %}                
             {% if cv.showable %}
                 <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
             {% else %}
-                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la banque de CV(activer la publication de mon CV)</a>                
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>                
             {% endif %}
-
-            <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
-            <div class="caption">
-                <div class="txt1">{{cv.nom}} {{cv.prenom}}</div>
-                <div class="txt2">{{cv.telephone}}</div>
-                <div class="txt3">{{cv.poste}}</div>            
-                <div class="txt3">A propos de moi: {{cv.about}}</div>
-                <div class="txt3">Lieu: {{cv.localisation}}</div>
-                <div class="txt3">Années d'experience: {{cv.experience}}</div>
-                {% if cv.secteur is not null %}
-                    <div class="txt2">Secteur(s) d'activité(s)</div>
-                    <ul>
-                        {% for s in cv.secteur %}
-                            <li> <div class="txt3">{{s.designation}}</div> </li>                                 
-                            {% endfor %}
-                    </ul>
-                {% endif %}
-
-            </div>
-            {% if app.user.cvFile is not null %}
-                <a href="{{ vich_uploader_asset(app.user.cvFile, 'cvFile') }}">Aperçu du CV envoyé</a>
-                <div class="txt3">{{app.user.cvFile.lm}}</div>
-            {% endif %}
-        {% else %}
-            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
-
         {% endif %}
-    </div>
 
-{% endblock %}  
+                {% if cv.imageName is not null %}
+                <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
+                {% else %}
+                <figure>Aucune photo envoyée.</figure>
+                {% endif %}
+                <div class="caption">
+                    <div class="txt1">{% if cv.nom is not null %}{{cv.nom}}{% endif %} {% if cv.prenom is not null %} {{cv.prenom}}{% endif %}</div>
+                    <div class="txt2">{% if cv.telephone is not null %} Téléphone: {{cv.telephone}} {% endif %}</div>
+                    <div class="txt3">{% if cv.poste is not null %} Poste: {{cv.poste}} {% endif %}</div>            
+                    <div class="txt3">{% if cv.about is not null %} A propos de moi: {{cv.about}} {% endif %}</div>
+                    <div class="txt3">{% if cv.localisation is not null %} Lieu: {{cv.localisation}} {% endif %}</div>
+                    <div class="txt3">{% if cv.experience %} Années d'experience: {{cv.experience}} {% endif %}</div>
+                    {% if cv.secteur is not null %}
+                        <div class="txt2">Secteur(s) d'activité(s)</div>
+                        <ul>
+                            {% for s in cv.secteur %}
+                                <li> <div class="txt3">{{s.designation}}</div> </li>                                 
+                                {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                </div>
+                {% if app.user.cvFile is not null %}
+                    <a href="{{ vich_uploader_asset(app.user.cvFile, 'cvFile') }}">Aperçu du CV envoyé</a>
+                    <div class="txt3">{{app.user.cvFile.lm}}</div>
+                {% endif %}
+                {% else %}
+                    <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
+
+                    {% endif %}
+                    </div>
+                    <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Alerte</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Vous devez remplir complètement votre CV avant de pouvoir activer la publication de votre CV.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock %}  

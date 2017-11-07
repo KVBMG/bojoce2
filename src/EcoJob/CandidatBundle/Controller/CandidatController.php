@@ -95,7 +95,7 @@ class CandidatController extends Controller {
         if ($request->getMethod() == 'POST') {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
-                $cv->setShowable(true);
+                $cv->setShowable(false);
                 $em->persist($cv);
                 $curcv = $this->getUser()->getCurriculum();
                 if ($curcv != NULL) {
@@ -131,7 +131,9 @@ class CandidatController extends Controller {
         $cv = $this->getUser()->getCurriculum();
         if ($cv != null) {
             if ($request->getMethod() == 'POST') {
-                $form = $this->createForm(new CuViType, $cv);
+                $em = $this->getDoctrine()->getManager();                
+                $param = $em->getRepository('EcoJobCandidatBundle:ParamCandidat')->findBy(array('candidat' => $this->getUser()->getId()));
+                $form = $this->createForm(new CuViType($param), $cv);
                 $form->handleRequest($request);
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
