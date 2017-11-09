@@ -87,8 +87,8 @@ eco_job_admin_suspendre:
     defaults: { _controller: "EcoJobAdminBundle:Admin:suspendreOffre" }
     methods:  GET     
 eco_job_admin_republier:
-    path:     /offre/{id}/republier
-    defaults: { _controller: "EcoJobAdminBundle:Admin:republier" }
+    path:     /offre/{id}/republier/{nbjour}
+    defaults: { _controller: "EcoJobAdminBundle:Admin:republier" , nbjour:0}
     methods:  GET     
 eco_job_admin_suspendre_all:
     path:     /offre/suspendre
