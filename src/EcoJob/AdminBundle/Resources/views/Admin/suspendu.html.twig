@@ -4,7 +4,7 @@
 
 {% block content_title %} Administrateur {% endblock %}
 
-{% block content_stitle %} Offres d'emploi expirés {% endblock %}
+{% block content_stitle %} Offres d'emploi suspendu {% endblock %}
 
 {% block scontent %}   
     <div class="latest_news">
@@ -17,7 +17,45 @@
                 <div class="txt3">{{offre.contenu}}</div>
                 <a href="{{ path('eco_job_admin_recruteur_offre',{'id': offre.id})}}" class="btn-default btn3">Afficher</a>
                 <a href="{{ path('eco_job_admin_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
-                 <a href="{{ path('eco_job_admin_republier',{'id': offre.id})}}" class="btn-default btn3">Républier</a>                                 
+                <a href="{{ path('eco_job_admin_republier',{'id': offre.id})}}" class="btn-default btn3 btn-republish" onclick="return false">Républier</a>
+
+                <div class="popover fade right in hidden popover" role="tooltip" style="position: absolute;">
+                    <div class="arrow"></div>
+                    <h3 class="popover-title">Renouveler en</h3>
+                    <div class="popover-content">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="2" checked="checked">2 jours
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="30">1 mois
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="90">3 mois
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="180">
+                                6 mois
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="360">1 an
+                            </label>
+                        </div>
+                    </div>
+                    <div style=" margin: 0;font-size: 14px;background-color: #f7f7f7;border-bottom: 1px solid #ebebeb;border-radius: 5px 5px 0 0;">
+                        <button type="button" class="btn btn-default btn_valid_republish" style="width:100%">Valider
+                        </button>
+                    </div>
+                </div>                           
+                
             </div>
         {% endfor %}       
     </div>
@@ -26,3 +64,8 @@
     {{parent()}} 
 
 {% endblock %}  
+
+{% block javascripts %}
+    {{parent()}}    
+    <script type="text/javascript" src="{{asset('js/suspendu_offre.js')}}"></script>    
+{% endblock %}
