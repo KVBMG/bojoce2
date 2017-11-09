@@ -58,7 +58,7 @@ class AdminController extends Controller {
         $offre->setSuspendu(true);
         $offre->setSuspenduAt(new \DateTime());
         $em->flush();
-        return $this->redirectToRoute('eco_job_admin_recruteur_offre', array('id' => $offre->getId()));
+        return $this->redirectToRoute('eco_job_admin_offres_expirer');
     }
 
     public function suspendreAllOffreAction() {
@@ -68,12 +68,15 @@ class AdminController extends Controller {
         return $this->redirectToRoute('eco_job_admin_offres_expirer');
     }
 
-    public function republierAction(Offre $offre) {
+    public function republierAction(Offre $offre , $nbjour) {
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $offre->setSuspendu(false);
+        
+        $interval = str_replace("+", "",$offre->getValidAt()->diff(new \DateTime())->format("%R%a")) + 1;
+        $nbjour += $interval + 1;
+        $offre->setExpireAt($nbjour);
         $offre->setSuspenduAt(null);
-        $offre->setValidAt(new \DateTime());
         $em->flush();
         return $this->redirectToRoute('eco_job_admin_recruteur_offre', array('id' => $offre->getId()));
     }
