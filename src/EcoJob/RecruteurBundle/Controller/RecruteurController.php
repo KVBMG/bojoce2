@@ -43,6 +43,7 @@ class RecruteurController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $offre->setModificationValided(false);
+                $offre->setSuspenduAt(new \DateTime);
                 $em->flush();
                 return $this->redirect($this->generateUrl('eco_job_recruteur_offre_list')
                 );

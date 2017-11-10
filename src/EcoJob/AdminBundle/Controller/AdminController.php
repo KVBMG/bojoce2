@@ -165,9 +165,15 @@ class AdminController extends Controller {
         $this->getNumbers();
         $id = $offre->getRecruteur()->getId();
         $em = $this->getDoctrine()->getEntityManager();
-        $offre->setValid(true);
-        $offre->setModificationValided(true);
-        $offre->setValidAt(new \DateTime());
+        
+        $interval = $offre->getValidAt()->diff($offre->getSuspenduAt());
+        $reste = abs( $offre->getExpireAt() - $interval->days);
+        
+        $offre->setExpireAt($reste)
+              ->setValidAt(new \DateTime())
+              ->setValid(true)
+              ->setModificationValided(true)
+              ->setSuspenduAt(null);
         $em->persist($offre);
         $em->flush();
 
