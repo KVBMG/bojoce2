@@ -301,6 +301,7 @@ $(function () {
         }
         loadCards();
         loadNetworks();
+        IN.parse();
     }
     function resetForm() {
         $("#exp").val("0");
