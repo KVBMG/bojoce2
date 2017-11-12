@@ -5,19 +5,18 @@ namespace EcoJob\CandidatBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class CVFileType extends AbstractType
+
+class CompetenceType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('cvFile', FileType::class, array('attr'=> array('accept'=>'application/*') ,'label'=> "Fichier PDF"))
-                ;
-
+        $builder->add('informatique', TextareaType::class, array('label' => 'Compétences informatiques'))
+                ->add('autres', TextareaType::class, array('label' => 'Autres'));
     }
     
     /**
@@ -26,7 +25,7 @@ class CVFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EcoJob\CandidatBundle\Entity\CVFile'
+            'data_class' => 'EcoJob\CandidatBundle\Entity\Competence'
         ));
     }
 
@@ -35,7 +34,7 @@ class CVFileType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'ecojob_candidatbundle_cvfile';
+        return 'ecojob_candidatbundle_competence';
     }
 
 

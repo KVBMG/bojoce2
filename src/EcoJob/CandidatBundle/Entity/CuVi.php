@@ -3,20 +3,16 @@
 namespace EcoJob\CandidatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
 use JMS\Serializer\Annotation\Exclude;
-
 
 /**
  * CuVi
  *
  * @ORM\Table(name="cu_vi")
  * @ORM\Entity(repositoryClass="EcoJob\CandidatBundle\Repository\CuViRepository")
- * @ORM\HasLifecycleCallbacks()
- * @Vich\Uploadable
  */
 class CuVi
 {
@@ -30,116 +26,50 @@ class CuVi
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=18)
-     * @Assert\Regex("/^[a-zA-Z0-9éèếûùô ]+$/",
-     *     pattern=true,
-     *     message="Cette valeur ne doit pas contenir des métacaractères."
-     * )   
+     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\EtatCivil",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
      */
-    private $nom;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=10)
-     *
-     * @Assert\Regex("/^[a-zA-Z0-9éèếûùô ]+$/",
-     *     pattern=true,
-     *     message="Cette valeur ne doit pas contenir des métacaractères."
-     * )    
-     */
-    private $prenom;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="telephone", type="integer",nullable=true)
-     * 
-     * @Assert\Regex("/^[0-9 ]+$/") 
-     * @Assert\Regex(
-     *     pattern="/\t | \b/",
-     *     match=false,
-     *     message="Espace blanc ou tabulation non-autorisé"
-     * )        
-     */
-    private $telephone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="about", type="string", length=255,nullable=true)
-     * @Assert\Regex("/^[-éêè><û\/&-zA-Z0-9, '’àô()]+$/",
-     *     pattern=true,
-     *     message="Cette valeur ne doit pas contenir des métacaractères à part: '-éêè><ôû\/&'’ô()"
-     * )       
-     */
-    private $about;
-
-    /**
-     * @Assert\File(
-     *     maxSize="3M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg","image/gif"}
-     * )
-     * @Vich\UploadableField(mapping="user_image", fileNameProperty="imageName")
-     *
-     * @var File $imageFile
-     */    
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
-     */
-    private $imageName;
-
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     *
-     * @var \DateTime
-     */
-    private $updatedAt;
+    private $etatCivil;
     
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
+     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
      */
-    private $poste;    
+    private $cvFile;
     
     /**
-     * @var int
-     *
-     * @ORM\Column(name="latitude", type="float",nullable=true)
-     */    
-    private $latitude;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="longitude", type="float",nullable=true)
-     */    
-    private $longitude;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="localisation", type="string", length=20,nullable=true)
-     */    
-    private $localisation;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="experience", type="integer",nullable=true)
+     * @ORM\OneToOne(targetEntity="EcoJob\UserBundle\Entity\Image",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
      */
-    private $experience;    
+    private $image;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Formation",mappedBy="cuvi",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $formations;
 
-     /**
-    * @ORM\ManyToMany(targetEntity="EcoJob\RecruteurBundle\Entity\ContratCategorie")
-    * @Exclude 
-    */  
-    private $secteur;    
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Langue",mappedBy="cuvi",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $langues;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Experience",mappedBy="cuvi",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $experiences;    
+    
+    /**
+     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\Competence",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
+     */
+    private $competence;   
+
     
     /**
      * @var bool
@@ -148,341 +78,23 @@ class CuVi
      */
     private $showable;     
     
+    public function __construct() {
+        $this->showable = false;
+    }
+    
+
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return CuVi
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
 
-        return $this;
-    }
-
-    /**
-     * Get nom
-     *
-     * @return string
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    /**
-     * Set prenom
-     *
-     * @param string $prenom
-     *
-     * @return CuVi
-     */
-    public function setPrenom($prenom)
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    /**
-     * Get prenom
-     *
-     * @return string
-     */
-    public function getPrenom()
-    {
-        return $this->prenom;
-    }
-
-    /**
-     * Set telephone
-     *
-     * @param integer $telephone
-     *
-     * @return CuVi
-     */
-    public function setTelephone($telephone)
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    /**
-     * Get telephone
-     *
-     * @return int
-     */
-    public function getTelephone()
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * Set about
-     *
-     * @param string $about
-     *
-     * @return CuVi
-     */
-    public function setAbout($about)
-    {
-        $this->about = $about;
-
-        return $this;
-    }
-
-    /**
-     * Get about
-     *
-     * @return string
-     */
-    public function getAbout()
-    {
-        return $this->about;
-    }
-
-    /**
-     * Set imageName
-     *
-     * @param string $imageName
-     *
-     * @return CuVi
-     */
-    public function setImageName($imageName)
-    {
-        $this->imageName = $imageName;
-
-        return $this;
-    }
-
-    /**
-     * Get imageName
-     *
-     * @return string
-     */
-    public function getImageName()
-    {
-        return $this->imageName;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return CuVi
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        if ($image) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTime('now');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->secteur = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Set poste
-     *
-     * @param string $poste
-     *
-     * @return CuVi
-     */
-    public function setPoste($poste)
-    {
-        $this->poste = $poste;
-    
-        return $this;
-    }
-
-    /**
-     * Get poste
-     *
-     * @return string
-     */
-    public function getPoste()
-    {
-        return $this->poste;
-    }
-
-    /**
-     * Set latitude
-     *
-     * @param float $latitude
-     *
-     * @return CuVi
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
-    
-        return $this;
-    }
-
-    /**
-     * Get latitude
-     *
-     * @return float
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Set longitude
-     *
-     * @param float $longitude
-     *
-     * @return CuVi
-     */
-    public function setLongitude($longitude)
-    {
-        $this->longitude = $longitude;
-    
-        return $this;
-    }
-
-    /**
-     * Get longitude
-     *
-     * @return float
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * Set localisation
-     *
-     * @param string $localisation
-     *
-     * @return CuVi
-     */
-    public function setLocalisation($localisation)
-    {
-        $this->localisation = $localisation;
-    
-        return $this;
-    }
-
-    /**
-     * Get localisation
-     *
-     * @return string
-     */
-    public function getLocalisation()
-    {
-        return $this->localisation;
-    }
-
-    /**
-     * Set experience
-     *
-     * @param integer $experience
-     *
-     * @return CuVi
-     */
-    public function setExperience($experience)
-    {
-        $this->experience = $experience;
-    
-        return $this;
-    }
-
-    /**
-     * Get experience
-     *
-     * @return integer
-     */
-    public function getExperience()
-    {
-        return $this->experience;
-    }
-
-    /**
-     * Add secteur
-     *
-     * @param \EcoJob\RecruteurBundle\Entity\ContratCategorie $secteur
-     *
-     * @return CuVi
-     */
-    public function addSecteur(\EcoJob\RecruteurBundle\Entity\ContratCategorie $secteur)
-    {
-        $this->secteur[] = $secteur;
-    
-        return $this;
-    }
-
-    /**
-     * Remove secteur
-     *
-     * @param \EcoJob\RecruteurBundle\Entity\ContratCategorie $secteur
-     */
-    public function removeSecteur(\EcoJob\RecruteurBundle\Entity\ContratCategorie $secteur)
-    {
-        $this->secteur->removeElement($secteur);
-    }
-
-    /**
-     * Get secteur
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSecteur()
-    {
-        return $this->secteur;
-    }
 
     /**
      * Set showable
@@ -506,5 +118,203 @@ class CuVi
     public function getShowable()
     {
         return $this->showable;
+    }
+
+    /**
+     * Set etatCivil
+     *
+     * @param \EcoJob\CandidatBundle\Entity\EtatCivil $etatCivil
+     *
+     * @return CuVi
+     */
+    public function setEtatCivil(\EcoJob\CandidatBundle\Entity\EtatCivil $etatCivil = null)
+    {
+        $this->etatCivil = $etatCivil;
+    
+        return $this;
+    }
+
+    /**
+     * Get etatCivil
+     *
+     * @return \EcoJob\CandidatBundle\Entity\EtatCivil
+     */
+    public function getEtatCivil()
+    {
+        return $this->etatCivil;
+    }
+
+    /**
+     * Set cvFile
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFile $cvFile
+     *
+     * @return CuVi
+     */
+    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null)
+    {
+        $this->cvFile = $cvFile;
+    
+        return $this;
+    }
+
+    /**
+     * Get cvFile
+     *
+     * @return \EcoJob\CandidatBundle\Entity\CVFile
+     */
+    public function getCvFile()
+    {
+        return $this->cvFile;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \EcoJob\UserBundle\Entity\Image $image
+     *
+     * @return CuVi
+     */
+    public function setImage(\EcoJob\UserBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \EcoJob\UserBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add formation
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Formation $formation
+     *
+     * @return CuVi
+     */
+    public function addFormation(\EcoJob\CandidatBundle\Entity\Formation $formation)
+    {
+        $this->formations[] = $formation;
+        $formation->setCuvi($this);
+        return $this;
+    }
+
+    /**
+     * Remove formation
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Formation $formation
+     */
+    public function removeFormation(\EcoJob\CandidatBundle\Entity\Formation $formation)
+    {
+        $this->formations->removeElement($formation);
+    }
+
+    /**
+     * Get formations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFormations()
+    {
+        return $this->formations;
+    }
+
+    /**
+     * Add experience
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Experience $experience
+     *
+     * @return CuVi
+     */
+    public function addExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
+    {
+        $this->experiences[] = $experience;
+        $experience->setCuVi($this);
+        return $this;
+    }
+
+    /**
+     * Remove experience
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Experience $experience
+     */
+    public function removeExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
+    {
+        $this->experiences->removeElement($experience);
+    }
+
+    /**
+     * Get experiences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExperiences()
+    {
+        return $this->experiences;
+    }
+
+    /**
+     * Set competence
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Competence $competence
+     *
+     * @return CuVi
+     */
+    public function setCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence = null)
+    {
+        $this->competence = $competence;
+    
+        return $this;
+    }
+
+    /**
+     * Get competence
+     *
+     * @return \EcoJob\CandidatBundle\Entity\Competence
+     */
+    public function getCompetence()
+    {
+        return $this->competence;
+    }
+
+    /**
+     * Add langue
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Langue $langue
+     *
+     * @return CuVi
+     */
+    public function addLangue(\EcoJob\CandidatBundle\Entity\Langue $langue)
+    {
+        $this->langues[] = $langue;
+        $langue->setCuVi($this);
+        return $this;
+    }
+
+    /**
+     * Remove langue
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Langue $langue
+     */
+    public function removeLangue(\EcoJob\CandidatBundle\Entity\Langue $langue)
+    {
+        $this->langues->removeElement($langue);
+    }
+
+    /**
+     * Get langues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLangues()
+    {
+        return $this->langues;
     }
 }

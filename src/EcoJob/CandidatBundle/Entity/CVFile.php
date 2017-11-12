@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * CVFile
@@ -29,7 +30,7 @@ class CVFile
     /**
      * @Assert\File(
      *     maxSize="3M",
-     *     mimeTypes={"application/pdf", "application/msword"}
+     *     mimeTypes={"application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
      * )
      * @Vich\UploadableField(mapping="candidat_cv", fileNameProperty="cvName")
      *
@@ -52,19 +53,7 @@ class CVFile
      */
     private $updatedAt;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="about", type="string", length=1000,nullable=false)       
-     * @Assert\NotBlank() 
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 1000,
-     *      minMessage = "Votre lettre doit avoir au moins {{ limit }} caractères",
-     *      maxMessage = "Nombre de caractère maximum {{ limit }}"
-     * )     
-     */
-    private $lm;
+
     
     /**
      * Get id
@@ -143,27 +132,4 @@ class CVFile
         return $this->cvFile;
     }        
 
-    /**
-     * Set lm
-     *
-     * @param string $lm
-     *
-     * @return CVFile
-     */
-    public function setLm($lm)
-    {
-        $this->lm = $lm;
-    
-        return $this;
-    }
-
-    /**
-     * Get lm
-     *
-     * @return string
-     */
-    public function getLm()
-    {
-        return $this->lm;
-    }
 }

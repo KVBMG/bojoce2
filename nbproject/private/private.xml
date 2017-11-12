@@ -2,11 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/opt/lampp/htdocs/ecojob_git_vao/src/EcoJob/AdminBundle/Controller/AdminController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob_git_vao/src/EcoJob/RecruteurBundle/Controller/RecruteurController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob_git_vao/src/EcoJob/RecruteurBundle/Entity/Offre.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob_git_vao/src/EcoJob/RecruteurBundle/Repository/OffreRepository.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

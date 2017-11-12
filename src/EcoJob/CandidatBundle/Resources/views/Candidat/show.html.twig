@@ -1,5 +1,19 @@
 {% extends "EcoJobCandidatBundle::layout.html.twig"%}
-
+{% block stylesheets %}
+    {{parent()}}
+     <style type="text/css">
+        .clear { clear: both; }
+        #page-wrap { width: 800px; margin: 40px auto 60px; }
+        #pic { float: right; margin: -30px 0 0 0; }
+p { margin: 0 0 16px 0; }
+        ul { margin: 0 0 32px 17px; }
+        #objective { width: 500px; float: left; }
+        #objective p { font-family: Georgia, Serif; font-style: italic; color: #666; }
+        dt { font-style: italic; font-weight: bold; font-size: 18px; text-align: right; padding: 0 26px 0 0; width: 150px; float: left; height: 100px; border-right: 1px solid #999;  }
+        dd { width: 600px; float: right; }
+        dd.clear { float: none; margin: 0; height: 15px; }
+     </style>    
+{% endblock %}
 {% block title %} Mon CV {% endblock %}
 
 {% block content_title %} Candidat {% endblock %}
@@ -14,56 +28,128 @@
     <div class="team1 clearfix">
         {% if cv is not null %}
             <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>    
-            {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
-                or cv.experience is null or cv.secteur is null) %}
+            {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competence is null
+                or cv.langues is null) %}
             <a href="{{ path('eco_job_candidat_cv_edit')}}" >Reprendre le remplissage du CV</a>
         {% endif %}            
         <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
         <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
         <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
 
-        {% if (cv.nom is null or cv.prenom is null or cv.telephone is null or cv.about is null or cv.imageName is null or cv.localisation is null
-                or cv.experience is null or cv.secteur is null) %}
-            <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
+        {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competence is null
+                or cv.langues is null) %}
+        <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
         {% else %}                
             {% if cv.showable %}
                 <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
             {% else %}
                 <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>                
             {% endif %}
+            {% endif %}
+
+        {% else %}
+            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
+
         {% endif %}
+   </div>
+    {% if cv.cvFile is not null %}
+        <a href='{{asset('cv/'~cv.cvFile.cvName~'')}}' target='_blank'>Aperçu du CV envoyé </a>            
+    {% endif %}
+    <div id="page-wrap">
+    
+        {% if cv.image is not null %}           
+           <img class='img-responsive' height='400px' id="pic" width='400px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
+        {% else %}
+               Aucune photo
+       {% endif %}
+    
+        <div id="contact-info" class="vcard">
+        {% if cv.etatCivil is not null %}
+            <!-- Microformats! -->
+        
+            <h1 class="fn">{{cv.etatCivil.nom}} {{cv.etatCivil.prenom}}</h1>
+        
+            <p>
+                Téléphone mobile: <span class="tel">{{cv.etatCivil.telephone}}</span><br>
+                Téléphone fix: <span class="tel">{{cv.etatCivil.telephoneFixe}}</span><br>
+                
+                Email: <a class="email" href="{{cv.etatCivil.email}}">{{cv.etatCivil.email}}</a>
+            </p>
+        </div>
+                
+        <div id="objective">
+            <p>
+                A propos
+            </p>
+        </div>
+        {% endif %}
+        <div class="clear"></div>
+        
+        <dl>
+            <dd class="clear"></dd>
+            {% if cv.formations is not null %}
+            <dt>Formations</dt>
+            {% for form in cv.formations %}
+                
+            <dd>
+                <h2>{{form.anneeObtention}}: {{form.intituleDiplome}}</h2>
+                <p><strong>Spécialisation:</strong> {{form.specialisation}}<br>
+                   <strong>Lieu:</strong> {{form.lieu}}
+                   <strong>Etablissement:</strong> {{form.etablissement}}                
+                   <strong>Niveau:</strong> {{form.niveau}}
+                   {% if form.formationEtranger %}
+                   <strong>Formation effectuée à l'étranger</strong> 
+                   {% endif %}
+                </p>
+            </dd>
+            {% endfor %}
+            {% endif %}
+            <dd class="clear"></dd>
+            {% if cv.competence is not null %}
+            <dt>Compétences</dt>
+            <dd>
+                <h2>Compétences en informatique</h2>
+                <p>{{cv.competence.informatique}}</p>
+                <h2>Autres compétences</h2>
+                <p>{{cv.competence.autres}}</p>
+            </dd>
+            {% endif %}
+            <dd class="clear"></dd>
+            {% if cv.experiences is not null %}
+            <dt>Experience</dt>
+            <dd>
+                {% for exp in cv.experiences %}
+                
+                <h2>{{exp.poste}} <span> {{exp.societe}}- {{exp.localisation}}, {{exp.dateDebut|date('d-m-y')}}-{{exp.dateFin|date('d-m-y')}}</span></h2>
+                <ul>
+                    <li><strong>Zone de prospéction:</strong>{{exp.zoneProspection}}</li>
+                    <li><strong>Rémunération: </strong>{{exp.remuneration}}</li>
+                    <li><strong>Type de la clientèle:</strong>{{exp.typeClientele}}</li>
+                    <li><strong>Secteur d'activité:</strong> {{exp.secteurActivite}}</li>
+                    <li><strong>Fonction: </strong>{{exp.fonction}}</li>
+                    <li><strong>Détails de la mission: </strong> {{exp.detailsMission}}</li>
+                    
+                </ul>
+                {% endfor %}
+            </dd>
+            
+            {% endif %}
+            <dd class="clear"></dd>
+            {% if cv.langues is not null %}
+            <dt>Langues</dt>
+            <dd>
+                {% for l in cv.langues %}
+                
+                <h2>Langue: {{l.langue }} <span>Niveau: {{l.niveau}}</span></h2><br/>
 
-                {% if cv.imageName is not null %}
-                <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" height="200px" width="200px" /></figure>
-                {% else %}
-                <figure>Aucune photo envoyée.</figure>
-                {% endif %}
-                <div class="caption">
-                    <div class="txt1">{% if cv.nom is not null %}{{cv.nom}}{% endif %} {% if cv.prenom is not null %} {{cv.prenom}}{% endif %}</div>
-                    <div class="txt2">{% if cv.telephone is not null %} Téléphone: {{cv.telephone}} {% endif %}</div>
-                    <div class="txt3">{% if cv.poste is not null %} Poste: {{cv.poste}} {% endif %}</div>            
-                    <div class="txt3">{% if cv.about is not null %} A propos de moi: {{cv.about}} {% endif %}</div>
-                    <div class="txt3">{% if cv.localisation is not null %} Lieu: {{cv.localisation}} {% endif %}</div>
-                    <div class="txt3">{% if cv.experience %} Années d'experience: {{cv.experience}} {% endif %}</div>
-                    {% if cv.secteur is not null %}
-                        <div class="txt2">Secteur(s) d'activité(s)</div>
-                        <ul>
-                            {% for s in cv.secteur %}
-                                <li> <div class="txt3">{{s.designation}}</div> </li>                                 
-                                {% endfor %}
-                        </ul>
-                    {% endif %}
-
-                </div>
-                {% if app.user.cvFile is not null %}
-                    <a href="{{ vich_uploader_asset(app.user.cvFile, 'cvFile') }}">Aperçu du CV envoyé</a>
-                    <div class="txt3">{{app.user.cvFile.lm}}</div>
-                {% endif %}
-                {% else %}
-                    <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
-
-                    {% endif %}
-                    </div>
+                {% endfor %}
+            </dd>
+            {% endif %}
+        </dl>
+        
+        <div class="clear"></div>
+    
+    </div>        
                     <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -79,4 +165,4 @@
                             </div>
                         </div>
                     </div>
-                    {% endblock %}  
+{% endblock %}  

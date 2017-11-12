@@ -8,41 +8,303 @@
 
 {% block scontent %}   
     {{parent()}} 
-    
+
     <div class="quote_wrapper">
         <div class="title4"> Mon <span>Curriculum Vitae</span></div>
         <div class="title5">contact us for more information</div>
         <br>
         <div id="note"></div>
-        <div id="fields">        
-            Veuillez remplir votre CV. Toutes les informations inscrites ci-dessous feront l'objet de votre CV sur ecojob.fr.
-            Si vous voulez envoyer un CV numérique, veuillez l'envoyer <a href='{{path('eco_job_candidat_uploadcv')}}'>ici</a>
-            <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
-                {{ form_widget(form) }}
-                <button type="submit" class="btn-default btn-cf-submit">Sauvegarder</button>
-            {{ form_end(form) }}                       
+<div id="fields">        
+            <div id="photo">
+                <form novalidate class="form-horizontal" id="photoForm" method="post" {{ form_enctype(imageForm) }}>
+                    {{ form_widget(imageForm) }}
+                    <button type="submit" class="btn-default btn-cf-submit">Ajouter</button>
+                    {{ form_end(imageForm) }}    
+            </div>
+            <div id="cv">            
+                <form novalidate class="form-horizontal" id="cvForm" method="post" {{ form_enctype(cvfileForm) }}>
+                    {{ form_widget(cvfileForm) }}
+                    <button type="submit" class="btn-default btn-cf-submit">Télécharger</button>
+                    {{ form_end(cvfileForm) }}  
+            </div>          
+            <div id="etat_civil">       
+                <a class="btn btn1" data-toggle="collapse" href="#etatCivil"
+                   aria-expanded="false" aria-controls="etatCivil">Etat Civil <span class="fa fa-caret-down"></span></a>                
+                <form novalidate class="form-horizontal" id="etatCivilForm" method="post" {{ form_enctype(etatcivilForm) }}>
+
+                    <div class="collapse" id="etatCivil">
+                        {{ form_widget(etatcivilForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Valider l'état civil</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        {{ form_end(etatcivilForm) }}    
+                    </div>
+            </div>
+            <div id="formation">       
+
+                <form novalidate class="form-horizontal"  id="formationForm" method="post" {{ form_enctype(formationForm) }}>
+                    <a class="btn btn1" data-toggle="collapse" href="#formationC"
+                       aria-expanded="false" aria-controls="formationC">Formation <span class="fa fa-caret-down"></span></a>
+                    <div class="collapse" id="formationC">
+                        {{ form_widget(formationForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Valider cette formation</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        {{ form_end(formationForm) }}    
+                    </div>
+            </div>
+            <div id="experience">       
+
+                <form novalidate class="form-horizontal" id="experienceForm" method="post" {{ form_enctype(experienceForm) }}>
+                    <a class="btn btn1" data-toggle="collapse" href="#experienceC"
+                       aria-expanded="false" aria-controls="experienceC">Experience <span class="fa fa-caret-down"></span></a>
+                    <div class="collapse" id="experienceC">
+                        {{ form_widget(experienceForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        {{ form_end(experienceForm) }}    
+                    </div>
+            </div>
+            <div id="competenced">       
+
+                <form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(competenceForm) }}>
+                    <a class="btn btn1" data-toggle="collapse" href="#competence"
+                       aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
+                    <div class="collapse" id="competence">
+                        {{ form_widget(competenceForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
+                        {{ form_end(competenceForm) }}    
+                    </div>
+            </div>
+            <div id="langued">       
+                    
+            <form novalidate class="form-horizontal"  id="langueForm" method="post" {{ form_enctype(langueForm) }}>
+                <a class="btn btn1" data-toggle="collapse" href="#langue"
+                   aria-expanded="false" aria-controls="langue">Langue <span class="fa fa-caret-down"></span></a>
+                <div class="collapse" id="langue">
+                    {{ form_widget(langueForm) }}
+                    <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
+                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                    
+                    {{ form_end(langueForm) }}    
+                </div>     
+            </div>
+        </div>
+        <div id="experience">       
+            <form novalidate class="form-horizontal"  id="experienceForm" method="post" {{ form_enctype(experienceForm) }}>
+                <a class="btn btn1" data-toggle="collapse" href="#experienceC"
+                   aria-expanded="false" aria-controls="experienceC">Experience <span class="fa fa-caret-down"></span></a>
+                <div class="collapse" id="experienceC">
+                    {% if experiences is defined  %}
+                        Mes expériences:            
+                        {% for experience in experiences %}
+                            {{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
+                            <a href="#experienceC" class="btn btn1 btn editExperience" experienceId="{{experience.id}}">Modifier</a>
+                        {% endfor %}
+                    {% endif %}        
+                    {{ form_widget(experienceForm) }}
+                    <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
+                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                    {{ form_end(experienceForm) }}    
+                </div>
+        </div>
+        <div id="competenced">       
+
+            <form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(competenceForm) }}>
+                <a class="btn btn1" data-toggle="collapse" href="#competence"
+                   aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
+                <div class="collapse" id="competence">
+                    {{ form_widget(competenceForm) }}
+                    <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
+                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
+                    {{ form_end(competenceForm) }}    
+                </div>
+        </div>
+        <div id="langued">
+        <form novalidate class="form-horizontal"  id="langueForm" method="post" {{ form_enctype(langueForm) }}>
+            <a class="btn btn1" data-toggle="collapse" href="#langue"
+               aria-expanded="false" aria-controls="langue">Langue <span class="fa fa-caret-down"></span></a>
+            <div class="collapse" id="langue">
+                {% if langues is defined  %}
+                    Langues:            
+                    {% for langue in langues %}
+                        <div id="langue{{langue.id}}">
+                        {{langue.langue}}-{{langue.niveau}}
+                        <a href="#langued" class="btn btn1 btn editLangue" langueId="{{langue.id}}">Modifier</a>
+                        <a href="#langued" class="btn btn1 deletelangue" langueId="{{langue.id}}">Supprimer</a>                
+                        </div>
+                    {% endfor %}
+                {% endif %}          
+                {{ form_widget(langueForm) }}
+                <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
+                <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                    
+                {{ form_end(langueForm) }}    
+            </div>  
         </div>
     </div>
-
+</div>
+</div>
+<div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Alerte</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+    <div style="z-index:2016;" class="modal fade " id="supModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de cette langue?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerSupLangue">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="supExpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de cette expérience?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerSupExp">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="supFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de cette expérience?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerSupForm">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
 {% endblock %}  
 {% block javascripts %}
     {{parent()}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
-    <script>
-        var autocomplete;
-        function initialize() {
-            autocomplete = new google.maps.places.Autocomplete(
-                    /** @type {HTMLInputElement} */(document.getElementById('ecojob_candidatbundle_cuvi_localisation')),
-                    {types: ['geocode']});
-            google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                var place = autocomplete.getPlace();
-                document.getElementById('ecojob_candidatbundle_cuvi_latitude').value = place.geometry.location.lat();
-                document.getElementById('ecojob_candidatbundle_cuvi_longitude').value = place.geometry.location.lng();                
-            });
-        }
-       $(function() {
-        initialize();
-
+    <script type="text/javascript">var assetsImages = "{{asset('images/users')}}"</script>
+    <script type="text/javascript">var assetsCv = "{{asset('cv/')}}"</script>                                
+    <script type="text/javascript" src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.debounce.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/fillcv.js') }}"></script> 
+    <script type="text/javascript">
+        var langue_id = 0;
+        var exp_id = 0;
+        var form_id = 0;
+    $(document).on('click', '.deletelangue', function () {
+        langue_id = $(this).attr('langueId');
+        $("#supModal").modal('show');
+    });      
+    $(document).on('click', '.deleteExperience', function () {
+        exp_id = $(this).attr('experienceId');
+        $("#supExpModal").modal('show');
+    });   
+    $(document).on('click', '.deleteFormation', function () {
+        form_id = $(this).attr('formationId');
+        $("#supFormModal").modal('show');
+    });      
+    $(document).on('click', '.validerSupLangue', function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('eco_job_candidat_delete_langue', {id: langue_id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $("#langue"+langue_id).remove();
+                $('#supModal').modal('hide');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
         });
-    </script>
+    });   
+    $(document).on('click', '.validerSupExp', function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('eco_job_candidat_delete_experience', {id: exp_id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $("#experience"+exp_id).remove();
+                $('#supExpModal').modal('hide');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
+        });
+    }); 
+    $(document).on('click', '.validerSupForm', function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('eco_job_candidat_delete_formation', {id: form_id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $("#formation"+form_id).remove();
+                $('#supFormModal').modal('hide');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
+        });
+    });     
+    </script>    
+{% endblock %}
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{asset('css/bootstrap-datepicker3.min.css')}}" rel="stylesheet">
+
 {% endblock %}

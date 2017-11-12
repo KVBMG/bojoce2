@@ -1,0 +1,10 @@
+<a class="btn btn1" data-toggle="collapse" href="#etatCivil"
+   aria-expanded="false" aria-controls="etatCivil">Etat Civil <span class="fa fa-eye"></span></a>                
+<form novalidate class="form-horizontal" id="etatCivilForm" method="post" {{ form_enctype(form) }}>
+
+    <div class="collapse" id="etatCivil">
+        {{ form_widget(form) }}
+        <button type="submit" class="btn-default btn-cf-submit">Valider l'état civil</button>
+        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+        {{ form_end(form) }}    
+    </div>

@@ -4,6 +4,8 @@ namespace EcoJob\RecruteurBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Exclude;
+
 
 /**
  * ContratCategorie
@@ -35,6 +37,13 @@ class ContratCategorie
     * @ORM\OneToMany(targetEntity="EcoJob\RecruteurBundle\Entity\Offre",mappedBy="categorie",orphanRemoval=true)
     */    
     private $offres;  
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Experience",mappedBy="secteurActivite",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $experiences;     
 
     /**
      * Get id
@@ -116,5 +125,39 @@ class ContratCategorie
     public function getOffres()
     {
         return $this->offres;
+    }
+
+    /**
+     * Add experience
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Experience $experience
+     *
+     * @return ContratCategorie
+     */
+    public function addExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
+    {
+        $this->experiences[] = $experience;
+    
+        return $this;
+    }
+
+    /**
+     * Remove experience
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Experience $experience
+     */
+    public function removeExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
+    {
+        $this->experiences->removeElement($experience);
+    }
+
+    /**
+     * Get experiences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExperiences()
+    {
+        return $this->experiences;
     }
 }

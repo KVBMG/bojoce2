@@ -1,0 +1,19 @@
+<form novalidate class="form-horizontal"  id="formationForm" method="post" {{ form_enctype(form) }}>
+    <a class="btn btn1" data-toggle="collapse" href="#formationC"
+       aria-expanded="false" aria-controls="formationC">Formation <span class="fa fa-caret-down"></span></a>
+    <div class="collapse" id="formationC">
+        {% if formations is defined  %}
+        Mes formations:            
+            {% for formation in formations %}
+                <div id="formation{{formation.id}}">
+                {{formation.intituleDiplome}} {{formation.anneeObtention}}
+                <a href="#formationC" class="btn btn1 btn editFormation" formationId="{{formation.id}}">Modifier</a>
+                <a href="#formationC" class="btn btn1 btn deleteFormation" formationId="{{formation.id}}">Supprimer</a>                    
+                </div>
+            {% endfor %}
+        {% endif %}        
+        {{ form_widget(form) }}
+        <button type="submit" class="btn-default btn-cf-submit">Valider cette formation</button>
+        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+        {{ form_end(form) }}    
+    </div>

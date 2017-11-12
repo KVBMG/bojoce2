@@ -1,0 +1,10 @@
+<form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(form) }}>
+
+    <a class="btn btn1" data-toggle="collapse" href="#competence"
+       aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
+    <div class="collapse" id="competence">
+        {{ form_widget(form) }}
+        <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
+        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
+        {{ form_end(form) }}    
+    </div>

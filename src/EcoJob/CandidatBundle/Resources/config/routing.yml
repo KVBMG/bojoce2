@@ -118,3 +118,85 @@ eco_job_candidat_gerercv_stop:
     path:     /cv/gestion/{id}/stop
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:stop" }
     methods:  GET    
+    
+eco_job_candidat_add_photo:
+    path:     /cv/gestion/add/photo
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addPhoto" }
+    methods:  POST
+    options:
+        expose: true
+        
+eco_job_candidat_add_cvfile:
+    path:     /cv/gestion/add/file
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCVFile" }
+    methods:  POST
+    options:
+        expose: true        
+        
+eco_job_candidat_add_et:
+    path:     /cv/gestion/add/et
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addEt" }
+    methods:  POST
+    options:
+        expose: true 
+        
+eco_job_candidat_add_formation:
+    path:     /cv/gestion/add/formation
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addFormation" }
+    methods:  POST
+    options:
+        expose: true        
+eco_job_candidat_edit_formation:
+    path:     /cv/gestion/edit/{id}/formation
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editFormation" }
+    methods:  [GET,POST]
+    options:
+        expose: true      
+eco_job_candidat_delete_formation:
+    path:     /cv/gestion/delete/{id}/formation
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteFormation" }
+    methods:  [GET,POST]
+    options:
+        expose: true             
+eco_job_candidat_add_experience:
+    path:     /cv/gestion/add/experience
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addExperience" }
+    methods:  POST
+    options:
+        expose: true        
+eco_job_candidat_edit_experience:
+    path:     /cv/gestion/edit/{id}/experience
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editExperience" }
+    methods:  [GET,POST]
+    options:
+        expose: true 
+eco_job_candidat_delete_experience:
+    path:     /cv/gestion/delete/{id}/experience
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteExperience" }
+    methods:  [GET,POST]
+    options:
+        expose: true        
+eco_job_candidat_add_competence:
+    path:     /cv/gestion/add/competence
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCompetence" }
+    methods:  POST
+    options:
+        expose: true     
+eco_job_candidat_add_langue:
+    path:     /cv/gestion/add/langue
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addLangue" }
+    methods:  [POST,GET]
+    options:
+        expose: true        
+eco_job_candidat_edit_langue:
+    path:     /cv/gestion/edit/{id}/langue
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editLangue" }
+    methods:  [GET,POST]
+    options:
+        expose: true    
+eco_job_candidat_delete_langue:
+    path:     /cv/gestion/delete/{id}/langue
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteLangue" }
+    methods:  [GET,POST]
+    options:
+        expose: true            
