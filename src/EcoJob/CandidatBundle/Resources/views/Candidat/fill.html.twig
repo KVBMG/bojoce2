@@ -87,58 +87,8 @@
                     {{ form_end(langueForm) }}    
                 </div>     
             </div>
-        </div>
-        <div id="experience">       
-            <form novalidate class="form-horizontal"  id="experienceForm" method="post" {{ form_enctype(experienceForm) }}>
-                <a class="btn btn1" data-toggle="collapse" href="#experienceC"
-                   aria-expanded="false" aria-controls="experienceC">Experience <span class="fa fa-caret-down"></span></a>
-                <div class="collapse" id="experienceC">
-                    {% if experiences is defined  %}
-                        Mes expériences:            
-                        {% for experience in experiences %}
-                            {{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
-                            <a href="#experienceC" class="btn btn1 btn editExperience" experienceId="{{experience.id}}">Modifier</a>
-                        {% endfor %}
-                    {% endif %}        
-                    {{ form_widget(experienceForm) }}
-                    <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
-                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
-                    {{ form_end(experienceForm) }}    
-                </div>
-        </div>
-        <div id="competenced">       
+        </div>  
 
-            <form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(competenceForm) }}>
-                <a class="btn btn1" data-toggle="collapse" href="#competence"
-                   aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
-                <div class="collapse" id="competence">
-                    {{ form_widget(competenceForm) }}
-                    <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
-                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
-                    {{ form_end(competenceForm) }}    
-                </div>
-        </div>
-        <div id="langued">
-        <form novalidate class="form-horizontal"  id="langueForm" method="post" {{ form_enctype(langueForm) }}>
-            <a class="btn btn1" data-toggle="collapse" href="#langue"
-               aria-expanded="false" aria-controls="langue">Langue <span class="fa fa-caret-down"></span></a>
-            <div class="collapse" id="langue">
-                {% if langues is defined  %}
-                    Langues:            
-                    {% for langue in langues %}
-                        <div id="langue{{langue.id}}">
-                        {{langue.langue}}-{{langue.niveau}}
-                        <a href="#langued" class="btn btn1 btn editLangue" langueId="{{langue.id}}">Modifier</a>
-                        <a href="#langued" class="btn btn1 deletelangue" langueId="{{langue.id}}">Supprimer</a>                
-                        </div>
-                    {% endfor %}
-                {% endif %}          
-                {{ form_widget(langueForm) }}
-                <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
-                <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                    
-                {{ form_end(langueForm) }}    
-            </div>  
-        </div>
     </div>
 </div>
 </div>

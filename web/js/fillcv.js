@@ -131,6 +131,7 @@ $(function () {
                 alert("Une erreur s'est produite.");
             }
             editLangue = loadEditLangueSubmittion();
+            langue = loadLangueSubmition();
             $.unblockUI();
         }
         $('#editLangueForm').submit(function (e) {
@@ -176,6 +177,8 @@ $(function () {
                 alert("Une erreur s'est produite.");
             }
             editFormation = loadEditFormationSubmittion();
+            formation = loadFormationSubmition();
+            
             $.unblockUI();
         }
         $('#editFormationForm').submit(function (e) {
@@ -220,7 +223,8 @@ $(function () {
             } else {
                 alert("Une erreur s'est produite.");
             }
-            editFormation = loadEditFormationSubmittion();
+            editExperience = loadEditExperienceSubmittion();
+            experience = loadExperienceSubmition();
             $.unblockUI();
         }
         $('#editExperienceForm').submit(function (e) {
@@ -407,9 +411,6 @@ $(function () {
                 $("#formation").append(responseText.html);
                 if (responseText.error != undefined) {
                     $("#formation .collapse").addClass('in');
-                }
-                else{
-                    $("#formationForm button[type=submit]").text('Mettre à jour');
                 }
             } else {
                 alert("Une erreur s'est produite.");

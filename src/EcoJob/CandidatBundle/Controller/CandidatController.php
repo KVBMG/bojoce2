@@ -529,6 +529,8 @@ class CandidatController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $formations = $this->getUser()->getCurriculum()->getFormations();
+                $formation = new Formation();
+                $form = $this->createForm(new FormationType(), $formation);                
                 $html = $this->renderView('EcoJobCandidatBundle:Candidat:addFormation.html.twig', array(
                     'form' => $form->createView(), 'formations' => $formations));
                 $response = new Response(json_encode(array("html" => $html)));
