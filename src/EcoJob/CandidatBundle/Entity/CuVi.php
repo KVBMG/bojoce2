@@ -51,6 +51,13 @@ class CuVi
     private $formations;
 
     /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Competence",mappedBy="cuvi",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $competences;    
+    
+    /**
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Langue",mappedBy="cuvi",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
@@ -62,14 +69,7 @@ class CuVi
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
-    private $experiences;    
-    
-    /**
-     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\Competence",cascade={"remove"},orphanRemoval=true)
-     * @Exclude     
-     */
-    private $competence;   
-
+    private $experiences;        
     
     /**
      * @var bool
@@ -260,30 +260,7 @@ class CuVi
         return $this->experiences;
     }
 
-    /**
-     * Set competence
-     *
-     * @param \EcoJob\CandidatBundle\Entity\Competence $competence
-     *
-     * @return CuVi
-     */
-    public function setCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence = null)
-    {
-        $this->competence = $competence;
-    
-        return $this;
-    }
-
-    /**
-     * Get competence
-     *
-     * @return \EcoJob\CandidatBundle\Entity\Competence
-     */
-    public function getCompetence()
-    {
-        return $this->competence;
-    }
-
+ 
     /**
      * Add langue
      *
@@ -316,5 +293,39 @@ class CuVi
     public function getLangues()
     {
         return $this->langues;
+    }
+
+    /**
+     * Add competence
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Competence $competence
+     *
+     * @return CuVi
+     */
+    public function addCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence)
+    {
+        $this->competences[] = $competence;
+        $competence->setCuvi($this);
+        return $this;
+    }
+
+    /**
+     * Remove competence
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Competence $competence
+     */
+    public function removeCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence)
+    {
+        $this->competences->removeElement($competence);
+    }
+
+    /**
+     * Get competences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCompetences()
+    {
+        return $this->competences;
     }
 }

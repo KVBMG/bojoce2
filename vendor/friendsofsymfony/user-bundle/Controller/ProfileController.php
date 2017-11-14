@@ -104,7 +104,16 @@ class ProfileController extends Controller {
                     $userManager->updateUser($user);
 
                     if (null === $response = $event->getResponse()) {
-                        $url = $this->generateUrl('fos_user_profile_show');
+                        $url = "";                     
+                        if(in_array('ROLE_CANDIDAT',$user->getRoles())){
+                        $url = $this->generateUrl('eco_job_candidat_index');
+                            return $this->redirectToRoute('eco_job_candidat_index');
+                        }
+                        else{
+                        $url = $this->generateUrl('eco_job_recruteur_index');
+                            return $this->redirectToRoute('eco_job_recruteur_index');
+                            
+                        }
                         $response = new RedirectResponse($url);
                     }
 

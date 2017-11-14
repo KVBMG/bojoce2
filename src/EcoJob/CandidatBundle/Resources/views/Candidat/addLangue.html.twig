@@ -11,9 +11,14 @@
                 <a href="#langued" class="btn btn1 deletelangue" langueId="{{langue.id}}">Supprimer</a>                
                 </div>
             {% endfor %}
-        {% endif %}          
-        {{ form_widget(form) }}
-        <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
-        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                    
-        {{ form_end(form) }}    
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Ajouter cette langue</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}             
+        {% else %}        
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}    
+        {% endif %} 
     </div>

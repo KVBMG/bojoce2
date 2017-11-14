@@ -157,6 +157,23 @@
             </div>
         </div>
     </div> 
+    <div style="z-index:2016;" class="modal fade " id="supCompModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de cette compétence?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerSupCompetence">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
 {% endblock %}  
 {% block javascripts %}
     {{parent()}}
@@ -181,6 +198,33 @@
     $(document).on('click', '.deleteFormation', function () {
         form_id = $(this).attr('formationId');
         $("#supFormModal").modal('show');
+    });      
+    $(document).on('click', '.validerSupCompetence', function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('eco_job_candidat_delete_competence', {id: comp_id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $("#competence"+comp_id).remove();
+                $('#supCompModal').modal('hide');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
+        });
+    });   
+    $(document).on('click', '.deleteCompetence', function () {
+        comp_id = $(this).attr('competenceId');
+        $("#supCompModal").modal('show');
     });      
     $(document).on('click', '.validerSupLangue', function () {
         $.ajax({

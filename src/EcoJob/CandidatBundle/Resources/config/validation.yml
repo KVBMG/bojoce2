@@ -1,0 +1,4 @@
+EcoJob\CandidatBundle\Entity\Experience:
+    getters:
+        datesValid:
+            - "IsTrue": { message: "La date de début doit être avant la date fin" }

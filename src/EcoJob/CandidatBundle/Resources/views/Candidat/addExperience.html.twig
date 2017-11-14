@@ -12,9 +12,14 @@
                 <a href="#experienceC" class="btn btn1 btn deleteExperience" experienceId="{{experience.id}}">Supprimer</a>                
                 </div>
             {% endfor %}
-        {% endif %}        
-        {{ form_widget(form) }}
-        <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
-        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
-        {{ form_end(form) }}    
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Ajouter cette experience</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}             
+        {% else %}        
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}    
+        {% endif %}
     </div>

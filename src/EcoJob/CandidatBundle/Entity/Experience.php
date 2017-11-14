@@ -27,7 +27,7 @@ class Experience
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateDebut", type="datetime")
+     * @ORM\Column(name="dateDebut", type="date")
      * @Assert\NotBlank()     
      */
     private $dateDebut;
@@ -35,7 +35,7 @@ class Experience
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateFin", type="datetime")
+     * @ORM\Column(name="dateFin", type="date")
      * @Assert\NotBlank()
      */
     private $dateFin;
@@ -412,4 +412,8 @@ class Experience
     {
         return $this->fonction;
     }
+    public function isDatesValid()
+    {
+        return ($this->dateDebut < $this->dateFin);
+    }    
 }

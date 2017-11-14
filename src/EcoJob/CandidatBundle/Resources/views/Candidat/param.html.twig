@@ -1,4 +1,4 @@
-{% extends "EcoJobMainBundle::layout.html.twig" %}
+{% extends "EcoJobCandidatBundle::layout.html.twig" %}
 
 {% block stylesheets %}
     {{parent()}}
@@ -11,7 +11,7 @@
 
 {% block content_stitle %}Paramètre{% endblock %}
 
-{% block content %}
+{% block scontent %}
 {{parent()}}
 <div id="content">
   <div class="container">
@@ -39,7 +39,7 @@
    </div>
 </div>
       
-{% endblock content %}
+{% endblock scontent %}
 {% block javascripts %}
     {{parent()}}    
     <script type="text/javascript" src="{{asset('js/candidat.js')}}"></script>    

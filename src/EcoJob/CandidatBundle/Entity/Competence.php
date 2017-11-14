@@ -39,6 +39,12 @@ class Competence
      */
     private $autres;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CuVi",inversedBy="competences")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude    
+    */    
+    private $cuvi;       
 
     /**
      * Get id
@@ -97,5 +103,28 @@ class Competence
     {
         return $this->autres;
     }
-}
 
+    /**
+     * Set cuvi
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CuVi $cuvi
+     *
+     * @return Competence
+     */
+    public function setCuvi(\EcoJob\CandidatBundle\Entity\CuVi $cuvi)
+    {
+        $this->cuvi = $cuvi;
+    
+        return $this;
+    }
+
+    /**
+     * Get cuvi
+     *
+     * @return \EcoJob\CandidatBundle\Entity\CuVi
+     */
+    public function getCuvi()
+    {
+        return $this->cuvi;
+    }
+}

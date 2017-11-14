@@ -2,4 +2,8 @@ services:
    eco_job_candidat.alert_mail:
         class: EcoJob\CandidatBundle\Service\AlertMailService
         arguments: [@doctrine.orm.entity_manager , @mailer , @service_container]
-
+   eco_job_candidat.password_resetting:
+          class: EcoJob\UserBundle\EventListener\PasswordResettingListener
+          arguments: [ "@router", "@security.authorization_checker" ]
+          tags:
+              - { name: kernel.event_subscriber }

@@ -1,10 +1,24 @@
-<form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(form) }}>
-
-    <a class="btn btn1" data-toggle="collapse" href="#competence"
-       aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
-    <div class="collapse" id="competence">
-        {{ form_widget(form) }}
-        <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
-        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
-        {{ form_end(form) }}    
+<form novalidate class="form-horizontal"  id="competenceForm" method="post" {{ form_enctype(form) }}>
+    <a class="btn btn1" data-toggle="collapse" href="#competenceC"
+       aria-expanded="false" aria-controls="formationC">Competences <span class="fa fa-caret-down"></span></a>
+    <div class="collapse" id="competenceC">
+        {% if competences is defined  %}
+        Mes compétences:            
+            {% for competence in competences %}
+                <div id="competence{{competence.id}}">
+                {{competence.informatique}} {{competence.autres}}
+                <a href="#competenceC" class="btn btn1 btn editCompetence" competenceId="{{competence.id}}">Modifier</a>
+                <a href="#competenceC" class="btn btn1 btn deleteCompetence" competenceId="{{competence.id}}">Supprimer</a>                    
+                </div>
+            {% endfor %}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Ajouter cette competence</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}             
+        {% else %}        
+            {{ form_widget(form) }}
+            <button type="submit" class="btn-default btn-cf-submit">Valider cette competence</button>
+            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            {{ form_end(form) }}    
+        {% endif %}
     </div>

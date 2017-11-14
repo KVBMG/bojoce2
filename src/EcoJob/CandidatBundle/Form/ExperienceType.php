@@ -13,24 +13,8 @@ class ExperienceType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('dateDebut',  'date', [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => [
-                        'class' => 'form-control input-inline datetimepicker',
-                        'data-provide' => 'datepicker',
-                        'data-format' => 'dd/MM/yyyy'
-                    ]
-                ])
-                ->add('dateFin',  'date', [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => [
-                        'class' => 'form-control input-inline datetimepicker',
-                        'data-provide' => 'datepicker',
-                        'data-format' => 'dd/MM/yyyy'
-                    ]
-                ])
+        $builder->add('dateDebut',  'birthday', array( 'label' => 'Date de début', 'years' => range(date('Y')-50, date('Y'))))
+                ->add('dateFin',  'birthday', array( 'label' => 'Date fin', 'years' => range(date('Y')-50, date('Y'))))
                 ->add('poste','text',array('label' => 'Titre du poste'))
                 ->add('secteurActivite','entity', array(
                     'class' => 'EcoJobRecruteurBundle:ContratCategorie',

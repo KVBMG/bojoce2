@@ -8,7 +8,30 @@
 
 {% block scontent %}   
     {{parent()}} 
+    <div class="team1 clearfix">
+        {% set cv = app.user.curriculum %}
+        {% if app.user.curriculum is not null %}
+        <a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a>             
+        <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
+        <a href="#"  data-toggle="modal" data-target="#supCVModal"> Supprimer</a>  
+        <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
 
+        {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competence is null
+                or cv.langues is null) %}
+        <a href="#" data-toggle="modal" data-target="#activModal">Activer la publication de mon CV </a>
+        {% else %}                
+            {% if cv.showable %}
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
+            {% else %}
+                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>                
+            {% endif %}
+            {% endif %}
+
+        {% else %}
+            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
+
+        {% endif %}
+   </div>
     <div class="quote_wrapper">
         <div class="title4"> Mon <span>Curriculum Vitae</span></div>
         <div class="title5">contact us for more information</div>
@@ -87,14 +110,29 @@
         </div>
         <div id="competenced">       
 
-            <form novalidate class="form-horizontal" id="competenceForm"  method="post" {{ form_enctype(competenceForm) }}>
-                <a class="btn btn1" data-toggle="collapse" href="#competence"
-                   aria-expanded="false" aria-controls="competence">Compétences <span class="fa fa-caret-down"></span></a>
-                <div class="collapse" id="competence">
-                    {{ form_widget(competenceForm) }}
-                    <button type="submit" class="btn-default btn-cf-submit">Valider les compétences</button>
-                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                                        
-                    {{ form_end(competenceForm) }}    
+            <form novalidate class="form-horizontal"  id="competenceForm" method="post" {{ form_enctype(competenceForm) }}>
+                <a class="btn btn1" data-toggle="collapse" href="#competenceC"
+                   aria-expanded="false" aria-controls="formationC">Compétences <span class="fa fa-caret-down"></span></a>
+                <div class="collapse" id="competenceC">
+                    {% if competences is defined  %}
+                    Mes compétences:            
+                        {% for competence in competences %}
+                            <div id="competence{{competence.id}}">
+                            {{competence.informatique}} {{competence.autres}}
+                            <a href="#competenceC" class="btn btn1 btn editCompetence" competenceId="{{competence.id}}">Modifier</a>
+                            <a href="#competenceC" class="btn btn1 btn deleteCompetence" competenceId="{{competence.id}}">Supprimer</a>                    
+                            </div>
+                        {% endfor %}
+                        {{ form_widget(competenceForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Ajouter cette competence</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        {{ form_end(competenceForm) }}             
+                    {% else %}        
+                        {{ form_widget(competenceForm) }}
+                        <button type="submit" class="btn-default btn-cf-submit">Valider cette competence</button>
+                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        {{ form_end(competenceForm) }}    
+                    {% endif %}
                 </div>
         </div>
         <div id="langued">
@@ -121,6 +159,21 @@
     </div>
 </div>
 </div>
+                    <div style="z-index:2016;" class="modal fade " id="activModal" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Alerte</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Vous devez remplir complètement votre CV avant de pouvoir activer la publication de votre CV.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -177,11 +230,62 @@
                     <h4 class="modal-title" >Alerte</h4>
                 </div>
                 <div class="modal-body">
-                    Valider la suppression de cette expérience?
+                    Valider la suppression de cette formation?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                     <button type="button" class="btn btn-primary validerSupForm">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="supCompModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de cette compétence?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerSupCompetence">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment créer un nouveau CV? Votre CV courant sera effacé.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerNew">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="supCVModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de votre CV?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerDeleteCV">Valider</button>
                 </div>            
             </div>
         </div>
@@ -199,6 +303,13 @@
         var langue_id = 0;
         var exp_id = 0;
         var form_id = 0;
+        var comp_id = 0;
+    $(document).on('click', '.validerDeleteCV', function () {
+        window.location.href= "{{ path('eco_job_candidat_cv_delete')}}";
+    });
+    $(document).on('click', '.validerNew', function () {
+        window.location.href= "{{path('eco_job_candidat_cv_fill')}}";
+    });          
     $(document).on('click', '.deletelangue', function () {
         langue_id = $(this).attr('langueId');
         $("#supModal").modal('show');
@@ -210,7 +321,11 @@
     $(document).on('click', '.deleteFormation', function () {
         form_id = $(this).attr('formationId');
         $("#supFormModal").modal('show');
-    });      
+    });     
+    $(document).on('click', '.deleteCompetence', function () {
+        comp_id = $(this).attr('competenceId');
+        $("#supCompModal").modal('show');
+    });     
     $(document).on('click', '.validerSupLangue', function () {
         $.ajax({
             type: 'POST',
@@ -234,6 +349,30 @@
             }
         });
     });   
+    $(document).on('click', '.validerSupCompetence', function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('eco_job_candidat_delete_competence', {id: comp_id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $("#competence"+comp_id).remove();
+                $('#supCompModal').modal('hide');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
+        });
+    });   
+    
     $(document).on('click', '.validerSupExp', function () {
         $.ajax({
             type: 'POST',

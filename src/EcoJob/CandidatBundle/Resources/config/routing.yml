@@ -175,13 +175,7 @@ eco_job_candidat_delete_experience:
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteExperience" }
     methods:  [GET,POST]
     options:
-        expose: true        
-eco_job_candidat_add_competence:
-    path:     /cv/gestion/add/competence
-    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCompetence" }
-    methods:  POST
-    options:
-        expose: true     
+        expose: true             
 eco_job_candidat_add_langue:
     path:     /cv/gestion/add/langue
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:addLangue" }
@@ -200,3 +194,21 @@ eco_job_candidat_delete_langue:
     methods:  [GET,POST]
     options:
         expose: true            
+eco_job_candidat_add_competence:
+    path:     /cv/gestion/add/competence
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCompetence" }
+    methods:  [POST,GET]
+    options:
+        expose: true        
+eco_job_candidat_edit_competence:
+    path:     /cv/gestion/edit/{id}/competence
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editCompetence" }
+    methods:  [GET,POST]
+    options:
+        expose: true    
+eco_job_candidat_delete_competence:
+    path:     /cv/gestion/delete/{id}/competence
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteCompetence" }
+    methods:  [GET,POST]
+    options:
+        expose: true         

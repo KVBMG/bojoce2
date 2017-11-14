@@ -27,13 +27,9 @@ p { margin: 0 0 16px 0; }
 
     <div class="team1 clearfix">
         {% if cv is not null %}
-            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>    
-            {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competence is null
-                or cv.langues is null) %}
-            <a href="{{ path('eco_job_candidat_cv_edit')}}" >Reprendre le remplissage du CV</a>
-        {% endif %}            
+        <a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a>               
         <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
-        <a href="{{ path('eco_job_candidat_cv_delete')}}" >Supprimer</a>  
+        <a href="#"  data-toggle="modal" data-target="#supModal"> Supprimer</a>  
         <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
 
         {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competence is null
@@ -70,6 +66,8 @@ p { margin: 0 0 16px 0; }
             <h1 class="fn">{{cv.etatCivil.nom}} {{cv.etatCivil.prenom}}</h1>
         
             <p>
+                Nom: <span class="tel">{{cv.etatCivil.nom}}</span><br>
+                Prénom: <span class="tel">{{cv.etatCivil.prenom}}</span><br>
                 Téléphone mobile: <span class="tel">{{cv.etatCivil.telephone}}</span><br>
                 Téléphone fix: <span class="tel">{{cv.etatCivil.telephoneFixe}}</span><br>
                 
@@ -105,13 +103,21 @@ p { margin: 0 0 16px 0; }
             {% endfor %}
             {% endif %}
             <dd class="clear"></dd>
-            {% if cv.competence is not null %}
+            {% if cv.competences is not null %}
             <dt>Compétences</dt>
             <dd>
                 <h2>Compétences en informatique</h2>
-                <p>{{cv.competence.informatique}}</p>
+                <ul>
+                {% for competence in cv.competences %}
+                    <li>{{competence.informatique}}</li>
+                {% endfor %}
+                </ul>
                 <h2>Autres compétences</h2>
-                <p>{{cv.competence.autres}}</p>
+                <ul>
+                {% for competence in cv.competences %}
+                    <li>{{competence.autres}}</li>
+                {% endfor %}
+                </ul>
             </dd>
             {% endif %}
             <dd class="clear"></dd>
@@ -165,4 +171,49 @@ p { margin: 0 0 16px 0; }
                             </div>
                         </div>
                     </div>
+    <div style="z-index:2016;" class="modal fade " id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment créer un nouveau CV? Votre CV courant sera effacé.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerNew">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
+    <div style="z-index:2016;" class="modal fade " id="supModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de votre CV?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerDelete">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div>            
 {% endblock %}  
+{% block javascripts %}
+    {{parent()}}    
+    <script type="text/javascript">
+    $(document).on('click', '.validerDelete', function () {
+        window.location.href= "{{ path('eco_job_candidat_cv_delete')}}";
+    });
+    $(document).on('click', '.validerNew', function () {
+        window.location.href= "{{path('eco_job_candidat_cv_fill')}}";
+    });    
+    </script>
+{% endblock %}

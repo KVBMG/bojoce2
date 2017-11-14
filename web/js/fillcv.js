@@ -1,4 +1,5 @@
 $(function () {
+    $('.form-group').addClass('col-sm-12');
     var photo = loadPhotoSubmition();
     var cv = loadCVSubmition();
     var et = loadEtatCivilSubmition();
@@ -6,7 +7,7 @@ $(function () {
     var experience = loadExperienceSubmition();
     var competence = loadCompetenceSubmition();
     var langue = loadLangueSubmition();
-    var editFormation, formation_edit, experience_edit, editExperience, langue_edit, editLangue;
+    var editFormation, formation_edit, experience_edit, editExperience, langue_edit, editLangue,competence_edit,editCompetence;
     $(document).on('click', '.editFormation', function () {
         var id = $(this).attr('formationId');
         formation_edit = id;
@@ -85,6 +86,32 @@ $(function () {
             }
         });
     });
+    $(document).on('click', '.editCompetence', function () {
+        var id = $(this).attr('competenceId');
+        competence_edit = id;
+        $.ajax({
+            type: 'GET',
+            url: Routing.generate('eco_job_candidat_edit_competence', {id: id}),
+            timeout: 30000,
+            beforeSend: function () {
+                $.blockUI({
+                    message: '<p class="loader"></p>',
+                    css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                });
+            },
+            success: function (response) {
+                $('#globModal .modal-body').children().remove();
+                $('#globModal .modal-body').append(response.html);
+                $('#globModal').modal('show');
+            },
+            error: function () {
+                alert('La requête n\'a pas abouti');
+            },
+            complete: function () {
+                $.unblockUI();
+            }
+        });
+    });
 
     $(document).on('click', '#editFormationForm button[type=submit]', function () {
         editFormation = loadEditFormationSubmittion(formation_edit);
@@ -95,6 +122,56 @@ $(function () {
     $(document).on('click', '#editLangueForm button[type=submit]', function () {
         editLangue = loadEditLangueSubmittion(langue_edit);
     });
+    
+    $(document).on('click', '#editCompetenceForm button[type=submit]', function () {
+        editCompetence = loadEditCompetenceSubmittion(competence_edit);
+    });    
+    function loadEditCompetenceSubmittion(id) {
+        var options = {
+            target: '#editCompetenceForm', // target element(s) to be updated with server response 
+            beforeSubmit: showRequest, // pre-submit callback 
+            success: showResponseCompetence, // post-submit callback 
+
+            // other available options: 
+            url: Routing.generate('eco_job_candidat_edit_competence', {id: id}),
+            type: 'post', // 'get' or 'post', override for form's 'method' attribute 
+            dataType: 'json'        // 'xml', 'script', or 'json' (expected server response type) 
+                    //clearForm: true        // clear all form fields after successful submit 
+                    //resetForm: true        // reset the form after successful submit 
+
+                    // $.ajax options can be used here too, for example: 
+                    //timeout:   3000 
+        };
+
+        function showResponseCompetence(responseText, statusText, xhr, $form) {
+            $("#editCompetenceForm").children().remove();
+            $("#competenced").children().remove();
+            if (xhr.status == 200) {
+                $("#competenced").append(responseText.html);
+                if (responseText.error != undefined) {
+                    $('#globModal').modal('hide');
+                    $("#globModal .modal-body").children().remove();
+                    $('#globModal .modal-body').append(responseText.html);
+                    $('#globModal').modal('show');
+                } else {
+                    $('#globModal').modal('hide');
+
+                }
+            } else {
+                alert("Une erreur s'est produite.");
+            }
+            editLangue = loadEditLangueSubmittion();
+            langue = loadLangueSubmition();
+            $.unblockUI();
+        }
+        $('#editCompetenceForm').submit(function (e) {
+            e.preventDefault();
+            $('#editCompetenceForm').ajaxSubmit(options);
+            return false;
+
+
+        })
+    }
     
     function loadEditLangueSubmittion(id) {
         var options = {

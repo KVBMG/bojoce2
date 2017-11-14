@@ -134,6 +134,7 @@ class CandidatController extends Controller {
                     'formationForm' => $formationForm->createView(),
                     'langueForm' => $langueForm->createView(),
                     'imageForm' => $imageForm->createView(),
+                    'cv' => $this->getUser()->getCurriculum()
         ));
     }
 
@@ -163,11 +164,8 @@ class CandidatController extends Controller {
         if ($image == NULL) {
             $image = new Image();
         }
-        $competence = $cv->getCompetence();
-        if ($competence == NULL) {
-            $competence = new Competence();
-        }
-
+        
+        $competences = $cv->getCompetences();
         $experiences = $cv->getExperiences();
         $formations = $cv->getFormations();
         $langues = $cv->getLangues();
@@ -175,6 +173,7 @@ class CandidatController extends Controller {
         $experience = new Experience();
         $formation = new Formation();
         $langue = new Langue();
+        $competence = new Competence();
 
         $cvfileForm = $this->createForm(new CVFileType, $cvfile);
         $competenceForm = $this->createForm(new CompetenceType, $competence);
@@ -196,6 +195,7 @@ class CandidatController extends Controller {
                     'formations' => $formations,
                     'experiences' => $experiences,
                     'image' => $image,
+                    'competences' => $competences,
                     'cvFile' => $cvfile
         ));
     }
@@ -209,7 +209,7 @@ class CandidatController extends Controller {
             $this->getUser()->setCurriculum(null);
             $em->remove($cv);
             $em->flush();
-            return $this->redirect($this->generateUrl('eco_job_candidat_cv_show'));
+            return $this->redirect($this->generateUrl('eco_job_candidat_index'));
         }
         return $this->redirect($this->generateUrl('eco_job_candidat_cv_show'));
     }
@@ -612,31 +612,6 @@ class CandidatController extends Controller {
         return $response;
     }
 
-    public function addCompetenceAction(Request $request) {
-        if ($request->getMethod() == 'POST') {
-            $competence = new Competence();
-            $form = $this->createForm(new CompetenceType(), $competence);
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $this->getUser()->getCurriculum()->setCompetence($competence);
-                $em->persist($competence);
-                $em->flush();
-                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
-                    'form' => $form->createView()));
-                $response = new Response(json_encode(array("html" => $html)));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            } else {
-                $error = true;
-                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
-                    'form' => $form->createView()));
-                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
-        }
-    }
 
     public function addLangueAction(Request $request) {
         $langue = new Langue();
@@ -731,4 +706,77 @@ class CandidatController extends Controller {
             return $response;
         }        
     }
+    public function addCompetenceAction(Request $request) {
+        $competence = new Competence();
+        $form = $this->createForm(new CompetenceType(), $competence);
+        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $this->getUser()->getCurriculum()->addCompetence($competence);
+                $em->persist($competence);
+                $em->flush();
+                $competence = new Competence();
+                $form = $this->createForm(new CompetenceType(), $competence);
+                $competences = $this->getUser()->getCurriculum()->getCompetences();
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
+                    'form' => $form->createView(), 'competences' => $competences));
+                $response = new Response(json_encode(array("html" => $html)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } else {
+                $error = true;
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
+                    'form' => $form->createView()));
+                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+        }
+            return $this->render('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
+                'form' => $form->createView()));        
+    }
+
+    public function editCompetenceAction(Request $request, Competence $competence) {
+        $form = $this->createForm(new CompetenceType(), $competence);
+        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $competences = $this->getUser()->getCurriculum()->getCompetences();
+                $competence = new Competence();
+                $form = $this->createForm(new CompetenceType(), $competence);
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
+                    'form' => $form->createView(), 'competences' => $competences));
+                $response = new Response(json_encode(array("html" => $html)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } else {
+                $error = true;
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:editCompetence.html.twig', array(
+                    'form' => $form->createView()));
+                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+        }
+        $html = $this->renderView('EcoJobCandidatBundle:Candidat:editCompetence.html.twig', array(
+            'form' => $form->createView()));
+        $response = new Response(json_encode(array("html" => $html)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function deleteCompetenceAction(Request $request, Competence $competence) {
+        if (($request->getMethod() == 'POST')) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($competence);
+            $em->flush();
+            $response = new Response(json_encode(array("html" => "Succes")));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }    
 }
