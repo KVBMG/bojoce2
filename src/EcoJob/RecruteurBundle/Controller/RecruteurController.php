@@ -69,6 +69,7 @@ class RecruteurController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $offre->setModificationValided(true);
+
                 $em->persist($offre);
                 $this->getUser()->addOffre($offre);
                 $em->flush();

@@ -24,19 +24,15 @@ class ContratType
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=10, unique=true)
+     * @ORM\Column(name="libelle", type="string", length=20)
      */
     private $libelle;
 
-    /**
-    * @ORM\OneToMany(targetEntity="EcoJob\RecruteurBundle\Entity\Offre",mappedBy="contrat",orphanRemoval=true)
-    */    
-    private $offres;        
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -53,7 +49,7 @@ class ContratType
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
-
+    
         return $this;
     }
 
@@ -66,49 +62,8 @@ class ContratType
     {
         return $this->libelle;
     }
-    public function __toString()
-    {
+    public function __toString() {
         return $this->libelle;
-    }     
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->offres = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add offre
-     *
-     * @param \EcoJob\RecruteurBundle\Entity\Offre $offre
-     *
-     * @return ContratType
-     */
-    public function addOffre(\EcoJob\RecruteurBundle\Entity\Offre $offre)
-    {
-        $this->offres[] = $offre;
-        $offre->setContrat($this);
-        return $this;
-    }
-
-    /**
-     * Remove offre
-     *
-     * @param \EcoJob\RecruteurBundle\Entity\Offre $offre
-     */
-    public function removeOffre(\EcoJob\RecruteurBundle\Entity\Offre $offre)
-    {
-        $this->offres->removeElement($offre);
-    }
-
-    /**
-     * Get offres
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOffres()
-    {
-        return $this->offres;
     }
 }
+

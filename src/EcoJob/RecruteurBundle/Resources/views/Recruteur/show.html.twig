@@ -10,9 +10,9 @@
     <div class="latest_news">
         <div class="title7"> {{offre.titre}}</div>
         <div class="news1">
-            <div class="txt1">12/4/2016 </div>
+            <div class="txt1">{{offre.createdAt | date('d-m-y')}} </div>
             <div class="txt2"><a href="#">{{offre.titre}}</a></div>
-            <div class="txt3">{{offre.contenu}}</div>
+            <div class="txt3">{{offre.description}}</div>
             <a href="{{ path('eco_job_recruteur_offre_edit',{'id': offre.id})}}" class="btn-default btn3">Modifier</a>                
             <a href="{{ path('eco_job_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>     
             {% if not offre.expired %}

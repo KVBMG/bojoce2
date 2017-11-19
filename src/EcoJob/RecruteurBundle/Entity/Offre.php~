@@ -23,13 +23,6 @@ class Offre
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="experience", type="integer")
-     * @Assert\NotNull()
-     */
-    private $experience;    
 
     /**
      * @var string
@@ -42,10 +35,51 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="contenu", type="string", length=255)
-     * @Assert\NotBlank()         
+     * @ORM\Column(name="reference", type="string", length=255)
+     * @Assert\NotBlank()          
      */
-    private $contenu;
+    private $reference;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500)
+     * @Assert\NotBlank()          
+     */
+    private $description;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prerequis", type="string", length=500)
+     * @Assert\NotBlank()          
+     */
+    private $prerequis;  
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="societe", type="string", length=20)
+     * @Assert\NotBlank()          
+     */
+    private $societe;    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descSociete", type="string", length=500)
+     * @Assert\NotBlank()          
+     */
+    private $descSociete;        
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="duree", type="string", length=255)
+     * @Assert\NotBlank()          
+     */
+    private $duree;        
+
 
     /**
     * @ORM\ManyToOne(targetEntity="EcoJob\RecruteurBundle\Entity\ContratType",inversedBy="offres")
@@ -61,6 +95,13 @@ class Offre
     */    
     private $recruteur;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\RecruteurBundle\Entity\Experience",inversedBy="offres")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude    
+    */    
+    private $experience;    
+    
     /**
      * @var bool
      *
@@ -143,6 +184,12 @@ class Offre
      */
     private $validAt;
     
+      /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $limit;
     
       /**
      * @ORM\Column(type="datetime",nullable=true)
@@ -290,29 +337,6 @@ class Offre
         return $this->recruteur;
     }
 
-    /**
-     * Set experience
-     *
-     * @param integer $experience
-     *
-     * @return Offre
-     */
-    public function setExperience($experience)
-    {
-        $this->experience = $experience;
-
-        return $this;
-    }
-
-    /**
-     * Get experience
-     *
-     * @return integer
-     */
-    public function getExperience()
-    {
-        return $this->experience;
-    }
 
     /**
      * Set valid
@@ -599,5 +623,221 @@ class Offre
     public function getModificationValided()
     {
         return $this->modificationValided;
+    }
+
+    /**
+     * Set suspenduAt
+     *
+     * @param \DateTime $suspenduAt
+     *
+     * @return Offre
+     */
+    public function setSuspenduAt($suspenduAt)
+    {
+        $this->suspenduAt = $suspenduAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get suspenduAt
+     *
+     * @return \DateTime
+     */
+    public function getSuspenduAt()
+    {
+        return $this->suspenduAt;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Offre
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+    
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Offre
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set prerequis
+     *
+     * @param string $prerequis
+     *
+     * @return Offre
+     */
+    public function setPrerequis($prerequis)
+    {
+        $this->prerequis = $prerequis;
+    
+        return $this;
+    }
+
+    /**
+     * Get prerequis
+     *
+     * @return string
+     */
+    public function getPrerequis()
+    {
+        return $this->prerequis;
+    }
+
+    /**
+     * Set societe
+     *
+     * @param string $societe
+     *
+     * @return Offre
+     */
+    public function setSociete($societe)
+    {
+        $this->societe = $societe;
+    
+        return $this;
+    }
+
+    /**
+     * Get societe
+     *
+     * @return string
+     */
+    public function getSociete()
+    {
+        return $this->societe;
+    }
+
+    /**
+     * Set descSociete
+     *
+     * @param string $descSociete
+     *
+     * @return Offre
+     */
+    public function setDescSociete($descSociete)
+    {
+        $this->descSociete = $descSociete;
+    
+        return $this;
+    }
+
+    /**
+     * Get descSociete
+     *
+     * @return string
+     */
+    public function getDescSociete()
+    {
+        return $this->descSociete;
+    }
+
+    /**
+     * Set duree
+     *
+     * @param string $duree
+     *
+     * @return Offre
+     */
+    public function setDuree($duree)
+    {
+        $this->duree = $duree;
+    
+        return $this;
+    }
+
+    /**
+     * Get duree
+     *
+     * @return string
+     */
+    public function getDuree()
+    {
+        return $this->duree;
+    }
+
+    /**
+     * Set limit
+     *
+     * @param \DateTime $limit
+     *
+     * @return Offre
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+    
+        return $this;
+    }
+
+    /**
+     * Get limit
+     *
+     * @return \DateTime
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set experience
+     *
+     * @param \EcoJob\RecruteurBundle\Entity\Experience $experience
+     *
+     * @return Offre
+     */
+    public function setExperience(\EcoJob\RecruteurBundle\Entity\Experience $experience)
+    {
+        $this->experience = $experience;
+    
+        return $this;
+    }
+
+    /**
+     * Get experience
+     *
+     * @return \EcoJob\RecruteurBundle\Entity\Experience
+     */
+    public function getExperience()
+    {
+        return $this->experience;
     }
 }
