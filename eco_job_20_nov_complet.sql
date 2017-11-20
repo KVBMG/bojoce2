@@ -61,7 +61,7 @@ CREATE TABLE `c_v_file` (
   `cv_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `c_v_file` (
 
 LOCK TABLES `c_v_file` WRITE;
 /*!40000 ALTER TABLE `c_v_file` DISABLE KEYS */;
-INSERT INTO `c_v_file` VALUES (2,'5a080bd4a1158.docx','2017-11-12 09:52:36'),(3,'5a080c4e47a4d.docx','2017-11-12 09:54:38'),(4,'5a080c99aa83e.docx','2017-11-12 09:55:53'),(5,'5a080cb1a125f.docx','2017-11-12 09:56:17'),(6,'5a080cb1d63f9.docx','2017-11-12 09:56:17'),(7,'5a0853ea4d9db.docx','2017-11-12 15:00:10');
+INSERT INTO `c_v_file` VALUES (1,'5a126891a7344.docx','2017-11-20 06:30:57');
 /*!40000 ALTER TABLE `c_v_file` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,9 +85,9 @@ CREATE TABLE `candidature` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `offre_id` int(11) NOT NULL,
   `candidat_id` int(11) NOT NULL,
+  `recruteur_id` int(11) NOT NULL,
   `description` longtext COLLATE utf8_unicode_ci NOT NULL,
   `date_candidature` datetime NOT NULL,
-  `recruteur_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_E33BD3B84CC8505A` (`offre_id`),
   KEY `IDX_E33BD3B88D0EB82` (`candidat_id`),
@@ -140,13 +140,13 @@ DROP TABLE IF EXISTS `competence`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `competence` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cuvi_id` int(11) NOT NULL,
   `informatique` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
   `autres` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuvi_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_94D4687FD561A4B0` (`cuvi_id`),
   CONSTRAINT `FK_94D4687FD561A4B0` FOREIGN KEY (`cuvi_id`) REFERENCES `cu_vi` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `competence` (
 
 LOCK TABLES `competence` WRITE;
 /*!40000 ALTER TABLE `competence` DISABLE KEYS */;
-INSERT INTO `competence` VALUES (5,'d','d',3);
+INSERT INTO `competence` VALUES (1,8,'Excel','sdfs');
 /*!40000 ALTER TABLE `competence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ CREATE TABLE `contrat_type` (
   `libelle` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_C18AF237A4D60759` (`libelle`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `contrat_type` (
 
 LOCK TABLES `contrat_type` WRITE;
 /*!40000 ALTER TABLE `contrat_type` DISABLE KEYS */;
-INSERT INTO `contrat_type` VALUES (1,'CDD'),(2,'CDI');
+INSERT INTO `contrat_type` VALUES (6,'Alternance'),(7,'CDD/Missio'),(8,'CDI'),(9,'Fonctionna'),(10,'Stage');
 /*!40000 ALTER TABLE `contrat_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,10 +218,11 @@ DROP TABLE IF EXISTS `cu_vi`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cu_vi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `showable` tinyint(1) DEFAULT '1',
   `etat_civil_id` int(11) DEFAULT NULL,
   `cv_file_id` int(11) DEFAULT NULL,
   `image_id` int(11) DEFAULT NULL,
+  `showable` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_6EBAC42F191476EE` (`etat_civil_id`),
   UNIQUE KEY `UNIQ_6EBAC42FD8422A22` (`cv_file_id`),
@@ -229,7 +230,7 @@ CREATE TABLE `cu_vi` (
   CONSTRAINT `FK_6EBAC42F191476EE` FOREIGN KEY (`etat_civil_id`) REFERENCES `etat_civil` (`id`),
   CONSTRAINT `FK_6EBAC42F3DA5256D` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`),
   CONSTRAINT `FK_6EBAC42FD8422A22` FOREIGN KEY (`cv_file_id`) REFERENCES `c_v_file` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,35 +239,8 @@ CREATE TABLE `cu_vi` (
 
 LOCK TABLES `cu_vi` WRITE;
 /*!40000 ALTER TABLE `cu_vi` DISABLE KEYS */;
-INSERT INTO `cu_vi` VALUES (3,0,NULL,NULL,NULL);
+INSERT INTO `cu_vi` VALUES (8,2,1,1,1,'2017-11-20 06:30:32');
 /*!40000 ALTER TABLE `cu_vi` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cu_vi_contrat_categorie`
---
-
-DROP TABLE IF EXISTS `cu_vi_contrat_categorie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cu_vi_contrat_categorie` (
-  `cu_vi_id` int(11) NOT NULL,
-  `contrat_categorie_id` int(11) NOT NULL,
-  PRIMARY KEY (`cu_vi_id`,`contrat_categorie_id`),
-  KEY `IDX_C73FCD02D1728C5B` (`cu_vi_id`),
-  KEY `IDX_C73FCD02F72BEEE4` (`contrat_categorie_id`),
-  CONSTRAINT `FK_C73FCD02D1728C5B` FOREIGN KEY (`cu_vi_id`) REFERENCES `cu_vi` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_C73FCD02F72BEEE4` FOREIGN KEY (`contrat_categorie_id`) REFERENCES `contrat_categorie` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cu_vi_contrat_categorie`
---
-
-LOCK TABLES `cu_vi_contrat_categorie` WRITE;
-/*!40000 ALTER TABLE `cu_vi_contrat_categorie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cu_vi_contrat_categorie` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -289,8 +263,11 @@ CREATE TABLE `etat_civil` (
   `adresse2` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `cp` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ville` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `annee_exp_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_B84E87CF3D6815C6` (`annee_exp_id`),
+  CONSTRAINT `FK_B84E87CF3D6815C6` FOREIGN KEY (`annee_exp_id`) REFERENCES `experienceOffre` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -299,6 +276,7 @@ CREATE TABLE `etat_civil` (
 
 LOCK TABLES `etat_civil` WRITE;
 /*!40000 ALTER TABLE `etat_civil` DISABLE KEYS */;
+INSERT INTO `etat_civil` VALUES (2,'Test','candidat','2017-01-11','Malgache','norazafindrakoto@gmail.com',2147483647,225482,'Paris','24 rue','25','Paris',1);
 /*!40000 ALTER TABLE `etat_civil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +289,11 @@ DROP TABLE IF EXISTS `experience`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `experience` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `remuneration_id` int(11) NOT NULL,
   `cuvi_id` int(11) NOT NULL,
+  `type_clientele_id` int(11) NOT NULL,
+  `secteur_activite_id` int(11) NOT NULL,
+  `fonction_id` int(11) NOT NULL,
   `dateDebut` date NOT NULL,
   `dateFin` date NOT NULL,
   `poste` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
@@ -319,14 +301,10 @@ CREATE TABLE `experience` (
   `localisation` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `zoneProspection` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `detailsMission` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-  `type_clientele_id` int(11) NOT NULL,
-  `remuneration_id` int(11) NOT NULL,
-  `secteur_activite_id` int(11) NOT NULL,
-  `fonction_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `IDX_590C1031D7E2A02` (`remuneration_id`),
   KEY `IDX_590C103D561A4B0` (`cuvi_id`),
   KEY `IDX_590C1038ED7743B` (`type_clientele_id`),
-  KEY `IDX_590C1031D7E2A02` (`remuneration_id`),
   KEY `IDX_590C1035233A7FC` (`secteur_activite_id`),
   KEY `IDX_590C10357889920` (`fonction_id`),
   CONSTRAINT `FK_590C1031D7E2A02` FOREIGN KEY (`remuneration_id`) REFERENCES `type_remuneration` (`id`) ON DELETE CASCADE,
@@ -334,7 +312,7 @@ CREATE TABLE `experience` (
   CONSTRAINT `FK_590C10357889920` FOREIGN KEY (`fonction_id`) REFERENCES `fonction` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_590C1038ED7743B` FOREIGN KEY (`type_clientele_id`) REFERENCES `type_clientele` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_590C103D561A4B0` FOREIGN KEY (`cuvi_id`) REFERENCES `cu_vi` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -343,7 +321,32 @@ CREATE TABLE `experience` (
 
 LOCK TABLES `experience` WRITE;
 /*!40000 ALTER TABLE `experience` DISABLE KEYS */;
+INSERT INTO `experience` VALUES (1,1,8,1,40,18,'1967-01-01','1971-01-03','Ingenieur informatiq','SOCOTA','Lyon','Te','Dsfsfsfsf');
 /*!40000 ALTER TABLE `experience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `experienceOffre`
+--
+
+DROP TABLE IF EXISTS `experienceOffre`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `experienceOffre` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `experienceOffre`
+--
+
+LOCK TABLES `experienceOffre` WRITE;
+/*!40000 ALTER TABLE `experienceOffre` DISABLE KEYS */;
+INSERT INTO `experienceOffre` VALUES (1,'Jeune diplômé/Moins de 1 an'),(2,'1 à 3 ans'),(3,'3 à 5 ans'),(4,'5 à 10 ans'),(5,'Plus de 10 ans');
+/*!40000 ALTER TABLE `experienceOffre` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -383,19 +386,19 @@ DROP TABLE IF EXISTS `formation`;
 CREATE TABLE `formation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cuvi_id` int(11) NOT NULL,
+  `niveau_id` int(11) NOT NULL,
   `anneeObtention` int(11) NOT NULL,
   `intituleDiplome` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `specialisation` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `lieu` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `etablissement` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `formationEtranger` tinyint(1) NOT NULL,
-  `niveau_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_404021BFD561A4B0` (`cuvi_id`),
   KEY `IDX_404021BFB3E9C81` (`niveau_id`),
   CONSTRAINT `FK_404021BFB3E9C81` FOREIGN KEY (`niveau_id`) REFERENCES `niveau_formation` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_404021BFD561A4B0` FOREIGN KEY (`cuvi_id`) REFERENCES `cu_vi` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,6 +407,7 @@ CREATE TABLE `formation` (
 
 LOCK TABLES `formation` WRITE;
 /*!40000 ALTER TABLE `formation` DISABLE KEYS */;
+INSERT INTO `formation` VALUES (1,8,3,1966,'Test','infr','lyon','dd',1);
 /*!40000 ALTER TABLE `formation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,7 +432,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (1,'5a080337f1a2a.png','2017-11-12 09:15:51');
+INSERT INTO `image` VALUES (1,'5a12688c97f9a.png','2017-11-20 06:30:52');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,7 +451,7 @@ CREATE TABLE `langue` (
   PRIMARY KEY (`id`),
   KEY `IDX_9357758ED561A4B0` (`cuvi_id`),
   CONSTRAINT `FK_9357758ED561A4B0` FOREIGN KEY (`cuvi_id`) REFERENCES `cu_vi` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -456,6 +460,7 @@ CREATE TABLE `langue` (
 
 LOCK TABLES `langue` WRITE;
 /*!40000 ALTER TABLE `langue` DISABLE KEYS */;
+INSERT INTO `langue` VALUES (1,8,'FR','Bilingue');
 /*!40000 ALTER TABLE `langue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,25 +558,32 @@ CREATE TABLE `offre` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contrat_id` int(11) NOT NULL,
   `recruteur_id` int(11) NOT NULL,
-  `experience` int(11) NOT NULL,
+  `experience_id` int(11) NOT NULL,
+  `categorie_id` int(11) NOT NULL,
   `titre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contenu` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `reference` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `prerequis` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `societe` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `descSociete` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `duree` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `valid` tinyint(1) NOT NULL DEFAULT '0',
+  `suspendu` tinyint(1) NOT NULL DEFAULT '0',
+  `modification_valided` tinyint(1) NOT NULL DEFAULT '1',
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `localisation` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `valid_at` datetime DEFAULT NULL,
-  `suspendu` tinyint(1) NOT NULL DEFAULT '0',
   `expire_at` int(11) DEFAULT '90',
-  `modification_valided` tinyint(1) NOT NULL DEFAULT '1',
+  `valid_at` datetime DEFAULT NULL,
   `suspendu_at` datetime DEFAULT NULL,
-  `categorie_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_AF86866F1823061F` (`contrat_id`),
   KEY `IDX_AF86866FBB0859F1` (`recruteur_id`),
+  KEY `IDX_AF86866F46E90E27` (`experience_id`),
   KEY `IDX_AF86866FBCF5E72D` (`categorie_id`),
   CONSTRAINT `FK_AF86866F1823061F` FOREIGN KEY (`contrat_id`) REFERENCES `contrat_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_AF86866F46E90E27` FOREIGN KEY (`experience_id`) REFERENCES `experienceOffre` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_AF86866FBB0859F1` FOREIGN KEY (`recruteur_id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_AF86866FBCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `contrat_categorie` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -602,7 +614,7 @@ CREATE TABLE `param_candidat` (
   KEY `IDX_37FFF5B5BCF5E72D` (`categorie_id`),
   CONSTRAINT `FK_37FFF5B58D0EB82` FOREIGN KEY (`candidat_id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_37FFF5B5BCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `contrat_categorie` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -611,7 +623,6 @@ CREATE TABLE `param_candidat` (
 
 LOCK TABLES `param_candidat` WRITE;
 /*!40000 ALTER TABLE `param_candidat` DISABLE KEYS */;
-INSERT INTO `param_candidat` VALUES (1,10,51);
 /*!40000 ALTER TABLE `param_candidat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -637,7 +648,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('02c2ua401q4e2gm3ejiteu6840','_sf2_attributes|a:11:{s:18:\"_csrf/authenticate\";s:43:\"AwBm2JHeEM6jfpP8iMCRhNI2oDf3o0rEqT7WdDD7Mfc\";s:14:\"_security_main\";s:774:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":686:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:646:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":304:{a:8:{i:0;s:88:\"3SkQgCjQBu3ilXkHEv9w0VfwiInJ9vdeX+1ZJEDOGgtyJg2oA5caZ0H5uq0JEFEkXKsPz5U6Fcg8dn3tzbdoCA==\";i:1;s:43:\"R.vmbpFNO0t/58Lu2rizi1yhTQCE0X9BvLHY5TqBFmg\";i:2;s:13:\"test candidat\";i:3;s:13:\"Test candidat\";i:4;b:1;i:5;i:10;i:6;s:26:\"norazafindrakoto@gmail.com\";i:7;s:26:\"norazafindrakoto@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:13:\"ROLE_CANDIDAT\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:5:\"saved\";i:0;s:8:\"postuled\";i:0;s:34:\"_csrf/ecojob_candidatbundle_cvfile\";s:43:\"gzCyLQEUgu8t_ZljzyENLWowNlrEgsbRCsDb6BTCd1s\";s:38:\"_csrf/ecojob_candidatbundle_competence\";s:43:\"1ej89UvmKF3WxRjwJ_wcuEKhWsHh8Q1YTrEfdXDFjSk\";s:37:\"_csrf/ecojob_candidatbundle_etatcivil\";s:43:\"7fTk0JOvQGV64a70GFUEs5kQNG-PETz-CPXJ7iK_f-Q\";s:38:\"_csrf/ecojob_candidatbundle_experience\";s:43:\"c0n5bxHjjelJbWi0jozj7uKNF-1lm6I3unRYmFun82Q\";s:37:\"_csrf/ecojob_candidatbundle_formation\";s:43:\"G-waby7-qpkEsF048TYXvnjA7eQQfL6qTkSObFpIBmQ\";s:34:\"_csrf/ecojob_candidatbundle_langue\";s:43:\"79O8OXwDjpPVXVzlCbuSy2FJq1PaDA8gEgj7b3lcPy4\";s:29:\"_csrf/ecojob_userbundle_image\";s:43:\"4ezQsoHuQxnxzjI1ZDarJ0aWDKVCVIKe3IrC3rkiXl8\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1510674784;s:1:\"c\";i:1510671258;s:1:\"l\";s:1:\"0\";}',1510674785,1440),('285qglh8dv6j1cd1obbr2cm7r3','_sf2_attributes|a:0:{}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1517715608;s:1:\"c\";i:1517715608;s:1:\"l\";s:1:\"0\";}',1517715611,1440),('2s84f8u812jmjlspfk6eof52o2','_sf2_attributes|a:4:{s:18:\"_csrf/authenticate\";s:43:\"Nku37_DHy5Nbo5Acq_R5Auysbli6zIpIOOEmpz99RrE\";s:14:\"_security_main\";s:774:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":686:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:646:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":304:{a:8:{i:0;s:88:\"3SkQgCjQBu3ilXkHEv9w0VfwiInJ9vdeX+1ZJEDOGgtyJg2oA5caZ0H5uq0JEFEkXKsPz5U6Fcg8dn3tzbdoCA==\";i:1;s:43:\"R.vmbpFNO0t/58Lu2rizi1yhTQCE0X9BvLHY5TqBFmg\";i:2;s:13:\"test candidat\";i:3;s:13:\"Test candidat\";i:4;b:1;i:5;i:10;i:6;s:26:\"norazafindrakoto@gmail.com\";i:7;s:26:\"norazafindrakoto@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:13:\"ROLE_CANDIDAT\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:5:\"saved\";i:0;s:8:\"postuled\";i:0;}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1510544358;s:1:\"c\";i:1510544353;s:1:\"l\";s:1:\"0\";}',1510544358,1440),('2vj1beuer4ib9m5skiiiuokf23','_sf2_attributes|a:3:{s:18:\"_csrf/authenticate\";s:43:\"J76_Qn6s1dRmhR3sx9Pwv1LD4g9bY0L8xsf8hSD_auA\";s:26:\"_security.main.target_path\";s:68:\"http://work:8082/zala/bojoce/web/app_dev.php/recruteur/offre/show/28\";s:41:\"_csrf/ecojob_candidatbundle_paramcandidat\";s:43:\"KvefUDNdyjodqtlMJ_jU-5Ang9XJirwr7eMj4Ha992Q\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1517719147;s:1:\"c\";i:1517718663;s:1:\"l\";s:1:\"0\";}',1517719148,1440),('3j6ffeiog5q84gk5il6hjdejn1','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:51:\"http://work:8082/zala/bojoce/web/app_dev.php/admin/\";s:18:\"_csrf/authenticate\";s:43:\"cxVeyr9VQxbL_OGxNNaKw8NfiVIsR3RerOiePnbOxgg\";s:14:\"_security_main\";s:768:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":680:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:640:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":295:{a:8:{i:0;s:88:\"+d+azJGiwgUKjxBCMC9L6u9TZBh5D0NAsAGbvidDgpSpqMq6OOraeGfoWhKAZKJalCcz9hpqXI63VplmjMmQsQ==\";i:1;s:43:\"SF7zZF7xDy08DYppAafw.0ZqWM4Ru3Eu5n4zsAcwds4\";i:2;s:14:\"administrateur\";i:3;s:14:\"Administrateur\";i:4;b:1;i:5;i:3;i:6;s:21:\"infermedica@gmail.com\";i:7;s:21:\"infermedica@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:16:\"ROLE_SUPER_ADMIN\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1543783838;s:1:\"c\";i:1543779845;s:1:\"l\";s:1:\"0\";}',1543783840,1440),('402a5853vom0svh7uq5odda7n4','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:63:\"http://work:8082/eco_final/web/app_dev.php/admin/offre/exprired\";s:18:\"_csrf/authenticate\";s:43:\"SXO2JVyEH8h8pJhDCkgnlDubjkxIb95Kz-5bYLZ0efg\";s:14:\"_security_main\";s:768:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":680:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:640:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":295:{a:8:{i:0;s:88:\"+d+azJGiwgUKjxBCMC9L6u9TZBh5D0NAsAGbvidDgpSpqMq6OOraeGfoWhKAZKJalCcz9hpqXI63VplmjMmQsQ==\";i:1;s:43:\"SF7zZF7xDy08DYppAafw.0ZqWM4Ru3Eu5n4zsAcwds4\";i:2;s:14:\"administrateur\";i:3;s:14:\"Administrateur\";i:4;b:1;i:5;i:3;i:6;s:21:\"infermedica@gmail.com\";i:7;s:21:\"infermedica@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:16:\"ROLE_SUPER_ADMIN\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1517511351;s:1:\"c\";i:1517510986;s:1:\"l\";s:1:\"0\";}',1517511353,1440),('83du1rdc1it322fsv6lcsrofn0','_sf2_attributes|a:1:{s:26:\"_security.main.target_path\";s:65:\"http://work:8082/zala/bojoce/web/app_dev.php/admin/offre/exprired\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1517715463;s:1:\"c\";i:1517715463;s:1:\"l\";s:1:\"0\";}',1517715464,1440),('95qdhtfqc76n5u0difjsfhsqe3','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:68:\"http://work:8082/zala/bojoce/web/app_dev.php/recruteur/offre/show/29\";s:18:\"_csrf/authenticate\";s:43:\"aVwXeHD2aTeNQ9tybipc47u63bHN9IZ5VUuyoRCp7FI\";s:14:\"_security_main\";s:752:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":664:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:624:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":281:{a:8:{i:0;s:88:\"erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==\";i:1;s:43:\"jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ\";i:2;s:6:\"nomena\";i:3;s:6:\"Nomena\";i:4;b:1;i:5;i:2;i:6;s:23:\"fidiarilantov@yahoo.com\";i:7;s:23:\"fidiarilantov@yahoo.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:14:\"ROLE_RECRUTEUR\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1543684481;s:1:\"c\";i:1543683914;s:1:\"l\";s:1:\"0\";}',1543684483,1440),('f492siovprc5t4eqsqik1o4053','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:67:\"http://work:8082/zala/bojoce/web/app_dev.php/candidat/offre/29/save\";s:18:\"_csrf/authenticate\";s:43:\"NNJ4nC4AK56OozamZmDrn8jM8WwxVubU_qOBUDpmBL8\";s:14:\"_security_main\";s:897:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":809:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:769:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":297:{a:8:{i:0;s:88:\"TJPWDn7LzBWHCTKmmtKhiEkW3GtVdurVQGvdkkkMGjPg59vwGXVNC41crrF1/KAda14HrImTgACMRlKDKKsc6Q==\";i:1;s:43:\"ui.sqnKx8BESFlgzFoJfGU9XqxcGSTfN7AUtToq5R0w\";i:2;s:5:\"adnan\";i:3;s:5:\"Adnan\";i:4;b:1;i:5;i:1;i:6;s:32:\"andriatsiferana.nomena@gmail.com\";i:7;s:32:\"andriatsiferana.nomena@gmail.com\";}}i:1;b:1;i:2;a:3:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:13:\"ROLE_CANDIDAT\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:10:\"ROLE_ADMIN\";}i:2;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1543684317;s:1:\"c\";i:1543683845;s:1:\"l\";s:1:\"0\";}',1543684318,1440),('glkm84tbgd2r555724da0ok4c6','_sf2_attributes|a:14:{s:26:\"_security.main.target_path\";s:56:\"http://127.0.0.1/ecojob/web/app_dev.php/candidat/cv/fill\";s:18:\"_csrf/authenticate\";s:43:\"IZxXbvF4o2M8bh_Gjv3qdbCXdaBH2WrGmifwhPIJiWg\";s:14:\"_security_main\";s:774:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":686:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:646:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":304:{a:8:{i:0;s:88:\"z6aLQNh+Uu5XGm/cOBGV+yunCr3q3cG99OAzeQ5O3/RVDZ2bUhUMR8lBaR8drLTsRhBPZexjw9p53a2dArLgJQ==\";i:1;s:43:\"6fzaoC4kucnD8WO0L04B9ybf1llZgL1XA21DbNQdz0k\";i:2;s:13:\"test candidat\";i:3;s:13:\"Test candidat\";i:4;b:1;i:5;i:10;i:6;s:26:\"norazafindrakoto@gmail.com\";i:7;s:26:\"norazafindrakoto@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:13:\"ROLE_CANDIDAT\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:5:\"saved\";i:0;s:8:\"postuled\";i:0;s:34:\"_csrf/ecojob_candidatbundle_cvfile\";s:43:\"1VJr_Y2z79_5t88ZMEqP3WB-ITSZkmFonB3qz4L3GPQ\";s:38:\"_csrf/ecojob_candidatbundle_competence\";s:43:\"6eKBKHdNU4NmETsOKPt1cF3Q-16FbTVrHWH5E9dTMmk\";s:37:\"_csrf/ecojob_candidatbundle_etatcivil\";s:43:\"r887F-xPtyTM5R-lolIE9oBS_MENQKBS4BbOOc0hOLc\";s:38:\"_csrf/ecojob_candidatbundle_experience\";s:43:\"V93bfPKCsIcWbq96l4jJnCzBbdSaYHSpcv9M9s4hReE\";s:37:\"_csrf/ecojob_candidatbundle_formation\";s:43:\"dx_lztuaYr15MYnDOJvWDjqvCqxqxPoCH1M2zJOjpwg\";s:34:\"_csrf/ecojob_candidatbundle_langue\";s:43:\"7hq3sZvBkWEuuLI8TBhtr2BiSSQ88xJzaknci4cDJxg\";s:29:\"_csrf/ecojob_userbundle_image\";s:43:\"D3FT0DljHcaRiJPCCG7dhTWvKjSVfBi0SyJMCdEP1gY\";s:21:\"_csrf/change_password\";s:43:\"NoJy1JahjEWvjglBAkcZWQJdyReSAc7bkJMU2pgJQ_k\";s:13:\"_csrf/profile\";s:43:\"VL2LXgz59LYfFi-73K0Lr46X3R4seYbJjNEhnFThZ5o\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1510516817;s:1:\"c\";i:1510512078;s:1:\"l\";s:1:\"0\";}',1510516817,1440),('l1ogmhaqhsvod4b3pqha2nlhq4','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:66:\"http://work:8082/eco_final/web/app_dev.php/recruteur/offre/show/23\";s:18:\"_csrf/authenticate\";s:43:\"avb1rmGNx0yrgbBBJBcuYY_0OtAn-jnBb1Zx82GfjRE\";s:14:\"_security_main\";s:752:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":664:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:624:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":281:{a:8:{i:0;s:88:\"erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==\";i:1;s:43:\"jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ\";i:2;s:6:\"nomena\";i:3;s:6:\"Nomena\";i:4;b:1;i:5;i:2;i:6;s:23:\"fidiarilantov@yahoo.com\";i:7;s:23:\"fidiarilantov@yahoo.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:14:\"ROLE_RECRUTEUR\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1517511532;s:1:\"c\";i:1517511203;s:1:\"l\";s:1:\"0\";}',1517511534,1440),('pctifgj0lpm661bvlsvihemd50','_sf2_attributes|a:12:{s:26:\"_security.main.target_path\";s:56:\"http://127.0.0.1/ecojob/web/app_dev.php/candidat/cv/fill\";s:18:\"_csrf/authenticate\";s:43:\"LfvofpWhJ06ddghjUxXWHCsDiNhavM_g0K7L-xPqtk0\";s:14:\"_security_main\";s:774:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":686:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:646:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":304:{a:8:{i:0;s:88:\"z6aLQNh+Uu5XGm/cOBGV+yunCr3q3cG99OAzeQ5O3/RVDZ2bUhUMR8lBaR8drLTsRhBPZexjw9p53a2dArLgJQ==\";i:1;s:43:\"6fzaoC4kucnD8WO0L04B9ybf1llZgL1XA21DbNQdz0k\";i:2;s:13:\"test candidat\";i:3;s:13:\"Test candidat\";i:4;b:1;i:5;i:10;i:6;s:26:\"norazafindrakoto@gmail.com\";i:7;s:26:\"norazafindrakoto@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:13:\"ROLE_CANDIDAT\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:5:\"saved\";i:0;s:8:\"postuled\";i:0;s:34:\"_csrf/ecojob_candidatbundle_cvfile\";s:43:\"3wXcJkS5dJv9QUcTJbUGUBJRoBLUQN9hdOlRn1NSe6c\";s:38:\"_csrf/ecojob_candidatbundle_competence\";s:43:\"1Ul9jdwTxIoeZb7R-l4mbRkQv0AonxWWQ7iIH8cXfsk\";s:37:\"_csrf/ecojob_candidatbundle_etatcivil\";s:43:\"oQaODaOl7sO4bjPvOTQtxwRzes6a13xe-OeesjJ5boM\";s:38:\"_csrf/ecojob_candidatbundle_experience\";s:43:\"k3dPsh_xXPwA-YVuq84lgsy7m4LACFw6ma3YNImlvps\";s:37:\"_csrf/ecojob_candidatbundle_formation\";s:43:\"ZI5cNpyhLGozL4CNFIUfYetXu_mizRocKQt-UxLv2AU\";s:34:\"_csrf/ecojob_candidatbundle_langue\";s:43:\"UQFfuYGD6EXsOPj8gw1LshtrMngA1wh5rAAmq0dt0-s\";s:29:\"_csrf/ecojob_userbundle_image\";s:43:\"8DqGrbMHkK5WH3X0iXCWvX3A2c2U9i1KcaFO4c6-iEA\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1510541133;s:1:\"c\";i:1510539785;s:1:\"l\";s:1:\"0\";}',1510541134,1440),('qoervspsaq4iadtip17olqlpd7','_sf2_attributes|a:2:{s:26:\"_security.main.target_path\";s:72:\"http://work:8082/zala/bojoce/web/app_dev.php/admin/users/offre/3/valider\";s:18:\"_csrf/authenticate\";s:43:\"pVB-Spx_yAfsJuLW6qUaZ7OnewUwmbNMl5jN7H7xIvg\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1543702207;s:1:\"c\";i:1543702168;s:1:\"l\";s:1:\"0\";}',1543702208,1440),('u7na9kg1n7q2uhf2acnh7e2c80','_sf2_attributes|a:3:{s:26:\"_security.main.target_path\";s:61:\"http://work:8082/zala/bojoce/web/app_dev.php/admin/users/list\";s:18:\"_csrf/authenticate\";s:43:\"C2RrC_fynCjnHMhlAYxgzfneQshS3912VjcmQcRiMeA\";s:14:\"_security_main\";s:768:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":680:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:640:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":295:{a:8:{i:0;s:88:\"+d+azJGiwgUKjxBCMC9L6u9TZBh5D0NAsAGbvidDgpSpqMq6OOraeGfoWhKAZKJalCcz9hpqXI63VplmjMmQsQ==\";i:1;s:43:\"SF7zZF7xDy08DYppAafw.0ZqWM4Ru3Eu5n4zsAcwds4\";i:2;s:14:\"administrateur\";i:3;s:14:\"Administrateur\";i:4;b:1;i:5;i:3;i:6;s:21:\"infermedica@gmail.com\";i:7;s:21:\"infermedica@gmail.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:16:\"ROLE_SUPER_ADMIN\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1543684377;s:1:\"c\";i:1543684182;s:1:\"l\";s:1:\"0\";}',1543684378,1440);
+INSERT INTO `sessions` VALUES ('500sukohrulkonrph1pgmc96r7','_sf2_attributes|a:4:{s:18:\"_csrf/authenticate\";s:43:\"0p78WzivcMzcIu064AW_1vFU6jsm4fSOSSbSMRv4RUo\";s:14:\"_security_main\";s:752:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":664:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:624:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":281:{a:8:{i:0;s:88:\"erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==\";i:1;s:43:\"jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ\";i:2;s:6:\"nomena\";i:3;s:6:\"Nomena\";i:4;b:1;i:5;i:2;i:6;s:23:\"fidiarilantov@yahoo.com\";i:7;s:23:\"fidiarilantov@yahoo.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:14:\"ROLE_RECRUTEUR\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:6:\"offres\";i:0;s:12:\"candidatures\";s:1:\"0\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1511156241;s:1:\"c\";i:1511156148;s:1:\"l\";s:1:\"0\";}',1511156241,1440),('p06jlmqadjsbhnmidkjnrd55f7','_sf2_attributes|a:5:{s:18:\"_csrf/authenticate\";s:43:\"231kBsJN2ZZ_zUVENm1Ofd0ZRfHbb0O9sZ78yQxhcHg\";s:14:\"_security_main\";s:752:\"C:74:\"Symfony\\Component\\Security\\Core\\Authentication\\Token\\UsernamePasswordToken\":664:{a:3:{i:0;N;i:1;s:4:\"main\";i:2;s:624:\"a:4:{i:0;C:29:\"EcoJob\\UserBundle\\Entity\\User\":281:{a:8:{i:0;s:88:\"erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==\";i:1;s:43:\"jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ\";i:2;s:6:\"nomena\";i:3;s:6:\"Nomena\";i:4;b:1;i:5;i:2;i:6;s:23:\"fidiarilantov@yahoo.com\";i:7;s:23:\"fidiarilantov@yahoo.com\";}}i:1;b:1;i:2;a:2:{i:0;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:14:\"ROLE_RECRUTEUR\";}i:1;O:41:\"Symfony\\Component\\Security\\Core\\Role\\Role\":1:{s:47:\"\0Symfony\\Component\\Security\\Core\\Role\\Role\0role\";s:9:\"ROLE_USER\";}}i:3;a:0:{}}\";}}\";s:6:\"offres\";i:0;s:12:\"candidatures\";s:1:\"0\";s:34:\"_csrf/ecojob_recruteurbundle_offre\";s:43:\"9hgon9yQLKkCyErHJUn0DboF1n8UDUWHqQB5axKVyUE\";}_sf2_flashes|a:0:{}_sf2_meta|a:3:{s:1:\"u\";i:1511198550;s:1:\"c\";i:1511198537;s:1:\"l\";s:1:\"0\";}',1511198550,1440);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -858,6 +869,7 @@ CREATE TABLE `utilisateur` (
   `roles` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
   `created_at` datetime DEFAULT NULL,
   `cv_file_id` int(11) DEFAULT NULL,
+  `can_consult_cv` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1D1C63B392FC23A8` (`username_canonical`),
   UNIQUE KEY `UNIQ_1D1C63B3A0D96FBF` (`email_canonical`),
@@ -877,7 +889,7 @@ CREATE TABLE `utilisateur` (
 
 LOCK TABLES `utilisateur` WRITE;
 /*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
-INSERT INTO `utilisateur` VALUES (2,2,NULL,'Nomena','nomena','fidiarilantov@yahoo.com','fidiarilantov@yahoo.com',1,'jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ','erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==','2017-11-02 11:23:12',NULL,NULL,'a:1:{i:0;s:14:\"ROLE_RECRUTEUR\";}','2017-10-28 11:09:17',NULL),(3,1,NULL,'Administrateur','administrateur','infermedica@gmail.com','infermedica@gmail.com',1,'SF7zZF7xDy08DYppAafw.0ZqWM4Ru3Eu5n4zsAcwds4','+d+azJGiwgUKjxBCMC9L6u9TZBh5D0NAsAGbvidDgpSpqMq6OOraeGfoWhKAZKJalCcz9hpqXI63VplmjMmQsQ==','2017-11-09 16:26:31',NULL,NULL,'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}','2017-09-15 04:06:42',NULL),(4,1,NULL,'mohammed','mohammed','adnanmohammed769@yahoo.com','adnanmohammed769@yahoo.com',1,'Uxg4x8Cpe57YgEn55cSjbRWS9xqP0q.6i.WNhYMeQkk','NGAumjnpdG8vwVd8VQB1Kj6ys2CDCwx0IsCA+Nu5kr2NQcfeZfR3mCSk7BSBYuXAF8k50bfJvuV1cR4riP8A6g==','2017-10-12 05:55:21',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-10-12 04:46:49',NULL),(7,1,NULL,'med','med','medeis@hotmail.fr','medeis@hotmail.fr',1,'RpXHOe7OkyWIBdJWZWOiDBFIxIFK1NJ66sbSwErNbyw','G+JG2JcBWYw+fIIZRTf+puEh0sis1g0Wr28MsVj3vdpZ9cFWj4DFSKmvGFpZyWLE8qAHELcU6M3KFUw+o9RSCA==','2017-11-06 23:38:39',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-11-06 19:34:26',NULL),(10,1,3,'Test candidat','test candidat','norazafindrakoto@gmail.com','norazafindrakoto@gmail.com',1,'R.vmbpFNO0t/58Lu2rizi1yhTQCE0X9BvLHY5TqBFmg','3SkQgCjQBu3ilXkHEv9w0VfwiInJ9vdeX+1ZJEDOGgtyJg2oA5caZ0H5uq0JEFEkXKsPz5U6Fcg8dn3tzbdoCA==','2017-11-14 15:54:18',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-11-09 16:12:52',NULL),(11,2,NULL,'Test recruteur','test recruteur','ecojobfr@gmail.com','ecojobfr@gmail.com',1,'.bI6x/uEL.bRMON6kyY6StjORUUCogca8zwyK8tpiXg','sy5nQREO/Yo2WPfag4UlMyZUXJZOgjkrnf0mZ4MI4dZ5qKni58QlHNbfbfbtdHKwdhKVWhkeuXs2Jb0TlQVwpg==','2017-11-13 04:27:09',NULL,NULL,'a:1:{i:0;s:14:\"ROLE_RECRUTEUR\";}','2017-11-09 16:18:52',NULL);
+INSERT INTO `utilisateur` VALUES (2,2,NULL,'Nomena','nomena','fidiarilantov@yahoo.com','fidiarilantov@yahoo.com',1,'jVd/xA3TXh6kEl9HrmnjODaFpT8I.BtcHaIuo5D0DuQ','erHbfeiVuCy69h6bl5RYBbK0Nx4KQYlbiyvrAHDOUg0XKD0XiPfftpYuMQGdZ/Ie2jbl1WbwaJE5iNQoqNg0rg==','2017-11-20 18:22:17',NULL,NULL,'a:1:{i:0;s:14:\"ROLE_RECRUTEUR\";}','2017-10-28 11:09:17',NULL,0),(3,1,NULL,'Administrateur','administrateur','infermedica@gmail.com','infermedica@gmail.com',1,'SF7zZF7xDy08DYppAafw.0ZqWM4Ru3Eu5n4zsAcwds4','+d+azJGiwgUKjxBCMC9L6u9TZBh5D0NAsAGbvidDgpSpqMq6OOraeGfoWhKAZKJalCcz9hpqXI63VplmjMmQsQ==','2017-11-20 06:33:34',NULL,NULL,'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}','2017-09-15 04:06:42',NULL,1),(4,1,NULL,'mohammed','mohammed','adnanmohammed769@yahoo.com','adnanmohammed769@yahoo.com',1,'Uxg4x8Cpe57YgEn55cSjbRWS9xqP0q.6i.WNhYMeQkk','NGAumjnpdG8vwVd8VQB1Kj6ys2CDCwx0IsCA+Nu5kr2NQcfeZfR3mCSk7BSBYuXAF8k50bfJvuV1cR4riP8A6g==','2017-10-12 05:55:21',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-10-12 04:46:49',NULL,0),(7,1,NULL,'med','med','medeis@hotmail.fr','medeis@hotmail.fr',1,'RpXHOe7OkyWIBdJWZWOiDBFIxIFK1NJ66sbSwErNbyw','G+JG2JcBWYw+fIIZRTf+puEh0sis1g0Wr28MsVj3vdpZ9cFWj4DFSKmvGFpZyWLE8qAHELcU6M3KFUw+o9RSCA==','2017-11-06 23:38:39',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-11-06 19:34:26',NULL,0),(10,1,8,'Test candidat','test candidat','norazafindrakoto@gmail.com','norazafindrakoto@gmail.com',1,'R.vmbpFNO0t/58Lu2rizi1yhTQCE0X9BvLHY5TqBFmg','3SkQgCjQBu3ilXkHEv9w0VfwiInJ9vdeX+1ZJEDOGgtyJg2oA5caZ0H5uq0JEFEkXKsPz5U6Fcg8dn3tzbdoCA==','2017-11-20 15:55:37',NULL,NULL,'a:1:{i:0;s:13:\"ROLE_CANDIDAT\";}','2017-11-09 16:12:52',NULL,0),(11,2,NULL,'Test recruteur','test recruteur','ecojobfr@gmail.com','ecojobfr@gmail.com',1,'.bI6x/uEL.bRMON6kyY6StjORUUCogca8zwyK8tpiXg','sy5nQREO/Yo2WPfag4UlMyZUXJZOgjkrnf0mZ4MI4dZ5qKni58QlHNbfbfbtdHKwdhKVWhkeuXs2Jb0TlQVwpg==','2017-11-13 04:27:09',NULL,NULL,'a:1:{i:0;s:14:\"ROLE_RECRUTEUR\";}','2017-11-09 16:18:52',NULL,0);
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -890,4 +902,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-19 21:38:22
+-- Dump completed on 2017-11-20 20:23:27

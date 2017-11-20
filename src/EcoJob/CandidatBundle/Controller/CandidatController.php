@@ -155,6 +155,10 @@ class CandidatController extends Controller {
         $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
+        $em = $this->getDoctrine()->getManager();
+        $cv->setCreatedAt(new \DateTime());
+        $em->persist($cv);
+        $em->flush();
         $cvfile = $cv->getCvFile();
         if ($cvfile == NULL) {
             $cvfile = new CVFile();

@@ -14,7 +14,7 @@
                 <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
                 <div class="txt1"> Recruteur: {{offre.recruteur.username}}</div>
                 <div class="txt2"><a href="#">{{offre.titre}}</a></div>
-                <div class="txt3">{{offre.contenu}}</div>
+                <div class="txt3">{{offre.description}}</div>
                 <a href="{{ path('eco_job_admin_recruteur_offre',{'id': offre.id})}}" class="btn-default btn3">Afficher</a>
                 <a href="{{ path('eco_job_admin_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
                 <a href="{{ path('eco_job_admin_republier',{'id': offre.id})}}" class="btn-default btn3 btn-republish" onclick="return false">Républier</a>

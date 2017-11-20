@@ -10,7 +10,7 @@ namespace EcoJob\RecruteurBundle\Repository;
  */
 class OffreRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function search($keyswords, $contrat, $exp, $offset, $limit) {
+    public function search($keyswords, $contrat, $datepubl, $offset, $limit) {
 
         $qb = $this->createQueryBuilder('o');
         $qb->where('o.valid = true')
@@ -23,14 +23,16 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
         if (!empty($keyswords)) {
             $tab = explode(" ", $keyswords);
             if (count($tab) > 1) {
-                $qb->andWhere("LOWER(o.contenu) LIKE :query OR LOWER(o.titre) LIKE :query OR REGEXP(LOWER(o.localisation), :regexp) = true")
+                $qb->andWhere("LOWER(o.reference) LIKE :query OR LOWER(o.titre) LIKE :query OR LOWER(o.description) LIKE :query"
+                        . "OR LOWER(o.societe) LIKE :query OR REGEXP(LOWER(o.localisation), :regexp) = true")
                         ->setParameter("query", "%$tab[0]%")
                         ->setParameter("regexp", "$tab[0]");
 
                 for ($i = 1; $i < count($tab); $i++) {
                     if (!empty($tab[$i])) {
                         $tab[$i] = strtolower($tab[$i]);
-                        $qb->andWhere("LOWER(o.contenu) LIKE :regexp$i OR LOWER(o.titre) LIKE :regexp$i OR REGEXP(LOWER(o.localisation), :regexp$i) = true")
+                        $qbandWhere("LOWER(o.reference) LIKE :regexp$i OR LOWER(o.titre) LIKE :regexp$i OR LOWER(o.description) LIKE :regexp$i"
+                        . "OR LOWER(o.societe) LIKE :regexp$i OR REGEXP(LOWER(o.localisation), :regexp$i) = true")
                                 ->setParameter("regexp$i", "%$tab[$i]%");
                     }
                 }
@@ -40,9 +42,11 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
                         ->setParameter("query", "$keyswords");
             }
         }
-        if ($exp != 0) {
-            $qb->andWhere('o.experience = :exp')
-                    ->setParameter('exp', $exp);
+
+        if ($datepubl != -1) {
+            $qb->andWhere("DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') <= o.validAt")
+               ->andWhere("o.validAt <= DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
+                    ->setParameter('value', $datepubl);            
         }
         if ($contrat != 0) {
             $qb->andWhere('o.contrat = :contrat')

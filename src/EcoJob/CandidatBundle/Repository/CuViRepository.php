@@ -10,23 +10,22 @@ namespace EcoJob\CandidatBundle\Repository;
  */
 class CuViRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function search($keywords, $experience, $localisation, $secteur, $offset, $limit) {
+    public function search($keywords, $experience, $nivFormation, $secteur,$offset, $limit) {
 
         $qb = $this->createQueryBuilder('c')
                 ->where('c.showable =  true')
-                ->orderBy('c.updatedAt', 'DESC')
                 ->setFirstResult($offset)
                 ->setMaxResults($limit);
+        if($nivFormation != NULL){
+                $qb->join('c.formations','f', 'WITH', 'f.niveau = :niveau')
+                ->andWhere('f.niveau = :niveau')        
+                ->setParameter('niveau', $nivFormation);
+        }
         if($secteur != NULL){
-                $qb->leftJoin('c.secteur','s')
-                ->where('s.id = :sect')
-                ->setParameter('sect', $secteur);            
+                $qb->join('c.experiences','e', 'WITH', 'e.secteurActivite = :secteur')
+                ->andWhere('e.secteurActivite = :secteur')        
+                ->setParameter('secteur', $secteur);
         }
-        if (!empty($localisation)) {
-            $qb->andWhere('c.localisation LIKE :loc')
-                    ->setParameter('loc', "%localisation%");
-        }
-
         if (!empty($keyswords)) {
             $tab = explode(" ", $keyswords);
             if (count($tab) > 1) {
@@ -43,9 +42,10 @@ class CuViRepository extends \Doctrine\ORM\EntityRepository {
                         ->setParameter("query", "$keyswords");
             }
         }
-        if ($experience != 0) {
-            $qb->andWhere('c.experience = :exp')
-                    ->setParameter('exp', $experience);
+        if ($experience != NULL) {
+            $qb->leftJoin('c.etatCivil','ex')
+                ->where('ex.anneeExp = :exp')
+                ->setParameter('exp', $experience);                    
         }
         return $qb->getQuery()->getResult();
     }

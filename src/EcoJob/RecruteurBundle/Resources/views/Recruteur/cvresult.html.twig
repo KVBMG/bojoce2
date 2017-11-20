@@ -3,8 +3,8 @@
     {% if cv is not empty %}
         {% for c in cv %}
             <div class="news1 cv" cvId="{{c.id}}">
-                <div class="txt1">Ajouté le {{c.updatedAt | date('d-m-y')}}</div>
-                <div class="txt2"><a target="_blank" href="{{path('eco_job_recruteur_banquecv_show',{'id': c.id})}}">{{c.nom}} {{c.prenom}}</a></div>
+                <div class="txt1">Ajouté le {{c.createdAt | date('d-m-y')}}</div>
+                <div class="txt2"><a target="_blank" href="{{path('eco_job_recruteur_banquecv_show',{'id': c.id})}}">{{c.etatcivil.nom}} {{c.etatcivil.prenom}}</a></div>
                 <a href="#" cvId="{{ c.id }}" class="btn-default btn1 cv">Afficher</a>                
             </div>
         {% endfor %}                                               

@@ -129,6 +129,13 @@ class EtatCivil
     protected $ville;     
 
     /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\RecruteurBundle\Entity\Experience",inversedBy="ets")
+    * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
+    * @Exclude    
+    */    
+    private $anneeExp;
+    
+    /**
      * Get id
      *
      * @return integer
@@ -401,6 +408,27 @@ class EtatCivil
     {
         return $this->ville;
     }
+    /**
+     * Set anneExp
+     *
+     * @param \EcoJob\RecruteurBundle\Entity\Experience $anneExp
+     *
+     * @return CuVi
+     */
+    public function setAnneeExp(\EcoJob\RecruteurBundle\Entity\Experience $anneExp)
+    {
+        $this->anneeExp = $anneExp;
     
-}
+        return $this;
+    }
 
+    /**
+     * Get anneExp
+     *
+     * @return \EcoJob\RecruteurBundle\Entity\Experience
+     */
+    public function getAnneeExp()
+    {
+        return $this->anneeExp;
+    }    
+}

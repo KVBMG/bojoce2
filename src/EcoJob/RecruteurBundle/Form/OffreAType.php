@@ -10,13 +10,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
-class OffreType extends AbstractType {
+class OffreAType extends AbstractType {
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('titre','text',array('label' => "Titre de l'annonce"))
+                ->add('reference','text',array('label' => "Référence de l'annonce"))
                 ->add('contrat', 'entity', array(
                     'class' => 'EcoJobRecruteurBundle:ContratType',
                     'label' => 'Contrat de travail',
@@ -40,7 +41,7 @@ class OffreType extends AbstractType {
                 ->add('description', TextareaType::class, array('label' => 'Description du poste'))
                 ->add('prerequis', TextareaType::class, array('label' => 'Pré-requis'))
                 ->add('societe','text',array('label' => "Société qui recrute"))                                
-                ->add('descSociete',TextareaType::class,array('label' => "Description de l'activité du société"))                
+                ->add('descSociete','text',array('label' => "Description de l'activité du société"))                
                 ->add('expireAt', ChoiceType::class, array(  
                         'choices'  => array(
                             2 => '2 jours',

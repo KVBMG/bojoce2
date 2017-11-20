@@ -175,21 +175,28 @@ class RecruteurController extends Controller {
     public function banquecvAction(Request $request){
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
-        $cvs = $em->getRepository('EcoJobCandidatBundle:CuVi')->findBy(array('showable'=> true), array('updatedAt' => 'DESC'),10);        
+        $cvs = $em->getRepository('EcoJobCandidatBundle:CuVi')->findBy(array('showable'=> true), array(),10);        
+        $experiences = $em->getRepository('EcoJobRecruteurBundle:Experience')->findAll();
+        $nivformation = $em->getRepository('EcoJobCandidatBundle:NiveauFormation')->findAll();
+        $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
-        return $this->render('EcoJobRecruteurBundle:Recruteur:banquecv.html.twig',array('secteurs'=>$secteurs,'cv'=>$cvs));
+        
+        return $this->render('EcoJobRecruteurBundle:Recruteur:banquecv.html.twig',array('experiences'=>$experiences
+                ,'cv'=>$cvs,'niveauFormation' => $nivformation,'contrats' => $contrats,'secteurs' => $secteurs));
     }
     public function searchAjaxAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $keywords = $request->request->get('keywords');
         $experience = $request->request->get('experience');
+        $experience = $em->getRepository('EcoJobRecruteurBundle:Experience')->find($experience);
         $offset = $request->request->get('offset');
-        $localisation = $request->request->get('localication');
-        $secteur = $request->request->get('secteur');    
-        $secteur = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->find($secteur);
+        $nivFormation = $request->request->get('nivFormation'); 
+        $nivFormation = $em->getRepository('EcoJobCandidatBundle:NiveauFormation')->find($nivFormation);
+        $secteur = $request->request->get('secteur'); 
+        $secteur = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->find($secteur);        
         $limit = $request->request->get('limit');        
         $serializer = $this->container->get('jms_serializer');        
-        $results = $em->getRepository('EcoJobCandidatBundle:CuVi')->search($keywords, $experience,$localisation,$secteur,$offset, $limit);
+        $results = $em->getRepository('EcoJobCandidatBundle:CuVi')->search($keywords, $experience,$nivFormation,$secteur,$offset, $limit);
         $res = $serializer->serialize($results, 'json');
         $html = $this->renderView('EcoJobRecruteurBundle:Recruteur:cvresult.html.twig', array(
             'cv' => $results));        

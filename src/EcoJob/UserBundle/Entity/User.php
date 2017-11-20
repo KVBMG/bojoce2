@@ -60,6 +60,13 @@ class User extends BaseUser implements ParticipantInterface {
     private $offres;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="can_consult_cv", type="boolean",options={"default": false},nullable=false)
+     */
+    private $canConsultCV; 
+    
+    /**
      *
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Candidature", mappedBy="candidat",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")           
@@ -321,5 +328,29 @@ class User extends BaseUser implements ParticipantInterface {
     public function getCdturesRec()
     {
         return $this->cdtures_rec;
+    }
+
+    /**
+     * Set canConsultCV
+     *
+     * @param boolean $canConsultCV
+     *
+     * @return User
+     */
+    public function setCanConsultCV($canConsultCV)
+    {
+        $this->canConsultCV = $canConsultCV;
+    
+        return $this;
+    }
+
+    /**
+     * Get canConsultCV
+     *
+     * @return boolean
+     */
+    public function getCanConsultCV()
+    {
+        return $this->canConsultCV;
     }
 }

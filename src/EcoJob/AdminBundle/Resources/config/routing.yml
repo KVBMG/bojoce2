@@ -114,3 +114,25 @@ eco_job_admin_offres_suspendu:
     path:     /offres/list/suspendu
     defaults: { _controller: "EcoJobAdminBundle:Admin:getOffreSuspendu" }
     methods:  GET 
+eco_job_admin_recruteur_dashoard:
+    path:     /recruteurs
+    defaults: { _controller: "EcoJobAdminBundle:Admin:recruteurs" }
+    methods:  GET   
+    options:
+        expose: true
+eco_job_admin_recruteur_valid_bcv:
+    path:     /recruteurs/{id}/bcv/valid
+    defaults: { _controller: "EcoJobAdminBundle:Admin:validBCV" }
+    methods:  GET   
+    options:
+        expose: true        
+eco_job_admin_recruteur_revoke_bcv:
+    path:     /recruteurs/{id}/bcv/revoke
+    defaults: { _controller: "EcoJobAdminBundle:Admin:revokeBCV" }
+    methods:  GET   
+    options:
+        expose: true        
+eco_job_admin_recruteur_offre_reference:
+    path:     /users/offre/{id}/reference
+    defaults: { _controller: "EcoJobAdminBundle:Admin:addReference" }
+    methods:  [GET,POST]           

@@ -29,12 +29,12 @@ class DefaultController extends Controller
     {
         $keywords = $request->request->get('keywords');
         $contrat = $request->request->get('contrat');
-        $experience = $request->request->get('experience');
+        $datePublication = $request->request->get('datePublication');
         $offset = $request->request->get('offset');
         $limit = $request->request->get('limit');
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $experience, $offset, $limit);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication, $offset, $limit);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -109,8 +109,9 @@ class DefaultController extends Controller
                 }
             }
         }
+        $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:search.html.twig', array(
-            'offres' => $results, 'added' => $results));
+            'offres' => $results, 'added' => $results,'contrats' => $contrats));
     }
 
     public function showOffreAction(Offre $offre)

@@ -35,8 +35,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="reference", type="string", length=255)
-     * @Assert\NotBlank()          
+     * @ORM\Column(name="reference", type="string", length=255,nullable=true)         
      */
     private $reference;
 
@@ -134,7 +133,6 @@ class Offre
      * @var int
      *
      * @ORM\Column(name="latitude", type="float")
-     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
      */    
     private $latitude;
     /**

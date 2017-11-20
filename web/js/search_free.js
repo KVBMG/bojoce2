@@ -39,7 +39,7 @@ $(function () {
         }
 
     }
-    $("#exp").on('change', function () {
+    $("#datePublication").on('change', function () {
         xhr = performSearch();
     })
     $("#contrat").on('change', function () {

@@ -12,12 +12,98 @@
     <div class="team1 clearfix">
         {% if cv is not null %}
             <figure><img src="{{ vich_uploader_asset(cv, 'imageFile') }}" alt="{{ cv.nom }}" class="img-responsive" /></figure>
-            <div class="caption">
-                <div class="txt1">{{cv.nom}} {{cv.prenom}}</div>
-                <div class="txt2">{{cv.telephone}}</div>
-                <div class="txt3">{{cv.about}}</div>
-                <a href="{{ path('eco_job_candidat_cv_delete')}}" class="btn-default btn3">Supprimer</a>
-            </div>
+
+            <div id="page-wrap">
+
+                {% if cv.image is not null %}           
+                    <img class='img-responsive' height='400px' id="pic" width='400px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
+                {% else %}
+                    Aucune photo
+                {% endif %}
+
+                <div id="contact-info" class="vcard">
+                    {% if cv.etatCivil is not null %}
+                        <!-- Microformats! -->
+
+                        <h1 class="fn">{{cv.etatCivil.nom}} {{cv.etatCivil.prenom}}</h1>
+
+                        <p>
+                            Téléphone mobile: <span class="tel">{{cv.etatCivil.telephone}}</span><br>
+                            Téléphone fix: <span class="tel">{{cv.etatCivil.telephoneFixe}}</span><br>
+
+                            Email: <a class="email" href="{{cv.etatCivil.email}}">{{cv.etatCivil.email}}</a>
+                        </p>
+                    </div>
+
+                {% endif %}
+                <div class="clear"></div>
+
+                <dl>
+                    <dd class="clear"></dd>
+                    {% if cv.formations is not null %}
+                        <dt>Formations</dt>
+                        {% for form in cv.formations %}
+                            <dd>
+                                <h2>{{form.anneeObtention}}: {{form.intituleDiplome}}</h2>
+                                <p><strong>Spécialisation:</strong> {{form.specialisation}}<br>
+                                    <strong>Lieu:</strong> {{form.lieu}}
+                                    <strong>Etablissement:</strong> {{form.etablissement}}                
+                                    <strong>Niveau:</strong> {{form.niveau}}
+                                    {% if form.formationEtranger %}
+                                        <strong>Formation effectuée à l'étranger</strong> 
+                                    {% endif %}
+                                </p>
+                            </dd>
+                        {% endfor %}
+                    {% endif %}
+                    <dd class="clear"></dd>
+                    {% if cv.competence is not null %}
+                        <dt></dt>
+                        <dd>
+                            <h2>Compétences en informatique</h2>
+                            <p>{{cv.competence.informatique}}</p>
+                            <h2>Autres compétences</h2>
+                            <p>{{cv.competence.autre}}</p>
+                        </dd>
+                    {% endif %}
+                    <dd class="clear"></dd>
+                    {% if cv.experiences is not null %}
+                        <dt>Experience</dt>
+                        <dd>
+                            {% for exp in cv.experiences %}
+
+                                <h2>{{exp.poste}} <span> {{exp.societe}}- {{exp.localisation}}, {{dateDebut|date('d-m-y')}}-{{dateFin|date('d-m-y')}}</span></h2>
+                                <ul>
+                                    <li><strong>Zone de prospéction:</strong>{{exp.zoneProspection}}</li>
+                                    <li><strong>Rémunération: </strong>{{exp.remuneration}}</li>
+                                    <li><strong>Type de la clientèle:</strong>{{exp.typeClientele}}</li>
+                                    <li><strong>Secteur d'activité:</strong> {{exp.secteurActivite}}</li>
+                                    <li><strong>Fonction: </strong>{{exp.fonction}}</li>
+                                    <li><strong>Détails de la mission: </strong> {{exp.detailsMission}}</li>
+
+                                </ul>
+                            {% endfor %}
+                        </dd>
+
+                    {% endif %}
+                    <dd class="clear"></dd>
+                    {% if cv.langues is not null %}
+                        <dt>Langues</dt>
+                        <dd>
+                            {% for l in cv.langues %}
+
+                                <h2>{{l.langue }}<span>{{l.niveau}}</span></h2>
+
+                            {% endfor %}
+                        </dd>
+                    {% endif %}
+                </dl>
+
+                <div class="clear"></div>
+
+            </div> 
+            <a href="{{ path('eco_job_candidat_cv_delete')}}" class="btn-default btn3">Supprimer</a>
+
         {% else %}
             Ce candidat n'a pas encore rempli son CV.
         {% endif %}

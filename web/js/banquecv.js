@@ -22,15 +22,7 @@ $(function () {
                 // $.ajax options can be used here too, for example: 
                 //timeout:   3000 
     };
-    function initialize_gmap() {
-        autocomplete = new google.maps.places.Autocomplete(
-                /** @type {HTMLInputElement} */(document.getElementById('localisation')),
-                {types: ['geocode']});
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            alert("sdfsdf");
-        });
-    }
-    initialize_gmap();
+
     $('#searchForm').submit(function () {
         $('#searchForm').ajaxSubmit(options);
         return false;
@@ -51,10 +43,12 @@ $(function () {
     $("#exp").on('change', function () {
         xhr = performSearch();
     });
+    $("#nivFormation").on('change', function () {
+        xhr = performSearch();
+    });    
     $("#secteur").on('change', function () {
         xhr = performSearch();
-    })    
-
+    });    
     $("#reset").click(function (e) {
         e.preventDefault();
         resetForm();

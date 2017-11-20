@@ -11,7 +11,7 @@ use EcoJob\RecruteurBundle\Entity\Offre;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use EcoJob\RecruteurBundle\Form\OffreAType;
 class AdminController extends Controller {
 
     public function indexAction() {
@@ -284,5 +284,55 @@ class AdminController extends Controller {
         
         return true;
     }
-
+    public function recruteursAction(Request $request) {
+        $this->getNumbers();
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $users = $em->getRepository('EcoJobUserBundle:User')->findByType(2);
+            $serializer = $this->container->get('jms_serializer');
+            $res = $serializer->serialize($users, 'json');
+            return new Response($res);
+        }
+        return $this->render('EcoJobAdminBundle:Admin:recruteur_dash.html.twig');
+    }
+    public function validBCVAction(Request $request, User $user){
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user->setCanConsultCV(true);
+            $em->persist($user);
+            $em->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(array(
+                'successMessage' => "Modified"));
+            return $response;
+        }        
+    }
+    public function revokeBCVAction(Request $request, User $user){
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user->setCanConsultCV(false);
+            $em->persist($user);
+            $em->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(array(
+                'successMessage' => "Modified_revoke"));
+            return $response;
+        }        
+    }    
+    public function addReferenceAction(Request $request, Offre $offre){
+        $this->getNumbers();
+        $form = $this->createForm(new OffreAType(), $offre);
+        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($offre);
+                $em->flush();
+                return $this->redirect($this->generateUrl('eco_job_admin_offres'));
+            }
+        }
+        return $this->render('EcoJobAdminBundle:Admin:edit_offre.html.twig', array('form' => $form->createView()));        
+    }
 }

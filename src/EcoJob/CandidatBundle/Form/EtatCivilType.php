@@ -31,7 +31,11 @@ class EtatCivilType extends AbstractType
                 ->add('adresse','text',array('label'=>'Adresse'))
                 ->add('adresse2','text',array('label'=>'Adresse 2'))
                 ->add('cp','text',array('label'=>'Code postal'))
-                ->add('ville','text',array('label'=>'Ville'));
+                ->add('ville','text',array('label'=>'Ville'))
+                ->add('anneeExp','entity', array(
+                    'class' => 'EcoJobRecruteurBundle:Experience',
+                        'label' => "Année d'experience"))                
+                ;
     }
     
     /**

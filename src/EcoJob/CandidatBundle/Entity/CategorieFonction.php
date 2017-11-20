@@ -34,7 +34,7 @@ class CategorieFonction
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
-    private $fontions;    
+    private $fonctions;    
 
     /**
      * Get id

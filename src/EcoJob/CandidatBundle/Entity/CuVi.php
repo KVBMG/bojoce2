@@ -42,7 +42,9 @@ class CuVi
      * @Exclude     
      */
     private $image;    
+  
     
+        
     /**
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Formation",mappedBy="cuvi",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
@@ -77,9 +79,15 @@ class CuVi
      * @ORM\Column(name="showable", type="boolean",options={"default": true},nullable=true)
      */
     private $showable;     
-    
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $createdAt;     
     public function __construct() {
         $this->showable = false;
+        $this->createdAt = new \DateTime();
     }
     
 
@@ -327,5 +335,79 @@ class CuVi
     public function getCompetences()
     {
         return $this->competences;
+    }
+
+    /**
+     * Set contrat
+     *
+     * @param \EcoJob\RecruteurBundle\Entity\ContratType $contrat
+     *
+     * @return CuVi
+     */
+    public function setContrat(\EcoJob\RecruteurBundle\Entity\ContratType $contrat)
+    {
+        $this->contrat = $contrat;
+    
+        return $this;
+    }
+
+    /**
+     * Get contrat
+     *
+     * @return \EcoJob\RecruteurBundle\Entity\ContratType
+     */
+    public function getContrat()
+    {
+        return $this->contrat;
+    }
+
+    /**
+     * Set recruteur
+     *
+     * @param \EcoJob\UserBundle\Entity\User $recruteur
+     *
+     * @return CuVi
+     */
+    public function setRecruteur(\EcoJob\UserBundle\Entity\User $recruteur)
+    {
+        $this->recruteur = $recruteur;
+    
+        return $this;
+    }
+
+    /**
+     * Get recruteur
+     *
+     * @return \EcoJob\UserBundle\Entity\User
+     */
+    public function getRecruteur()
+    {
+        return $this->recruteur;
+    }
+
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return CuVi
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

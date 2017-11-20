@@ -6,7 +6,8 @@
 
 {% block content_stitle %} Triage de CV {% endblock %}
 
-{% block content %} 
+{% block content %}
+    {% if app.user.canConsultCV %}
     <div class="latest_news">
         <div class="title7">Recherche</div>
         <div class="row">
@@ -21,28 +22,25 @@
                         <label class="control-label required" for="exp">Expérience:</label>
                         <select name="experience" id="exp" class="form-control">
                             <option value="0">Tous</option>
-                            <option value="1">1 an</option>
-                            <option value="2">2 ans</option>
-                            <option value="3">3 ans</option>
-                            <option value="4">4 ans</option>
-                            <option value="5">5 ans</option>
-                            <option value="6">6 ans</option>
-                            <option value="7">7 ans</option>
-                            <option value="8">8 ans</option>
-                            <option value="9">9 ans</option>
-                            <option value="10">10 ans</option>
+                            {% for exp in experiences %}
+                                <option value="{{exp.id}}">{{exp.libelle}}</option>
+                            {% endfor %}
                         </select>    
                     </div>
-                    <div class="form-group">                    
-                        <label for="localisation" class="control-label required">Lieu:</label>                                        
-                        <input type="text" id="localisation" class="form-control" name="localisation" placeholder="Ville ou région de France">
-                        <p class="help-block">Ex:"Lyon,Paris,..."</p>
-                    </div>
-                    <label for="radiobtn" class="control-label required">Secteur d'activité</label>
-                    <select name="secteur" id="secteur" class="form-control">
+                    <div class="form-group">                                        
+                        <label class="control-label required" for="exp">Secteur d'activité:</label>
+                        <select name="secteur" id="secteur" class="form-control">
+                            <option value="0">Tous</option>
+                            {% for s in secteurs %}
+                                <option value="{{s.id}}">{{s.designation}}</option>
+                            {% endfor %}
+                        </select>    
+                    </div>                        
+                    <label for="radiobtn" class="control-label required">Niveau de Formation</label>
+                    <select name="nivFormation" id="nivFormation" class="form-control">
                         <option value="0">Tous</option>
-                        {% for s in secteurs %}
-                            <option value="{{s.id}}">{{s.designation}}</option>                                                 
+                        {% for n in niveauFormation %}
+                            <option value="{{n.id}}">{{n.libelle}}</option>                                                 
                         {% endfor %}                       
                     </select>           
                     <label for="limit" class="control-label required">Nombre de CV à afficher :</label>
@@ -60,9 +58,9 @@
                 {% if cv is not empty %}
                     {% for c in cv %}
                         <div class="news1 cv" cvId="{{c.id}}">
-                            <div class="txt1">Ajouté le {{c.updatedAt | date('d-m-y')}}</div>
-                            <div class="txt2"><a href="#">{{c.nom}} {{c.prenom}}</a></div>
-                            <div class="txt3">{{c.about}}</div>
+                            <div class="txt1">Ajouté le {{c.createdAt | date('d-m-y')}}</div>
+                            <div class="txt2"><a href="#">{{c.etatcivil.nom}} {{c.etatcivil.prenom}}</a></div>
+                            <div class="txt3">{{c.etatcivil.anneeExp}}</div>
                             <a href="#" cvId="{{ c.id }}" class="btn-default btn1 cv">Afficher</a>                
                         </div>
                     {% endfor %}                                               
@@ -86,6 +84,12 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="latest_news">
+        
+        Pour le moment, vous ne pouvez pas accéder au banque de CV d'eco-job. Veuillez contacter l'administrateur du site.
+    </div>
+    {% endif %}
 {% endblock %}  
 
 {% block javascripts %}
@@ -93,5 +97,4 @@
     <script type="text/javascript" src="{{asset('js/jquery.blockUI.js')}}"></script>    
     <script type="text/javascript" src="{{asset('js/jquery.debounce.js')}}"></script>          
     <script type="text/javascript" src="{{asset('js/banquecv.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7p9ZkcuK0_vpO57wMtBLakylq6vn0RM&libraries=places"></script>
 {% endblock %}

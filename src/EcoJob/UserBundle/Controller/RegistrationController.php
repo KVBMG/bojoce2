@@ -51,9 +51,10 @@ class RegistrationController extends FOSRegistrationController {
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
                 if ($user->getType()->getId() == 1)
                     $user->addRole('ROLE_CANDIDAT');
-                else
+                else{
                     $user->addRole('ROLE_RECRUTEUR');
-
+                    $user->setCanConsultCV(false);
+                }
                 $userManager->updateUser($user);
 
                 if (null === $response = $event->getResponse()) {

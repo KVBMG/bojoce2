@@ -3,6 +3,8 @@
 namespace EcoJob\RecruteurBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+
 
 /**
  * Experience
@@ -32,7 +34,13 @@ class Experience
      * @ORM\OneToMany(targetEntity="EcoJob\RecruteurBundle\Entity\Offre",
      *     mappedBy="experience",cascade={"remove"})
      */
-    private $offre;
+    private $offres;
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\EtatCivil",mappedBy="anneeExp",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $ets;    
     /**
      * Get id
      *
@@ -110,4 +118,38 @@ class Experience
     public function __toString() {
         return $this->libelle;
     }    
+
+    /**
+     * Add cuvi
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CuVi $cuvi
+     *
+     * @return Experience
+     */
+    public function addCuvi(\EcoJob\CandidatBundle\Entity\CuVi $cuvi)
+    {
+        $this->cuvis[] = $cuvi;
+    
+        return $this;
+    }
+
+    /**
+     * Remove cuvi
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CuVi $cuvi
+     */
+    public function removeCuvi(\EcoJob\CandidatBundle\Entity\CuVi $cuvi)
+    {
+        $this->cuvis->removeElement($cuvi);
+    }
+
+    /**
+     * Get cuvis
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCuvis()
+    {
+        return $this->cuvis;
+    }
 }
