@@ -18,14 +18,11 @@
     <div class="row">
       <div class="col-md-12">
         <div class="quote_wrapper">
-          <div class="title4">Parametre du compte candidat</div>
+          <div class="title4">Alerte email</div>
           <br>
-          <div id="note"></div>
-
-           
-          
-
-
+          <div class="txt2">Cochez les secteurs d'activités aux quels vous voulez vous abonner.<br/> Dès qu'une offre
+          correspond aux secteurx cochés, on vous avertira par email.
+          </div>               
           <div id="fields">
              <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
                     {{ form_widget(form.categorie) }}

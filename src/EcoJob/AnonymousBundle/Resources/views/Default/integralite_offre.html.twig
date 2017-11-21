@@ -14,14 +14,29 @@
 {% block content %}
     {{ parent() }}
     <div class="latest_news">
-        <div class="title7">Offre numero {{ offre.id }}</div>
-        <div class="news1">
-            <div class="txt1">Ajoutée le {{ offre.createdAt | date('d-m-y') }}</div>
+        <div class="title7">Offre d'emploi numero {{ offre.id }}</div>
+        <blockquote class="blockquote1">
 
-            <div class="txt2"><a href="">{{ offre.titre }}</a></div>
-            <div class="txt3">{{ offre.description }}</div>
+          <div class="title8">{{offre.titre}}</div>
 
-        </div>
+          <p>
+              {{offre.description}}
+          </p>
+
+          <ul class="ul1">
+            <li>Ajouté le {{offre.createdAt | date('d-m-y')}}</li> 
+            <li>Lieu: {{offre.localisation}}</li>  
+            <li>Secteur d'activité: {{offre.categorie.designation}}</li>                         
+            <li>Société qui recrute: {{offre.societe}}</li>
+            <li>Description du société:<br/> {{offre.descSociete}}</li>
+            <li>Durée: {{offre.duree}}</li>            
+            <li>Pré-requis: <br/>  {{offre.prerequis}}</li>
+            <li>Contrat: {{offre.contrat.libelle}}</li>
+          </ul>
+
+          <br>
+
+        </blockquote>
         <div class="button-group">
             {% if not app.user %}
                 <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Save</a>

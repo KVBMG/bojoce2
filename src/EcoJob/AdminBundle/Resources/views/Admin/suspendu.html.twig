@@ -30,25 +30,35 @@
                         </div>
                         <div class="radio">
                             <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="3">3 jours
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="7">7 jours
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="14">
+                                14 jours
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
                                 <input type="radio" name="validite{{ loop.index }}" value="30">1 mois
                             </label>
                         </div>
                         <div class="radio">
                             <label>
+                                <input type="radio" name="validite{{ loop.index }}" value="60">2 mois
+                            </label>
+                        </div>                            
+                        <div class="radio">
+                            <label>
                                 <input type="radio" name="validite{{ loop.index }}" value="90">3 mois
                             </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="validite{{ loop.index }}" value="180">
-                                6 mois
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="validite{{ loop.index }}" value="360">1 an
-                            </label>
-                        </div>
+                        </div>                            
                     </div>
                     <div style=" margin: 0;font-size: 14px;background-color: #f7f7f7;border-bottom: 1px solid #ebebeb;border-radius: 5px 5px 0 0;">
                         <button type="button" class="btn btn-default btn_valid_republish" style="width:100%">Valider

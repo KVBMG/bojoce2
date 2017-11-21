@@ -124,8 +124,8 @@ $(function () {
     function performSearch() {
         last_page = false;
         $('.loader').remove();
-        $("#offreList").children().remove();
-        $("#offreList").append("<div class='loader'></div>");
+        //$("#offreList").children().remove();
+        //$("#offreList").append("<div class='loader'></div>");
         add_more = false;
         is_processing = false;
         first = false;
@@ -135,9 +135,6 @@ $(function () {
 
         var form = $("#searchForm").submit();
         xhr = form.data('jqxhr');
-        console.log("perf");
-        console.log(last_page);
-        console.log(add_more);
 
     }
 
@@ -185,8 +182,8 @@ $(function () {
         if ($(this).scrollTop() + $(this).innerHeight() == $(this)[0].scrollHeight) {
             if (!(is_processing && last_page)) {
                 $('.loader').remove();
-                $("#offreList").off('scroll');
-                $("#offreList").append("<div class='loader'></div>").scrollTop($(this)[0].scrollHeight);
+                //$("#offreList").off('scroll');
+                //$("#offreList").append("<div class='loader'></div>").scrollTop($(this)[0].scrollHeight);
                 first = false
                 add_more = true;
                 is_processing = true;
