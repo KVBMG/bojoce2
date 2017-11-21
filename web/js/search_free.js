@@ -113,9 +113,11 @@ $(function () {
     });
     function resetForm() {
         $("#offreList").append("<div class='loader'></div>");
-        $("#exp").val("0");
-        $("#contrat3").prop('checked', true);
+        $("#datePublication").val("-1");
+        $("#contrat").val("0");
+        $("#secteur").val("0");        
         $("#searchBar").val("");
+        $("#limit").val("10");
         xhr = performSearch();
 
     }

@@ -107,6 +107,9 @@ $(function () {
         $("#localisation").val("");
         $("#secteur").val("0");        
         $("#searchBar").val("");
+        $("#nivFormation").val("0");
+        $("#limit").val("10");
+        
         xhr = performSearch();
 
     }

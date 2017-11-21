@@ -13,7 +13,7 @@ class DefaultController extends Controller
     public function mapAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -100,7 +100,7 @@ class DefaultController extends Controller
     public function doSearchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -148,7 +148,7 @@ class DefaultController extends Controller
     {
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
         $res = $serializer->serialize($offres, 'json');
         return new Response($res);
     }
