@@ -208,13 +208,14 @@ $(function () {
             last_phrases = this.value;
         }
     }
-    $("#exp").on('change', function () {
+    $("#datePublication").on('change', function () {
         currentRequest = performSearch();
-        console.log("exp ato");
     });
+    $("#secteur").on('change', function () {
+        currentRequest = performSearch();
+    });    
     $("#contrat").on('change', function () {
         currentRequest = performSearch();
-        console.log("contrat ato");
     });
     $("#limit").on('change', function () {
         currentRequest = performSearch();
@@ -304,11 +305,13 @@ $(function () {
         IN.parse();
     }
     function resetForm() {
-        $("#exp").val("0");
+        $("#datePublication").val("-1");
         $("#contrat").val("0");
+        $("#secteur").val("0");        
         $("#searchBar").val("");
+        $("#limit").val("10");
+        xhr = performSearch();
         currentRequest = performSearch();
-        console.log("Reset ato");
     }
     function performSearch() {
         $("#offreList").children().remove().append("<div class='loader'></div>");

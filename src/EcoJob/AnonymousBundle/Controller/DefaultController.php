@@ -16,13 +16,17 @@ class DefaultController extends Controller
         $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
+            $added = [];
             for ($i = 0; $i < count($mines); $i++) {
                 if (($key = array_search($mines[$i], $results, TRUE)) !== FALSE) {
                     $results[$key]->setAdded(true);
                 }
             }
         }
-        return $this->render('EcoJobAnonymousBundle:Default:map.html.twig', array('offres' => $results));
+        $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
+        $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
+        return $this->render('EcoJobAnonymousBundle:Default:map.html.twig', array(
+            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
     }
 
     public function searchAjaxTemplatedAction(Request $request)

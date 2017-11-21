@@ -20,40 +20,44 @@
             <a href="{{path('eco_job_anonymous__offre_searchpage')}}">Sans carte de France</a>
             <div class="row">
                 <div class="col-sm-5">
-                    <form id="searchForm" class="form-horizontal">
-
+                    <form id="searchForm">
                         <div class="form-group">
                             <label class="control-label required" for="searchBar">Mots clés</label>
-                            <input size="65" type="text" id="searchBar" class="form-control" name="keywords" placeholder="Mots clés">
-                            <p class="help-block">Ex:"gestion,médecine,..."</p>
+                            <input size="65" type="text" id="searchBar" class="form-control" name="keywords"
+                                   placeholder="Mots clés: lieu ou nom d'une société">
+                            <p class="help-block">Ex:"gestion,médecine,lyon,paris,..."</p>
                         </div>
-                        <div class="form-group" >
-                            <label for="exp" class="control-label required">Expérience:</label>
-                            <select name="experience" id="exp" class="form-control">
-                                <option value="0">Tous</option>
-                                <option value="1">1 an</option>
-                                <option value="2">2 ans</option>
-                                <option value="3">3 ans</option>
-                                <option value="4">4 ans</option>
-                                <option value="5">5 ans</option>
-                                <option value="6">6 ans</option>
-                                <option value="7">7 ans</option>
-                                <option value="8">8 ans</option>
-                                <option value="9">9 ans</option>
-                                <option value="10">10 ans</option>
-
-                            </select>
-                        </div>
-
+                        <br/>
                         <div class="form-group">
                             <label for="contrat" class="control-label required">Type de contrat:</label>
                             <select name="contrat" id="contrat" class="form-control">
                                 <option value="0">Tous</option>
-                                <option value="1">CDD</option>
-                                <option value="2">CDI</option>
+                                {% for c in contrats %}
+                                    <option value="{{c.id}}">{{c.libelle}}</option>
+                                {% endfor %}
                             </select>
                         </div>
-
+                        <div class="form-group">
+                            <label for="contrat" class="control-label required">Secteurs d'activités:</label>
+                            <select name="secteur" id="secteur" class="form-control">
+                                <option value="0">Tous</option>
+                                {% for s in secteurs %}
+                                    <option value="{{s.id}}">{{s.designation}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>                            
+                        <div class="form-group">
+                            <label for="limit" class="control-label required">Date de publication :</label>                            
+                            <select name="datePublication" id="datePublication" class="form-control">
+                                <option value="-1">N’importe quelle date</option>
+                                <option value="0">Aujourd'hui</option>
+                                <option value="1">2 derniers jours</option>
+                                <option value="3">3 derniers jours</option>
+                                <option value="7">Les 7 derniers jours</option>
+                                <option value="14">Les 14 derniers jours</option>
+                                <option value="30">30 derniers jours</option>                               
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="limit" class="control-label required">Nombre d'offre à afficher :</label>
                             <select name="limit" id="limit" class="form-control">
@@ -62,9 +66,7 @@
                                 <option value="20">20</option>
                             </select>
                         </div>
-
-                        <input type="hidden" id="offset" name="offset" value="0" />
-                        <br>
+                        <input type="hidden" id="offset" name="offset" value="0"/>
                         <button class="btn-default btn1" id="reset">Reset</button>
                     </form>
                     <br/>

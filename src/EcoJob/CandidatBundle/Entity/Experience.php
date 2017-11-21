@@ -43,7 +43,7 @@ class Experience
     /**
      * @var string
      *
-     * @ORM\Column(name="poste", type="string", length=20)
+     * @ORM\Column(name="poste", type="string", length=30)
      * @Assert\NotBlank()
      */
     private $poste;
@@ -51,7 +51,7 @@ class Experience
     /**
      * @var string
      *
-     * @ORM\Column(name="societe", type="string", length=15)
+     * @ORM\Column(name="societe", type="string", length=35)
      * @Assert\NotBlank()
      */
     private $societe;
@@ -59,7 +59,7 @@ class Experience
     /**
      * @var string
      *
-     * @ORM\Column(name="localisation", type="string", length=15)
+     * @ORM\Column(name="localisation", type="string", length=35)
      * @Assert\NotBlank()
      */
     private $localisation;
