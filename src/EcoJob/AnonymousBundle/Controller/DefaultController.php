@@ -13,7 +13,7 @@ class DefaultController extends Controller
     public function mapAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -30,11 +30,12 @@ class DefaultController extends Controller
         $keywords = $request->request->get('keywords');
         $contrat = $request->request->get('contrat');
         $datePublication = $request->request->get('datePublication');
+        $secteur = $request->request->get('secteur');
         $offset = $request->request->get('offset');
         $limit = $request->request->get('limit');
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication, $offset, $limit);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication,$secteur, $offset, $limit);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -99,7 +100,7 @@ class DefaultController extends Controller
     public function doSearchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -110,8 +111,9 @@ class DefaultController extends Controller
             }
         }
         $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
+        $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:search.html.twig', array(
-            'offres' => $results, 'added' => $results,'contrats' => $contrats));
+            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
     }
 
     public function showOffreAction(Offre $offre)
@@ -146,7 +148,7 @@ class DefaultController extends Controller
     {
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,0,0,0,10);
         $res = $serializer->serialize($offres, 'json');
         return new Response($res);
     }

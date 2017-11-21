@@ -24,7 +24,7 @@ class ContratType
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=10, unique=true)
+     * @ORM\Column(name="libelle", type="string", length=30, unique=true)
      */
     private $libelle;
 

@@ -10,7 +10,7 @@ namespace EcoJob\RecruteurBundle\Repository;
  */
 class OffreRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function search($keyswords, $contrat, $datepubl, $offset, $limit) {
+    public function search($keyswords, $contrat, $datepubl, $secteur,$offset, $limit) {
 
         $qb = $this->createQueryBuilder('o');
         $qb->where('o.valid = true')
@@ -38,20 +38,34 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
                 }
             } else {
                 $keyswords = strtolower($keyswords);
-                $qb->andWhere('REGEXP(LOWER(o.titre), :query) = true OR REGEXP(LOWER(o.contenu), :query) = true OR REGEXP(LOWER(o.localisation), :query) = true')
+                $qb->andWhere('REGEXP(LOWER(o.titre), :query) = true OR REGEXP(LOWER(o.description), :query) = true OR REGEXP(LOWER(o.localisation), :query) = true '
+                        . 'OR REGEXP(LOWER(o.societe), :query) = true OR REGEXP(LOWER(o.reference), :query) = true')
                         ->setParameter("query", "$keyswords");
             }
         }
 
-        if ($datepubl != -1) {
-            $qb->andWhere("DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') <= o.validAt")
-               ->andWhere("o.validAt <= DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
-                    ->setParameter('value', $datepubl);            
+        if ($datepubl > -1){
+            switch ($datepubl){
+                case 0:
+                    $qb->andWhere("o.createdAt = DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
+                       ->setParameter('value', $datepubl); 
+                default :
+                 $qb->andWhere("DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') <= o.createdAt")
+                    ->andWhere("o.createdAt <= DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
+                         ->setParameter('value', $datepubl);                      
+            }
+            
+            
+     
         }
         if ($contrat != 0) {
             $qb->andWhere('o.contrat = :contrat')
                     ->setParameter('contrat', $contrat);
         }
+        if ($secteur != 0) {
+            $qb->andWhere('o.categorie = :secteur')
+                    ->setParameter('secteur', $secteur);
+        }        
         return $qb->getQuery()->getResult();
     }
 
