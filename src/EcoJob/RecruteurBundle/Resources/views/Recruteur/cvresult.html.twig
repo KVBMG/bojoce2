@@ -4,7 +4,7 @@
         {% for c in cv %}
             <div class="news1 ">
                 <div class="txt1">Ajouté le {{c.createdAt | date('d-m-y')}}</div>
-                <div class="txt2 cv" cvId="{{c.id}}"><a href="#" {{c.etatcivil.nom}} {{c.etatcivil.prenom}}</a></div>
+                <div class="txt2 cv" cvId="{{c.id}}"><a href="#"> {{c.etatcivil.nom}} {{c.etatcivil.prenom}}</a></div>
                 <a href="#" cvId="{{ c.id }}" class="btn-default btn1 cv">Afficher</a>                
             </div>
         {% endfor %}                                               
