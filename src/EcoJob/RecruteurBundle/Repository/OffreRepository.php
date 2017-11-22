@@ -45,17 +45,12 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
         }
 
         if ($datepubl > -1){
-            switch ($datepubl){
-                case 0:
-                    $qb->andWhere("o.createdAt = DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
-                       ->setParameter('value', $datepubl); 
-                default :
-                 $qb->andWhere("DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') <= o.createdAt")
-                    ->andWhere("o.createdAt <= DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
-                         ->setParameter('value', $datepubl);                      
-            }
-            
-            
+            if($datepubl == 0)
+                    $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')");
+            else{
+                 $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') BETWEEN DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') AND DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
+                    ->setParameter('value', $datepubl);                      
+            }                      
      
         }
         if ($contrat != 0) {

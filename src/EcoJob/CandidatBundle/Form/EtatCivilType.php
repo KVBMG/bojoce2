@@ -15,15 +15,8 @@ class EtatCivilType extends AbstractType
     {
         $builder->add('nom', 'text', array('label' => 'Nom','attr'=>array('class'=>'col-sm-5')))
                 ->add('prenom', 'text', array('label' => 'Prénom'))
-                ->add('dateNaissance',  'date', [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => [
-                        'class' => 'form-control input-inline datetimepicker',
-                        'data-provide' => 'datepicker',
-                        'data-format' => 'dd/MM/yyyy'
-                    ]
-                ])
+                ->add('dateNaissance',  'birthday', array( 'label' => 'Date de naissance', 'years' => range(date('Y')-50, date('Y'))))
+
                 ->add('nationalite','text',array('label' =>"Nationalité"))
                 ->add('email')
                 ->add('telephone','text',array('label'=>'Téléphone Mobile'))

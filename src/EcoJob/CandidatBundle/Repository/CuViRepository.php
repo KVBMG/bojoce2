@@ -45,23 +45,22 @@ class CuViRepository extends \Doctrine\ORM\EntityRepository {
                 for ($i = 0; $i < count($tab); $i++) {
                     if (!empty($tab[$i])) {
                         $tab[$i] = strtolower($tab[$i]);
-                        $qb->andWhere("LOWER(etc.adresse) LIKE :regexp$i OR LOWER(etc.adresse2)  LIKE :regexp$i"
-                                        . " OR LOWER(etc.ville) LIKE :regexp$i"
-                                        . " OR LOWER(fo.intituleDiplome) LIKE :regexp$i OR LOWER(fo.specialisation) LIKE :regexp$i"
-                                        . " OR REGEXP(LOWER(fo.lieu), :query) = true OR LOWER(fo.etablissement) LIKE :regexp$i"
+                        $qb->andWhere("REGEXP(LOWER(etc.adresse), :query) = true OR REGEXP(LOWER(etc.adresse2) , :query) = true"
+                                        . " OR REGEXP(LOWER(etc.ville), :query) = true"
+                                        . " OR REGEXP(LOWER(fo.intituleDiplome), :query) = true OR REGEXP(LOWER(fo.specialisation), :query) = true"
+                                        . " OR REGEXP(LOWER(fo.lieu), :query) = true OR REGEXP(LOWER(fo.etablissement), :query) = true"
                                         . " OR REGEXP(LOWER(comp.informatique), :query) = true OR REGEXP(LOWER(comp.autres), :query) = true"
-                                        . " OR LOWER(langue.langue) LIKE :regexp$i"
-                                        . " OR LOWER(exps.poste) LIKE :regexp$i OR LOWER(exps.societe) LIKE :regexp$i"
-                                        . " OR LOWER(exps.localisation) LIKE :regexp$i OR LOWER(exps.zoneProspection) LIKE :regexp$i"
-                                        . " OR LOWER(exps.detailsMission) LIKE :regexp$i"
-                                        . " OR LOWER(exps_fon.libelle) LIKE :regexp$i"
-                                        . " OR LOWER(exps_rem.libelle) LIKE :regexp$i"
-                                        . " OR LOWER(exps_cli.libelle) LIKE :regexp$i"
-                                        . " OR LOWER(exps_sec.designation) LIKE :regexp$i"
-                                        . " OR LOWER(fo_niveau.libelle) LIKE :regexp$i")
-                                ->setParameter("regexp$i", "% $tab[$i] %")
+                                        . " OR REGEXP(LOWER(langue.langue), :query) = true"
+                                        . " OR REGEXP(LOWER(exps.poste), :query) = true OR REGEXP(LOWER(exps.societe), :query) = true"
+                                        . " OR REGEXP(LOWER(exps.localisation), :query) = true OR REGEXP(LOWER(exps.zoneProspection), :query) = true"
+                                        . " OR REGEXP(LOWER(exps.detailsMission), :query) = true"
+                                        . " OR REGEXP(LOWER(exps_fon.libelle), :query) = true"
+                                        . " OR REGEXP(LOWER(exps_rem.libelle), :query) = true"
+                                        . " OR REGEXP(LOWER(exps_cli.libelle), :query) = true"
+                                        . " OR REGEXP(LOWER(exps_sec.designation), :query) = true"
+                                        . " OR REGEXP(LOWER(fo_niveau.libelle), :query) = true")
+                                //->setParameter("regexp$i", "% $tab[$i] %")
                                 ->setParameter("query", "$tab[$i]");
-                                
                     }
                 }
             } else {
@@ -85,7 +84,7 @@ class CuViRepository extends \Doctrine\ORM\EntityRepository {
         }
         if ($experience != NULL) {
             $qb->leftJoin('c.etatCivil', 'ex')
-                    ->where('ex.anneeExp = :exp')
+                    ->andWhere('ex.anneeExp = :exp')
                     ->setParameter('exp', $experience);
         }
         return $qb->getQuery()->getResult();

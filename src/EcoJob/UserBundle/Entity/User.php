@@ -62,7 +62,7 @@ class User extends BaseUser implements ParticipantInterface {
     /**
      * @var bool
      *
-     * @ORM\Column(name="can_consult_cv", type="boolean",options={"default": false},nullable=false)
+     * @ORM\Column(name="can_consult_cv", type="boolean",options={"default": false},nullable=true)
      */
     private $canConsultCV; 
     
