@@ -27,7 +27,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @ORM\Column(name="titre", type="string", length=500)
      * @Assert\NotBlank()          
      */
     private $titre;
@@ -42,7 +42,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=500)
+     * @ORM\Column(name="description", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $description;
@@ -50,7 +50,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="prerequis", type="string", length=500)
+     * @ORM\Column(name="prerequis", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $prerequis;  
@@ -66,7 +66,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="descSociete", type="string", length=50)
+     * @ORM\Column(name="descSociete", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $descSociete;        
@@ -145,7 +145,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="localisation", type="string", length=20)
+     * @ORM\Column(name="localisation", type="string", length=50)
      * @Assert\NotBlank()          
      */    
     private $localisation;

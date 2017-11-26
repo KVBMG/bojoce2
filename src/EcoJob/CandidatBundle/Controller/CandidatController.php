@@ -93,7 +93,7 @@ class CandidatController extends Controller {
             $em->remove($p);
         }
         $em->flush();
-        return $this->redirect($this->generateUrl('eco_job_candidat_reset_param'));
+        return $this->redirect($this->generateUrl('eco_job_candidat_param'));
     }
 
     public function fillAction(Request $request) {
@@ -168,7 +168,7 @@ class CandidatController extends Controller {
         if ($image == NULL) {
             $image = new Image();
         }
-        
+
         $competences = $cv->getCompetences();
         $experiences = $cv->getExperiences();
         $formations = $cv->getFormations();
@@ -275,6 +275,20 @@ class CandidatController extends Controller {
         $this->getNumbers();
 
         $offres = $this->getUser()->getPostuled();
+
+        $candidatures = $this->getDoctrine()->getManager()->getRepository('EcoJobCandidatBundle:Candidature')
+                ->findBy(array('candidat' => $this->getUser()));
+        $postuled = [];
+        foreach ($candidatures as $c){
+            $postuled[] = $c->getOffre();
+        }
+        if ($candidatures != NULL) {
+            for ($i = 0; $i < count($offres); $i++) {
+                if (($key = array_search($offres[$i], $postuled, TRUE)) !== FALSE) {
+                    $offres[$i]->setAdded(true);
+                }
+            }
+        }
         return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
     }
 
@@ -534,7 +548,7 @@ class CandidatController extends Controller {
                 $em->flush();
                 $formations = $this->getUser()->getCurriculum()->getFormations();
                 $formation = new Formation();
-                $form = $this->createForm(new FormationType(), $formation);                
+                $form = $this->createForm(new FormationType(), $formation);
                 $html = $this->renderView('EcoJobCandidatBundle:Candidat:addFormation.html.twig', array(
                     'form' => $form->createView(), 'formations' => $formations));
                 $response = new Response(json_encode(array("html" => $html)));
@@ -616,7 +630,6 @@ class CandidatController extends Controller {
         return $response;
     }
 
-
     public function addLangueAction(Request $request) {
         $langue = new Langue();
         $form = $this->createForm(new LangueType(), $langue);
@@ -645,8 +658,8 @@ class CandidatController extends Controller {
                 return $response;
             }
         }
-            return $this->render('EcoJobCandidatBundle:Candidat:addLangue.html.twig', array(
-                'form' => $form->createView()));        
+        return $this->render('EcoJobCandidatBundle:Candidat:addLangue.html.twig', array(
+                    'form' => $form->createView()));
     }
 
     public function editLangueAction(Request $request, Langue $langue) {
@@ -690,6 +703,7 @@ class CandidatController extends Controller {
             return $response;
         }
     }
+
     public function deleteExperienceAction(Request $request, Experience $experience) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
@@ -700,7 +714,8 @@ class CandidatController extends Controller {
             return $response;
         }
     }
-    public function deleteFormationAction(Request $request, Formation $formation){
+
+    public function deleteFormationAction(Request $request, Formation $formation) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($formation);
@@ -708,8 +723,9 @@ class CandidatController extends Controller {
             $response = new Response(json_encode(array("html" => "Succes")));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
-        }        
+        }
     }
+
     public function addCompetenceAction(Request $request) {
         $competence = new Competence();
         $form = $this->createForm(new CompetenceType(), $competence);
@@ -738,8 +754,8 @@ class CandidatController extends Controller {
                 return $response;
             }
         }
-            return $this->render('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
-                'form' => $form->createView()));        
+        return $this->render('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
+                    'form' => $form->createView()));
     }
 
     public function editCompetenceAction(Request $request, Competence $competence) {
@@ -782,5 +798,6 @@ class CandidatController extends Controller {
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
-    }    
+    }
+
 }

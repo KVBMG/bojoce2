@@ -51,7 +51,7 @@ $(function () {
             $.ajax({
                 type: 'GET',
                 url: Routing.generate('eco_job_admin_showuser', {id: current_id}),
-                timeout: 3000,
+                timeout: 300000,
                 success: function (response) {
                     $('#profilModal .modal-body').children().remove();
                     $('#profilModal .modal-body').append(response);
@@ -71,7 +71,7 @@ $(function () {
         $.ajax({
             type: 'GET',
             url: Routing.generate('eco_job_admin_users_delete_existing', {id: current_id}),
-            timeout: 30000,
+            timeout: 300000,
             beforeSend: function () {
                 $.blockUI({
                     message: '<p class="loader"></p>',

@@ -84,7 +84,7 @@ class AlertMailService {
     }
     
     private function generateContent($list_offre , $candidat){
-        $prenom = $candidat->getCurriculum() != null ? $candidat->getCurriculum()->getPrenom() : $candidat->getUserName();
+        $prenom = $candidat->getUserName();
         $body = $this->container->get('templating')->render('EcoJobCandidatBundle:AlertMail/Mail:alertMail.html.twig', array(
             'prenom' => $prenom,
             'offres' => $list_offre,

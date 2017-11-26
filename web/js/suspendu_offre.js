@@ -5,7 +5,7 @@ $(function() {
 	// 	content : '<div class="radio"><label><input type="radio" name="validite" value="2" checked="checked">2 jours</label></div><div class="radio"><label><input type="radio" name="validite" value="30">1 mois</label></div><div class="radio"><label><input type="radio" name="validite" value="90">3 mois</label></div><div class="radio"><label><input type="radio" name="validite" value="180">6 mois</label></div><div class="radio"><label><input type="radio" name="validite" value="360">1 an</label></div>',
 	// 	html : true
 	// });
-
+        $('.btn_valid_republish').removeAttr('disabled');
 
 	$('.btn-republish').click(function(event) {
 		event.preventDefault();

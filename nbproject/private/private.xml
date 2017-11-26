@@ -2,10 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Repository/CuViRepository.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/web/js/map_free.js</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Form/EtatCivilType.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
