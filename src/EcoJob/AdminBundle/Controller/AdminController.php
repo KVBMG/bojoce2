@@ -23,7 +23,7 @@ class AdminController extends Controller {
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $offres = $em->getRepository('EcoJobRecruteurBundle:Offre')->getExpiredNow();
-        return $this->render('EcoJobAdminBundle:Admin:expired.html.twig', array(
+        return $this->render('EcoJobAdminBundle:Admin:suspendu.html.twig', array(
                     'offres' => $offres
         ));
     }
@@ -73,9 +73,10 @@ class AdminController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $offre->setSuspendu(false);
         
-        $interval = str_replace("+", "",$offre->getValidAt()->diff(new \DateTime())->format("%R%a")) + 1;
-        $nbjour += $interval + 1;
+        //$interval = str_replace("+", "",$offre->getValidAt()->diff(new \DateTime())->format("%R%a")) + 1;
+        //$nbjour += $interval + 1;
         $offre->setExpireAt($nbjour);
+        $offre->setValidAt(new \DateTime());
         $offre->setSuspenduAt(null);
         $em->flush();
         return $this->redirectToRoute('eco_job_admin_recruteur_offre', array('id' => $offre->getId()));
