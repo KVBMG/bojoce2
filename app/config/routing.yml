@@ -1,6 +1,6 @@
 eco_job_anonymous:
     resource: "@EcoJobAnonymousBundle/Resources/config/routing.yml"
-    prefix:   /search
+    prefix:   /
 
 eco_job_recruteur:
     resource: "@EcoJobRecruteurBundle/Resources/config/routing.yml"
@@ -10,9 +10,6 @@ eco_job_candidat:
     resource: "@EcoJobCandidatBundle/Resources/config/routing.yml"
     prefix:   /candidat
 
-eco_job_main:
-    resource: "@EcoJobMainBundle/Resources/config/routing.yml"
-    prefix:   /
 
 eco_job_user:
     resource: "@EcoJobUserBundle/Resources/config/routing.yml"
@@ -21,10 +18,6 @@ eco_job_user:
 eco_job_admin:
     resource: "@EcoJobAdminBundle/Resources/config/routing.yml"
     prefix:   /admin
-
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

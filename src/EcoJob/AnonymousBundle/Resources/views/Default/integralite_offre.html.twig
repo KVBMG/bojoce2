@@ -13,7 +13,8 @@
 
 {% block content %}
     {{ parent() }}
-    <div class="latest_news">
+    {% if offre is defined %}
+    <div class="latest_news" style="width:800px; margin:0 auto;">
         <div class="title7">Offre d'emploi numero {{ offre.id }}</div>
         <blockquote class="blockquote1">
 
@@ -145,6 +146,7 @@
             </div>
         </div>
     </div>
+                    {% endif %}
 {% endblock %}
 {% block javascripts %}
 

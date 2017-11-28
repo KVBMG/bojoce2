@@ -16,10 +16,10 @@
             {% for offre in offres %}
 
                 <div class="news1">
-                    <div class="txt2"><a href="{{ path('eco_job_candidat_offre',{'id': offre.id})}}">{{offre.titre}}</a></div>
+                    <div class="txt2"><a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation})}}">{{offre.titre}}</a></div>
                     <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
                     <div class="txt3">{{offre.description}}</div>
-                    <a href="{{ path('eco_job_candidat_offre',{'id': offre.id})}}" class="btn-default btn3">Afficher</a>
+                    <a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation})}}" class="btn-default btn3">Afficher</a>
                     {% if not offre.added %}
                         <a href="#" class="postulerBtn txt3" offreId="{{offre.id}}" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</a>                        
                     {% else %}

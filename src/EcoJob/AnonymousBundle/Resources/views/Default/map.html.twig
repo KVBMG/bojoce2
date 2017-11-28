@@ -96,7 +96,7 @@
                                             </a>
                                         {% endif %}
                                     {% else %}
-                                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id }) }}" target="_blank" class="btn-default btn1">Voir</a>                
+                                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id ,'localisation': offre.localisation}) }}" target="_blank" class="btn-default btn1">Voir</a>                
 
                                     {% endif %}
                                 {% endif %}
@@ -108,7 +108,7 @@
                             <div class="collapse" id="collapseExample{{offre.id}}">
                                 <div class="card card-block">
                                     <ul class="social clearfix">
-                                        <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id}) }}" class="fb-share"><i class="fa fa-facebook"></i></a>
+                                        <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id,'localisation': offre.localisation}) }}" class="fb-share"><i class="fa fa-facebook"></i></a>
                                         </li>
                                         <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a></li>
                                         <li>

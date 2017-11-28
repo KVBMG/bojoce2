@@ -17,7 +17,7 @@
                 <div class="collapse" id="collapseExample{{ offre.id }}">
                     <div class="card card-block">
                         <ul class="social clearfix">
-                            <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id}) }}"
+                            <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id,'localisation': offre.localisation}) }}"
                                    class="fb-share"><i class="fa fa-facebook"></i></a>
                             </li>
                             <li><a class="twitter popup" href="http://twitter.com/share"><i
@@ -63,12 +63,12 @@
                        aria-controls="collapseExample">
                         <span class="glyphicon glyphicon-share"></span>
                     </a>                        
-                    <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id }) }}" target="_blank" class="btn-default btn1">Voir</a>                
+                    <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id ,'localisation': offre.localisation}) }}" target="_blank" class="btn-default btn1">Voir</a>                
                 {% endif %} 
                 <div class="collapse" id="collapseExample{{ offre.id }}">
                     <div class="card card-block">
                         <ul class="social clearfix">
-                            <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id}) }}"
+                            <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id,'localisation': offre.localisation}) }}"
                                    class="fb-share"><i class="fa fa-facebook"></i></a>
                             </li>
                             <li><a class="twitter popup" href="http://twitter.com/share"><i

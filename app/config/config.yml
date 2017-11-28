@@ -136,4 +136,5 @@ fos_message:
     db_driver: orm
     thread_class: EcoJob\MessagerieBundle\Entity\Thread
     message_class: EcoJob\MessagerieBundle\Entity\Message
-    
+fos_js_routing:
+    routes_to_expose: [ eco_job_anonymous_offre_search_ajax_templated ]    

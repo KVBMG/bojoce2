@@ -1,6 +1,21 @@
+eco_job_main_index:
+    path:     /
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch" }
+    methods:  [GET,POST] 
+    
+eco_job_candidat_index:
+    path:     /candidat.php
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:index" }
+    methods:  GET
+
+eco_job_recruteur_index:
+    path:     /recruteur.php
+    defaults: { _controller: "EcoJobRecruteurBundle:Recruteur:index" }
+    methods:  GET
+     
 eco_job_anonymous_map:
-    path:     /offres
-    defaults: { _controller: EcoJobAnonymousBundle:Default:map }
+    path:     /map.php
+    defaults: { _controller: EcoJobAnonymousBundle:Default:map }   
     
 eco_job_anonymous_offre_search:
     path:     /offres/filtering
@@ -10,8 +25,8 @@ eco_job_anonymous_offre_search:
         expose:  true   
     
 eco_job_anonymous__offre_searchpage:
-    path:     /offre/search
-    defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch" }
+    path:     /recherche.php
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch"}
     methods:  [GET,POST]     
 
 eco_job_anonymous_offre:
