@@ -51,6 +51,7 @@ p { margin: 0 0 16px 0; }
     {% if cv.cvFile is not null %}
         <a href='{{asset('cv/'~cv.cvFile.cvName~'')}}' target='_blank'>Aperçu du CV envoyé </a>            
     {% endif %}
+    {% if cv is not null %}
     <div id="page-wrap">
     
         {% if cv.image is not null %}           
@@ -156,6 +157,9 @@ p { margin: 0 0 16px 0; }
         <div class="clear"></div>
     
     </div>        
+    {% else %}
+        Vous n'avez pas encore rempli votre cv.
+    {% endif %}
                     <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
