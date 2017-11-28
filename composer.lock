@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0342b96a73ab1e7625061f1c099355a7",
+    "content-hash": "7e3dd551cc931fbf110a20389e3ffad7",
     "packages": [
         {
             "name": "aretusa/flash-bundle",
@@ -226,7 +226,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2016-10-16 14:57:20"
+            "time": "2016-10-16T14:57:20+00:00"
         },
         {
             "name": "captcha-com/captcha",
@@ -1154,7 +1154,7 @@
                 "symfony",
                 "validation"
             ],
-            "time": "2016-06-01 11:44:14"
+            "time": "2016-06-01T11:44:14+00:00"
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
@@ -3047,16 +3047,16 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "v2.8.1",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/assetic-bundle.git",
-                "reference": "0241b135ff64c6031048c6425cd833a8300da46b"
+                "reference": "2e0a23a4874838e26de6f025e02fc63328921a4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/assetic-bundle/zipball/0241b135ff64c6031048c6425cd833a8300da46b",
-                "reference": "0241b135ff64c6031048c6425cd833a8300da46b",
+                "url": "https://api.github.com/repos/symfony/assetic-bundle/zipball/2e0a23a4874838e26de6f025e02fc63328921a4c",
+                "reference": "2e0a23a4874838e26de6f025e02fc63328921a4c",
                 "shasum": ""
             },
             "require": {
@@ -3113,7 +3113,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2016-11-22T11:42:57+00:00"
+            "time": "2017-07-14T07:26:46+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -4039,7 +4039,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2014-05-18 15:19:21"
+            "time": "2014-05-18T15:19:21+00:00"
         },
         {
             "name": "twbs/bootstrap",

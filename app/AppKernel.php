@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new EcoJob\MessagerieBundle\EcoJobMessagerieBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new EcoJob\AnonymousBundle\EcoJobAnonymousBundle(),
+                        new Symfony\Bundle\AsseticBundle\AsseticBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
