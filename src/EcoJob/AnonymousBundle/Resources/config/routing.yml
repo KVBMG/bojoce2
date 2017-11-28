@@ -1,5 +1,5 @@
 eco_job_main_index:
-    path:     /
+    path:     /cachee
     defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch" }
     methods:  [GET,POST] 
     
@@ -62,6 +62,6 @@ eco_job_anonymous_offre_search_ajax_templated:
     options: 
         expose:  true   
 eco_job_anonymous_offre_integralite:
-    path:     /offre/{id}
-    defaults: { _controller: "EcoJobAnonymousBundle:Default:integraliteOffre" }
+    path:     /offre/{localisation}/{id}
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:integraliteOffre",localisation: "Lyon, France" }
     methods:  [GET,POST]

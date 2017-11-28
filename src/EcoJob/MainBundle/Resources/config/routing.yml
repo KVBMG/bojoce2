@@ -1,4 +1,4 @@
-eco_job_main_index:
+eco_job_a_main_index:
     path:     /
     defaults: { _controller: "EcoJobMainBundle:Main:index" }
     methods:  GET
