@@ -53,8 +53,8 @@ eco_job_candidat_offre_save_async:
     options:
         expose:  true
 
-eco_job_candidat_offre_delete:
-    path:     /supprimer-offre.php/{id}
+eco_job_candidat_offre_delet:
+    path:     /supprimer/offre/{id}
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteOffre" }
     methods:  [GET,POST]  
     

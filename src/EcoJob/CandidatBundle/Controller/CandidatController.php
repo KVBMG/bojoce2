@@ -261,13 +261,14 @@ class CandidatController extends Controller {
     }
 
     public function deleteOffreAction(Offre $offre, Request $request) {
-        $this->getNumbers();
-
-        $this->getUser()->removePostuled($offre);
         $em = $this->getDoctrine()->getManager();
+        $this->getUser()->removePostuled($offre);
+        $em->persist($this->getUser());
         $em->flush();
         $offres = $this->getUser()->getPostuled();
         $this->get('session')->getFlashBag()->add('success', 'Offre supprimée');
+        $this->getNumbers();
+        
         return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
     }
 

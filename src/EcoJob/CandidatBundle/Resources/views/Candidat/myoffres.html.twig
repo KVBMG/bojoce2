@@ -25,7 +25,7 @@
                     {% else %}
                         <a href="#" class="btn-default btn-warning">Déja postulé</a>                            
                     {% endif %}
-                    <a href="{{ path('eco_job_candidat_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                    <a href="{{ path('eco_job_candidat_offre_delet',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
                     {% if offre.expired %}
                         <div class="label label-warning"> Offre est expirée</div>     
                     {% endif%}

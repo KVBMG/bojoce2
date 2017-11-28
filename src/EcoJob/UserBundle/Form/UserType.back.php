@@ -13,7 +13,7 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('canConsultCV')->add('createdAt')->add('type')->add('curriculum')->add('cvFile')->add('postuled');
+        $builder->add('createdAt')->add('type');
     }
     
     /**

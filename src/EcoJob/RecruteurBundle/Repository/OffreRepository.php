@@ -10,7 +10,7 @@ namespace EcoJob\RecruteurBundle\Repository;
  */
 class OffreRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function search($keyswords, $contrat, $datepubl, $secteur,$offset, $limit) {
+    public function search($keyswords, $contrat, $datepubl, $secteur, $offset, $limit) {
 
         $qb = $this->createQueryBuilder('o');
         $qb->where('o.valid = true')
@@ -23,35 +23,27 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
         if (!empty($keyswords)) {
             $tab = explode(" ", $keyswords);
             if (count($tab) > 1) {
-                $qb->andWhere("LOWER(o.reference) LIKE :query OR LOWER(o.titre) LIKE :query OR LOWER(o.description) LIKE :query"
-                        . "OR LOWER(o.societe) LIKE :query OR REGEXP(LOWER(o.localisation), :regexp) = true")
-                        ->setParameter("query", "%$tab[0]%")
-                        ->setParameter("regexp", "$tab[0]");
-
-                for ($i = 1; $i < count($tab); $i++) {
+                for ($i = 0; $i < count($tab); $i++) {
                     if (!empty($tab[$i])) {
-                        $tab[$i] = strtolower($tab[$i]);
-                        $qbandWhere("LOWER(o.reference) LIKE :regexp$i OR LOWER(o.titre) LIKE :regexp$i OR LOWER(o.description) LIKE :regexp$i"
-                        . "OR LOWER(o.societe) LIKE :regexp$i OR REGEXP(LOWER(o.localisation), :regexp$i) = true")
-                                ->setParameter("regexp$i", "%$tab[$i]%");
+                        $qb->andWhere("REGEXP(LOWER(o.reference), :regexp$i) = true OR REGEXP(LOWER(o.titre), :regexp$i) = true OR REGEXP(LOWER(o.description), :regexp$i) = true OR REGEXP(LOWER(o.societe), :regexp$i) = true OR REGEXP(LOWER(o.localisation), :regexp$i) = true")
+                                ->setParameter("regexp$i", "$tab[$i]");
                     }
                 }
             } else {
                 $keyswords = strtolower($keyswords);
                 $qb->andWhere('REGEXP(LOWER(o.titre), :query) = true OR REGEXP(LOWER(o.description), :query) = true OR REGEXP(LOWER(o.localisation), :query) = true '
-                        . 'OR REGEXP(LOWER(o.societe), :query) = true OR REGEXP(LOWER(o.reference), :query) = true')
+                                . 'OR REGEXP(LOWER(o.societe), :query) = true OR REGEXP(LOWER(o.reference), :query) = true')
                         ->setParameter("query", "$keyswords");
             }
         }
 
-        if ($datepubl > -1){
-            if($datepubl == 0)
-                    $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')");
-            else{
-                 $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') BETWEEN DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') AND DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
-                    ->setParameter('value', $datepubl);                      
-            }                      
-     
+        if ($datepubl > -1) {
+            if ($datepubl == 0)
+                $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')");
+            else {
+                $qb->andWhere("DATE_FORMAT(o.createdAt, '%Y-%m-%d') BETWEEN DATE_FORMAT(DATE_SUB(CURRENT_DATE(),:value,'DAY'),'%Y-%m-%d') AND DATE_FORMAT(CURRENT_DATE(),'%Y-%m-%d')")
+                        ->setParameter('value', $datepubl);
+            }
         }
         if ($contrat != 0) {
             $qb->andWhere('o.contrat = :contrat')
@@ -60,8 +52,11 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
         if ($secteur != 0) {
             $qb->andWhere('o.categorie = :secteur')
                     ->setParameter('secteur', $secteur);
-        }        
-        return $qb->getQuery()->getResult();
+        }
+        return $qb->getQuery()
+                        ->useQueryCache(true)    // here
+                        ->useResultCache(true)
+                        ->getResult();
     }
 
     public function search2($keywords, $contrat, $experience) {
@@ -124,15 +119,15 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
                 ->join('o.categorie', 'c');
         return $qb->getQuery()->getArrayResult();
     }
-    
-    public function getNonValideOffers(){
+
+    public function getNonValideOffers() {
         $qb = $qb = $this->createQueryBuilder('o')
                 ->where("o.valid = false")
                 ->orderBy('o.createdAt', 'DESC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getSuspendedOffres(){
+
+    public function getSuspendedOffres() {
         $qb = $qb = $this->createQueryBuilder('o')
                 ->where("o.suspendu = true")
                 ->orderBy('o.suspenduAt', 'DESC');

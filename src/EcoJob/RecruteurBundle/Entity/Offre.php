@@ -6,11 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\ElasticaBundle\Configuration\Search;
 use JMS\Serializer\Annotation\Exclude;
-
+use Doctrine\ORM\Mapping\Index;
 /**
  * Offre
  * @Search(repositoryClass="EcoJob\RecruteurBundle\Entity\SearchRepository\OffreRepository")
- * @ORM\Table(name="offre")
+ * @ORM\Table(name="offre",indexes={
+ *     @Index(name="titre_idx", columns={"titre"}),
+ *     @Index(name="description_idx", columns={"description"}),
+ *     @Index(name="prerequis_idx", columns={"prerequis"}),
+ *     @Index(name="societe_idx", columns={"societe"}),
+ *     @Index(name="descsociete_idx", columns={"descSociete"})
+ * })
  * @ORM\Entity(repositoryClass="EcoJob\RecruteurBundle\Repository\OffreRepository")
  */
 class Offre

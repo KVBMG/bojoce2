@@ -102,12 +102,9 @@ $(function () {
             $('#offreList').append("Echec de la connexion au serveur");
         loadCards();
         loadNetworks();
-        
+        //IN.parse();
         
     }
-    $(document).on('show.bs.collapse', '.collapse', function () {
-        IN.parse();
-    });    
     $(document).on('click', '.save', function () {
         $('#globModal').modal('show');
     });
