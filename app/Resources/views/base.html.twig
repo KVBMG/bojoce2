@@ -157,6 +157,10 @@
 
         </div>
 {% block javascripts %}
+            <script src="{{ asset('js/page-accelerator.min.js') }}"></script>
+    <script>
+    pageAccelerator();   
+    </script>    
 {% javascripts
     'js/jquery.js'
     'js/jquery.form.js'
