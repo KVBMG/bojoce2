@@ -310,7 +310,6 @@ $(function () {
         $("#secteur").val("0");        
         $("#searchBar").val("");
         $("#limit").val("10");
-        xhr = performSearch();
         currentRequest = performSearch();
     }
     function performSearch() {
