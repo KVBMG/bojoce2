@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Controller managing the registration.
@@ -146,8 +147,8 @@ class RegistrationController extends Controller
 
         $userManager->updateUser($user);
 
-        if (null === $response = $event->getResponse()) {
-            $url = $this->generateUrl('fos_user_registration_confirmed');
+        if (null === $response = $event->getResponse()) {      
+            $url = $this->generateUrl('fos_user_security_logout');
             $response = new RedirectResponse($url);
         }
 
