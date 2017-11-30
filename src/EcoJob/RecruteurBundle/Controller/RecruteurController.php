@@ -206,6 +206,8 @@ class RecruteurController extends Controller {
     }    
     protected function getNumbers() {
         $em = $this->getDoctrine()->getEntityManager();
+        $provider = $this->get('fos_message.provider');
+        $unreadMsg = $provider->getNbUnreadMessages();
         $offres = count($this->getUser()->getOffres());
         $repo = $em->getRepository("EcoJobCandidatBundle:Candidature");
         $qb = $repo->createQueryBuilder('c');
@@ -215,7 +217,8 @@ class RecruteurController extends Controller {
         $candidatures = $qb->getQuery()->getSingleScalarResult();
 
         $canditatures = count($this->getUser()->getCandidatures());
-
+        
+        $this->get('session')->set('unread',$unreadMsg);
         $this->get('session')->set('offres', $offres);  
         $this->get('session')->set('candidatures',$candidatures);                        
         return true;

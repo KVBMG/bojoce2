@@ -35,6 +35,7 @@ use EcoJob\CandidatBundle\Entity\EtatCivil;
 use EcoJob\CandidatBundle\Entity\Competence;
 use EcoJob\UserBundle\Entity\Image;
 use EcoJob\UserBundle\Form\ImageType;
+use FOS\MessageBundle\Model\MessageInterface;
 
 class CandidatController extends Controller {
 
@@ -417,7 +418,11 @@ class CandidatController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $saved = count($this->getUser()->getPostuled());
         $postuled = count($this->getUser()->getCandidatures());
-
+        
+        $provider = $this->get('fos_message.provider');
+        $unreadMsg = $provider->getNbUnreadMessages();
+        
+        $this->get('session')->set('unread',$unreadMsg);
         $this->get('session')->set('saved', $saved);
         $this->get('session')->set('postuled', $postuled);
         return true;
