@@ -17,7 +17,7 @@
                 <div class="news1">
                     <div class="txt2"><a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': candidature.offre.id }) }}">{{candidature.offre.titre}}</a></div>
 
-                    <div class="txt3">{{candidature.offre.contenu}}</div>
+                    <div class="txt3">{{candidature.offre.description}}</div>
                     <div class="pull-right">
                         <div class="txt3"><a href="">{{candidature.offre.recruteur.username}}</a></div>
                         <span>{{candidature.datecandidature | date}}</span>

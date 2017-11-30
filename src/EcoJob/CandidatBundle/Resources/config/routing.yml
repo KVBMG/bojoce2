@@ -23,19 +23,16 @@ eco_job_candidat_cv_delete:
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:Delete" }
     methods:  [GET,POST]   
     
-         
-        
+eco_job_candidat_offre_postuler:
+    path:     /postuler.php/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postuler" }
+    methods:  [POST,GET]
+    options:
+        expose:  true
 eco_job_candidat_offre:
     path:     /{localisation}/{id}
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:showOffre" }
-    methods:  [GET,POST]      
-
-eco_job_candidat_offre_postuler:
-    path:     /postuler.php/{id}
-    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postulerOffre" }
-    methods:  [GET,POST]
-    options:
-        expose:  true
+    methods:  [POST]
     
                  
 
@@ -145,7 +142,15 @@ eco_job_candidat_add_photo:
     methods:  POST
     options:
         expose: true
-        
+
+eco_job_candidat_add_candidature:
+    path:     /cv/gestion/add/candidature
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCandidature" }
+    methods:  POST
+    options:
+        expose: true
+
+
 eco_job_candidat_add_cvfile:
     path:     /cv/gestion/add/file
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCVFile" }

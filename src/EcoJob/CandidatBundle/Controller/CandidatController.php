@@ -325,50 +325,6 @@ class CandidatController extends Controller {
         ));
     }
 
-    public function postulerOffreAction(Offre $offre, Request $request) {
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        $response = new JsonResponse();
-        try {
-            $motivation = $request->request->get('motivation');
-            $candidature = new Candidature($offre, $user, $motivation);
-            $candidature->setRecruteur($offre->getRecruteur());
-            //$this->getUser()->addPostuled($offre); // pour dire que l'offre a été sauveguardé en même temps
-
-            $this->notifyByMail($candidature);
-
-            $em->persist($candidature);
-            $em->flush();
-            $postResult = $this->isPostuled($offre->getId(), $user->getId());
-            $response->setStatusCode(200);
-            $response->setData(["message" => "Candidature envoyé", "postule" => $postResult]);
-        } catch (UniqueConstraintViolationException $exception) {
-            $response->setStatusCode(500);
-            $postResult = $this->isPostuled($offre->getId(), $user->getId());
-            $response->setData(["message" => $exception->getMessage(), "postule" => $postResult]);
-        }
-        return $response;
-    }
-
-    public function notifyByMail($candidature) {
-        $alert_mail = $this->get('eco_job_candidat.alert_mail');
-        $recruteur = $candidature->getOffre()->getRecruteur();
-        $mail_content = array();
-        $mail_content['titre_offre'] = $candidature->getOffre()->getTitre();
-        $mail_content['id_offre'] = $candidature->getOffre()->getId();
-        $mail_content['recruteur_username'] = $recruteur->getUsername();
-        $mail_content['candidat_username'] = $candidature->getCandidat()->getUsername();
-
-        $content = $alert_mail->generateContentBeta($mail_content);
-
-        $mail = new \EcoJob\CandidatBundle\Model\Mail();
-        $mail->setReceiver($recruteur);
-        $mail->setSubject('Un candidat vient de postuler sur l\'offre : ' . $mail_content['titre_offre']);
-        $mail->setContent($content);
-        $alert_mail->sendMail($mail, true);
-    }
-
     public function cancelPosulationAction(Candidature $candidature, Request $request) {
         $this->getNumbers();
 

@@ -3,6 +3,7 @@
 namespace EcoJob\CandidatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Candidature
@@ -51,17 +52,26 @@ class Candidature
     private $date_candidature;
 
     /**
+     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
+     * @Exclude
+     */
+    private $cvFile;
+
+    /**
+     * @ORM\Column(name="joinMyCv", type="boolean")
+     */
+    private $joinMyCv;
+
+
+    /**
      * Candidature constructor.
      * @param $offre
      * @param $candidat
      * @param string $description
      */
-    public function __construct(\EcoJob\RecruteurBundle\Entity\Offre $offre,
-                                \EcoJob\UserBundle\Entity\User $candidat, $description)
+    public function __construct()
     {
-        $this->offre = $offre;
-        $this->candidat = $candidat;
-        $this->description = $description;
+        $this->cvFile = null;
         $this->date_candidature = new \DateTime();
     }
 
@@ -194,5 +204,51 @@ class Candidature
     public function getRecruteur()
     {
         return $this->recruteur;
+    }
+
+    /**
+     * Set cvFile
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFile $cvFile
+     *
+     * @return Candidature
+     */
+    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null)
+    {
+        $this->cvFile = $cvFile;
+        return $this;
+    }
+
+    /**
+     * Get cvFile
+     *
+     * @return \EcoJob\CandidatBundle\Entity\CVFile
+     */
+    public function getCvFile()
+    {
+        return $this->cvFile;
+    }
+
+    /**
+     * Set joinMyCv
+     *
+     * @param boolean $joinMyCv
+     *
+     * @return Candidature
+     */
+    public function setJoinMyCv($joinMyCv = false)
+    {
+        $this->joinMyCv = $joinMyCv;
+        return $this;
+    }
+
+    /**
+     * Get joinMyCv
+     *
+     * @return boolean
+     */
+    public function getJoinMyCv()
+    {
+        return $this->joinMyCv;
     }
 }

@@ -33,27 +33,38 @@
 <div id="m-m-u" class="modal fade" data-backdrop="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ path('eco_job_candidat_offre_postuler',{ 'id' : offre.id }) }}" id="candidatureForm">
-                <div class="modal-header">
-                    <h4 class="modal-title">Posulter pour l'offre : {{ offre.titre }}</h4>
-                </div>
-                <div class="modal-body text-center p-lg">
-                    <div class="form-group row">
-                        <label for="libelle" class="col-sm-2 form-control-label">Qu'est-ce qui vous motive?</label>
-                        <div class="col-lg-10">
-                                <textarea class="form-control" name="motivation" id="" cols="30" rows="15"
-                                          required></textarea>
-                        </div>
-                    </div>
-                    <div class="alert" id="responseStore">
-
+            <div class="modal-header">
+                <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}</h4>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form) }}
+                <div class="form-group row">
+                    <div class="col-lg-10">
+                        {{ form_row(form.description) }}
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn success p-x-md">Envoyer ma candidature</button>
-                    <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Annuler</button>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        {{ form_row(form.joinMyCv) }}
+                    </div>
                 </div>
-            </form>
+                <div class="form-group row">
+                    <div class="col-lg-10">
+                        <label class="checkbox-inline"><input type="checkbox" name="externalFile" id="externalFile"
+                                                              checked="checked">Joindre un fichier externe</label>
+                        {{ form_row(form.cvFile) }}
+                    </div>
+                </div>
+                {% if app.user and app.user.curriculum.showable %}
+                    <input type="submit" class="btn-default btn1" value="Envoyer ma candidature">
+                {% else %}
+                    <div class="alert alert-warning">
+                        Vous n'avez pas encore fini de remplir votre <a href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant d'Envoyer votre candidature.
+                    </div>
+                {% endif %}
+                <div class="alert alert-dismissable" id="responseStore">
+                </div>
+            </div>
         </div>
     </div>
 </div>
