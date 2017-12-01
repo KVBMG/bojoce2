@@ -17,6 +17,10 @@
                 <div class="collapse" id="collapseExample{{ offre.id }}">
                     <div class="card card-block">
                         <ul class="social clearfix">
+                            <li >
+                                <button class="btn btn-success btn-xs" data-url-id={{ offre.id }} data-toggle="modal" data-target="#friendModal">Envoyer à un ami <i
+                                            class="fa fa-user"></i></button>
+                            </li>
                             <li><a href="{{ path('eco_job_anonymous_offre_integralite',{id: offre.id,'localisation': offre.localisation}) }}"
                                    class="fb-share"><i class="fa fa-facebook"></i></a>
                             </li>

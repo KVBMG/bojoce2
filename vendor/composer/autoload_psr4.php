@@ -36,6 +36,7 @@ return array(
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Knp\\Bundle\\PaginatorBundle\\' => array($vendorDir . '/knplabs/knp-paginator-bundle'),
     'Knp\\Bundle\\GaufretteBundle\\' => array($vendorDir . '/knplabs/knp-gaufrette-bundle'),
+    'KMS\\FroalaEditorBundle\\' => array($vendorDir . '/kms/froala-editor-bundle'),
     'JMS\\SerializerBundle\\' => array($vendorDir . '/jms/serializer-bundle'),
     'Incenteev\\ParameterHandler\\' => array($vendorDir . '/incenteev/composer-parameter-handler'),
     'Gregwar\\Captcha\\' => array($vendorDir . '/gregwar/captcha'),

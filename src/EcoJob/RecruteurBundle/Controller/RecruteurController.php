@@ -166,12 +166,12 @@ class RecruteurController extends Controller {
         $response = $serializer->serialize($candidatures,'json');
         return new Response($response);
     }
-
-    public function candidatureDetailAction($id,Request $request) {
+    public function candidatureDetailAction(Request $request, $id) {
         $this->getNumbers();
         $candidature = $this->getDoctrine()->getManager()->getRepository('EcoJobCandidatBundle:Candidature')->find($id);
-        return $this->render('EcoJobRecruteurBundle:Recruteur:candidature-detail.html.twig',array('candidature' => $candidature));
+        return $this->render('EcoJobRecruteurBundle:Recruteur:candidatureDetail.html.twig',array('candidature' => $candidature));
     }
+
     public function banquecvAction(Request $request){
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();

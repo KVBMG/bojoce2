@@ -5,9 +5,12 @@ namespace EcoJob\AnonymousBundle\Controller;
 use EcoJob\CandidatBundle\Entity\Candidature;
 use EcoJob\CandidatBundle\Form\CandidatureType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use EcoJob\RecruteurBundle\Entity\Offre;
+use Symfony\Component\Security\Acl\Exception\Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DefaultController extends Controller
 {
@@ -15,7 +18,7 @@ class DefaultController extends Controller
     public function mapAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -28,7 +31,7 @@ class DefaultController extends Controller
         $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:map.html.twig', array(
-            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
+            'offres' => $results, 'added' => $results, 'contrats' => $contrats, 'secteurs' => $secteurs));
     }
 
     public function searchAjaxTemplatedAction(Request $request)
@@ -41,7 +44,7 @@ class DefaultController extends Controller
         $limit = $request->request->get('limit');
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication,$secteur, $offset, $limit);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication, $secteur, $offset, $limit);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -106,7 +109,7 @@ class DefaultController extends Controller
     public function doSearchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -119,7 +122,7 @@ class DefaultController extends Controller
         $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:search.html.twig', array(
-            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
+            'offres' => $results, 'added' => $results, 'contrats' => $contrats, 'secteurs' => $secteurs));
     }
 
     public function showOffreAction(Offre $offre)
@@ -147,36 +150,29 @@ class DefaultController extends Controller
 
         $candidature = new Candidature();
         $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
-        $form->bind($request,$candidature);
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST')
-        {
-            if ($form->isValid())
-            {
+        $form->bind($request, $candidature);
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $description = $request->request->get('description');
+            if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
                 $candidature->setOffre($offre);
                 $candidature->setRecruteur($offre->getRecruteur());
-                if($request->request->get('externalFile') != "on")
-                {
+                $candidature->setDescription($description);
+                if ($request->request->get('externalFile') != "on") {
                     $candidature->setCvFile(null);
                 }
-                if($request->request->get('attach') == "on")
-                {
+                if ($request->request->get('attach') == "on") {
                     $candidature->setJoinMyCv(true);
                 }
-                try
-                {
+                try {
                     $this->notifyByMail($candidature);
-                }
-                catch(Exception $e)
-                {
-                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']),500);
+                } catch (Exception $e) {
+                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
                 }
                 $em->persist($candidature);
                 $em->flush();
                 return new Response(json_encode(['data' => 'Candidature envoyée']));
-            }
-            else
-            {
+            } else {
                 return new JsonResponse(['data' => 'Candidature non envoyée']);
             }
         }
@@ -189,7 +185,8 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function notifyByMail($candidature) {
+    public function notifyByMail($candidature)
+    {
         $alert_mail = $this->get('eco_job_candidat.alert_mail');
         $recruteur = $candidature->getOffre()->getRecruteur();
         $mail_content = array();
@@ -208,11 +205,31 @@ class DefaultController extends Controller
     }
 
 
+    public function sendToFriendAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest() && $request->isMethod("POST")) {
+            $id = $request->request->get('offreId');
+            $body = $this->renderView('EcoJobAnonymousBundle:AlertMail:alertMail.html.twig', array('id'=> $id,'contenu' => $request->request->get('friendContent')));
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Eco-Job-Fr')
+                ->setFrom($this->container->getParameter('mailer_user'))
+                ->setTo($request->request->get('friendEmail'))
+                ->setBody($body, 'text/html');
+            try {
+                $this->get('mailer')->send($message);
+                return new JsonResponse(['data' => 'Offre partagé']);
+            } catch (Exception $e) {
+                return new JsonResponse(['data' => 'Echec lors de l\'envoie, veuillez contacter l\'administrateur du site.'], 500);
+            }
+
+        }
+    }
+
     public function getAllJsonAction()
     {
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         $res = $serializer->serialize($offres, 'json');
         return new Response($res);
     }
@@ -240,36 +257,29 @@ class DefaultController extends Controller
 
         $candidature = new Candidature();
         $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
-        $form->bind($request,$candidature);
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST')
-        {
-            if ($form->isValid())
-            {
+        $form->bind($request, $candidature);
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $description = $request->request->get('description');
+            if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
                 $candidature->setOffre($offre);
                 $candidature->setRecruteur($offre->getRecruteur());
-                if($request->request->get('externalFile') != "on")
-                {
+                $candidature->setDescription($description);
+                if ($request->request->get('externalFile') != "on") {
                     $candidature->setCvFile(null);
                 }
-                if($request->request->get('attach') == "on")
-                {
+                if ($request->request->get('attach') == "on") {
                     $candidature->setJoinMyCv(true);
                 }
-                try
-                {
+                try {
                     $this->notifyByMail($candidature);
-                }
-                catch(Exception $e)
-                {
-                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']),500);
+                } catch (Exception $e) {
+                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
                 }
                 $em->persist($candidature);
                 $em->flush();
                 return new Response(json_encode(['data' => 'Candidature envoyée']));
-            }
-            else
-            {
+            } else {
                 return new JsonResponse(['data' => 'Candidature non envoyée']);
             }
         }

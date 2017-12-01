@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e3dd551cc931fbf110a20389e3ffad7",
+    "content-hash": "479606cecbdcb0e7c83fb6c256c0b5e4",
     "packages": [
         {
             "name": "aretusa/flash-bundle",
@@ -226,7 +226,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2016-10-16T14:57:20+00:00"
+            "time": "2016-10-16 14:57:20"
         },
         {
             "name": "captcha-com/captcha",
@@ -1154,7 +1154,7 @@
                 "symfony",
                 "validation"
             ],
-            "time": "2016-06-01T11:44:14+00:00"
+            "time": "2016-06-01 11:44:14"
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
@@ -2014,6 +2014,58 @@
                 "xml"
             ],
             "time": "2017-05-17T10:26:43+00:00"
+        },
+        {
+            "name": "kms/froala-editor-bundle",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/froala/KMSFroalaEditorBundle.git",
+                "reference": "9b3366b9e878e8f447d5ba3ba7b9448a7bcdefe1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/froala/KMSFroalaEditorBundle/zipball/9b3366b9e878e8f447d5ba3ba7b9448a7bcdefe1",
+                "reference": "9b3366b9e878e8f447d5ba3ba7b9448a7bcdefe1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3|^7.0",
+                "symfony/form": "^2.3|^3.0",
+                "symfony/framework-bundle": "^2.3|^3.0",
+                "twig/twig": "^1.1|^2.0"
+            },
+            "require-dev": {
+                "symfony/twig-bundle": "^2.3|^3.0",
+                "symfony/yaml": "^2.3|^3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KMS\\FroalaEditorBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Guionniere",
+                    "email": "simon.guionniere@gmail.com"
+                },
+                {
+                    "name": "Stefan Neculai",
+                    "email": "stefan.neculai@gmail.com"
+                }
+            ],
+            "description": "Provides a Froala editor integration for Symfony 2/3.",
+            "keywords": [
+                "editor",
+                "froala",
+                "wysiwyg"
+            ],
+            "time": "2017-11-02T16:23:37+00:00"
         },
         {
             "name": "knplabs/gaufrette",

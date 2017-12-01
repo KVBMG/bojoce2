@@ -70,6 +70,7 @@ class ComposerStaticInit08280934e5df9da9b83c02548e4268b4
         array (
             'Knp\\Bundle\\PaginatorBundle\\' => 27,
             'Knp\\Bundle\\GaufretteBundle\\' => 27,
+            'KMS\\FroalaEditorBundle\\' => 23,
         ),
         'J' => 
         array (
@@ -234,6 +235,10 @@ class ComposerStaticInit08280934e5df9da9b83c02548e4268b4
         'Knp\\Bundle\\GaufretteBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-gaufrette-bundle',
+        ),
+        'KMS\\FroalaEditorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kms/froala-editor-bundle',
         ),
         'JMS\\SerializerBundle\\' => 
         array (

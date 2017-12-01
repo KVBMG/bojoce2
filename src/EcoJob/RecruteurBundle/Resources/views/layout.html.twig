@@ -1,6 +1,12 @@
 {% extends '::base.html.twig' %}
 {% block title %}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.min.css' ) }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.pkgd.min.css' ) }}"/>
+{% endblock %}
+
 {% block content %} 
     {{parent()}} 
     <div id="content">

@@ -83,9 +83,9 @@ swiftmailer:
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
-    auth_mode: '%mailer_auth_mode%'
-    encryption: '%mailer_encryption%'
-    port:      '%mailer_port%'
+    auth_mode: login
+    encryption: tls
+    port:      587
     stream-options:
         ssl:
             allow_self_signed : true
@@ -145,7 +145,13 @@ assetic:
         cssrewrite: ~
         uglifyjs2:
             # the path to the uglifyjs executable
-            bin: /usr/local/bin/uglifyjs
+            bin: /usr/local/lib/node_modules/@angular/cli/node_modules/.bin/uglifyjs
         uglifycss:
-            bin: /usr/local/bin/uglifycss
-            
+            bin: /home/mahandrisoa/.nvm/versions/node/v9.1.0/bin/uglifycss
+
+kms_froala_editor:
+    language: "nl"
+    toolbarInline: true
+    tableColors: [ "#FFFFFF", "#FF0000" ]
+    saveParams: { "id" : "myEditorField" }
+    includeJS: true

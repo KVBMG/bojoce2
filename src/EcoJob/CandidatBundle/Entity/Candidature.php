@@ -58,7 +58,7 @@ class Candidature
     private $cvFile;
 
     /**
-     * @ORM\Column(name="joinMyCv", type="boolean")
+     * @ORM\Column(name="joinMyCv", type="boolean", nullable=true)
      */
     private $joinMyCv;
 

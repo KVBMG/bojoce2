@@ -5,6 +5,8 @@
     {{ parent() }}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.min.css' ) }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.pkgd.min.css' ) }}"/>
 {% endblock %}
 
 {% block content_title %} Détails de l'offre {% endblock %}
@@ -14,158 +16,221 @@
 {% block content %}
     {{ parent() }}
     {% if offre is defined %}
-    <div class="latest_news" style="width:800px; margin:0 auto;">
-        <div class="title7">Offre d'emploi numero {{ offre.id }}</div>
-        <blockquote class="blockquote1">
+        <div class="latest_news" style="width:800px; margin:0 auto;">
+            <div class="title7">Offre d'emploi numero {{ offre.id }}</div>
+            <blockquote class="blockquote1">
 
-          <div class="title8">{{offre.titre}}</div>
+                <div class="title8">{{ offre.titre }}</div>
 
-          <p>
-              {{offre.description}}
-          </p>
+                <p>
+                    {{ offre.description }}
+                </p>
 
-          <ul class="ul1">
-            <li>Ajouté le {{offre.createdAt | date('d-m-y')}}</li> 
-            <li>Lieu: {{offre.localisation}}</li>  
-            <li>Secteur d'activité: {{offre.categorie.designation}}</li>                         
-            <li>Société qui recrute: {{offre.societe}}</li>
-            <li>Description du société:<br/> {{offre.descSociete}}</li>
-            <li>Durée: {{offre.duree}}</li>            
-            <li>Pré-requis: <br/>  {{offre.prerequis}}</li>
-            <li>Contrat: {{offre.contrat.libelle}}</li>
-          </ul>
-
-          <br>
-
-        </blockquote>
-        <div class="button-group">
-            {% if not app.user %}
-                <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Save</a>
-                <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Postuler</a>
-                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
-                   aria-controls="collapseExample">
-                    Share
-                </a>
-            {% else %}
-                {% if is_granted('ROLE_CANDIDAT') %}
-
-                    {% if saved %}
-                        <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
-                    {% else %}
-                        <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id})}}" class="btn-default btn1">Save</a>
-                    {% endif %}
-                    {% if postuled %}
-                        <a href="#" class="btn-default btn-warning">Déja postulé</a>
-                    {% else %}
-                        <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</button>
-                    {% endif %}
-                {% endif %}
-                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
-                   aria-controls="collapseExample">
-                    Share
-                </a>
-            {% endif %}
-                <a class="btn-default btn1" href="{{path('eco_job_anonymous__offre_searchpage')}}">Retour à la page de recherche</a>                
-
-            <div class="cd-cart-container empty">
-                <a href="#0" class="cd-cart-trigger">
-                    Cart
-                    <ul class="count"> <!-- cart items count -->
-                        <li>0</li>
-                        <li>0</li>
-                    </ul> <!-- .count -->
-                </a>
-
-                <div class="cd-cart">
-                    <div class="wrapper">
-                    </div>
-                </div> <!-- .cd-cart -->
-            </div>
-        </div>
-
-
-        <div class="collapse" id="collapseExample">
-            <div class="card card-block">
-                <ul class="social clearfix">
-                    <li><a href="" id="fb-share"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a></li>
-                    <li>
-                        <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
-                        <script type="IN/Share"
-                                data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}"
-                                data-counter="right"></script>
-                    </li>
+                <ul class="ul1">
+                    <li>Ajouté le {{ offre.createdAt | date('d-m-y') }}</li>
+                    <li>Lieu: {{ offre.localisation }}</li>
+                    <li>Secteur d'activité: {{ offre.categorie.designation }}</li>
+                    <li>Société qui recrute: {{ offre.societe }}</li>
+                    <li>Description du société:<br/> {{ offre.descSociete }}</li>
+                    <li>Durée: {{ offre.duree }}</li>
+                    <li>Pré-requis: <br/> {{ offre.prerequis }}</li>
+                    <li>Contrat: {{ offre.contrat.libelle }}</li>
                 </ul>
-            </div>
-        </div>
-    </div>
+                <br>
 
-    <div id="m-m-u" class="modal fade" data-backdrop="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}</h4>
-                </div>
-                <div class="modal-body">
-                    {{ form_start(form) }}
-                    <div class="form-group row">
-                        <div class="col-lg-10">
-                            {{ form_row(form.description) }}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            {{ form_row(form.joinMyCv) }}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-10">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="externalFile" id="externalFile" checked="checked">Joindre
-                                un fichier
-                                externe
-                            </label>
-                            {{ form_row(form.cvFile) }}
-                        </div>
-                    </div>
-                    {% if app.user and app.user.curriculum.showable %}
-                        <input type="submit" class="btn-default btn1" value="Envoyer ma candidature">
-                    {% else %}
-                        <div class="alert alert-warning">
-                            Vous n'avez pas encore fini de remplir votre <a href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant d'Envoyer votre candidature.
-                        </div>
-                    {% endif %}
-                    {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-    <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Alerte</h4>
-                </div>
-                <div class="modal-body">
-                    Vous devez vous avoir un compte sur eco-job avant de pouvoir sauvegarder ou postuler à une offre
-                    d'emploi.
-                    Veuillez vous inscrire en cliquant <a href="{{ path('fos_user_registration_register') }}"
-                                                          class="btn-default">ici</a>
-                    ou vous connecter <a href="{{ path('fos_user_security_login') }}" class="btn-default">ici</a>
-                </div>
-            </div>
-        </div>
-    </div>
-                    {% endif %}
-{% endblock %}
-{% block javascripts %}
+            </blockquote>
+            <div class="button-group">
+                {% if not app.user %}
+                    <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Save</a>
+                    <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Postuler</a>
+                    <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                       aria-controls="collapseExample">
+                        Share
+                    </a>
+                {% else %}
+                    {% if is_granted('ROLE_CANDIDAT') %}
 
-    {{ parent() }}
-    <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
-    <script src="{{ asset('js/integralite_offre.js') }}"></script>
-    <!-- animation de l'image -->
-    <script src="{{ asset('js/addToCart.js') }}"></script>
+                        {% if saved %}
+                            <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
+                        {% else %}
+                            <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id}) }}"
+                               class="btn-default btn1">Save</a>
+                        {% endif %}
+                        {% if postuled %}
+                            <a href="#" class="btn-default btn-warning">Déja postulé</a>
+                        {% else %}
+                            <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal"
+                                    data-target="#m-m-u">Postuler
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                    <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                       aria-controls="collapseExample">
+                        Share
+                    </a>
+                {% endif %}
+                <a class="btn-default btn1" href="{{ path('eco_job_anonymous__offre_searchpage') }}">Retour à la page de
+                    recherche</a>
+
+                <div class="cd-cart-container empty">
+                    <a href="#0" class="cd-cart-trigger">
+                        Cart
+                        <ul class="count"> <!-- cart items count -->
+                            <li>0</li>
+                            <li>0</li>
+                        </ul> <!-- .count -->
+                    </a>
+
+                    <div class="cd-cart">
+                        <div class="wrapper">
+                        </div>
+                    </div> <!-- .cd-cart -->
+                </div>
+            </div>
+
+
+            <div class="collapse" id="collapseExample">
+                <div class="card card-block">
+                    <ul class="social clearfix">
+                        <li>
+                            <button class="btn btn-success btn-xs"
+                                    data-url-id={{ offre.id }} data-toggle="modal"
+                                    data-target="#friendModal">Envoyer à un ami <i
+                                        class="fa fa-user"></i></button>
+                        </li>
+                        <li><a href="" id="fb-share"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                            <script type="IN/Share"
+                                    data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}"
+                                    data-counter="right"></script>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="m-m-u" class="modal fade" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(form) }}
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                <div id="froala-editor"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                {{ form_row(form.joinMyCv) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="externalFile" id="externalFile" checked="checked">Joindre
+                                    un fichier
+                                    externe
+                                </label>
+                                {{ form_row(form.cvFile) }}
+                            </div>
+                        </div>
+                        {#{% if app.user and app.user.curriculum.showable %}#}
+                            <div class="form-group row">
+                                <div class="col-md-4 pull-right">
+                                    <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature
+                                    </button>
+                                </div>
+                            </div>
+                        {#{% else %}#}
+                            {#<div class="alert alert-warning">#}
+                                {#Vous n'avez pas encore fini de remplir votre <a#}
+                                        {#href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant#}
+                                {#d'Envoyer votre candidature.#}
+                            {#</div>#}
+                        {#{% endif %}#}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- MODAL SEND TO CHECK_USER -->
+        <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Alerte</h4>
+                    </div>
+                    <div class="modal-body">
+                        Vous devez vous avoir un compte sur eco-job avant de pouvoir sauvegarder ou postuler à une offre
+                        d'emploi.
+                        Veuillez vous inscrire en cliquant <a href="{{ path('fos_user_registration_register') }}"
+                                                              class="btn-default">ici</a>
+                        ou vous connecter <a href="{{ path('fos_user_security_login') }}" class="btn-default">ici</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- MODAL SEND TO FRIEND -->
+        <div style="z-index:2016;" class="modal fade " data-backdrop="static" id="friendModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Envoyer à un ami</h4>
+                    </div>
+                    <form method="POST" id="friendForm">
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="friendSubject" class="control-label required">E-mail</label>
+                                    <input type="email" required name="friendEmail"
+                                           placeholder="Entrez l'adresse E-mail"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12"><label for="friendSubject" class="control-label required">Entrez
+                                        quelques phrases d'introduction pour votre ami.</label>
+                                    <textarea name="friendContent" id="" rows="5" required
+                                              class="form-control"></textarea>
+
+                                </div>
+                            </div>
+                            <div id="responseStore" class="alert-dismissable"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn-default btn1" value="Envoyer à un ami">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
+    {% block javascripts %}
+
+        {{ parent() }}
+        <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+        <!-- Froala Editor -->
+        <script src="{{ asset('froala_editor/js/froala_editor.min.js') }}"></script>
+        <script src="{{ asset('froala_editor/js/froala_editor.pkgd.min.js') }}"></script>
+        <script src="{{ asset('js/postuler_formulaire.js') }}"></script>
+        <!-- animation de l'image -->
+        <script src="{{ asset('js/addToCart.js') }}"></script>
+        <script type="application/javascript" src="{{ asset('js/sendToFriend.js') }}"></script>
+    {% endblock %}

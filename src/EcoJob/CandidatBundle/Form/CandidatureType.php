@@ -23,8 +23,9 @@ class CandidatureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('joinMyCv', CheckboxType::class, array('label' => 'Joindre mon CV','attr' => array('required','false')))
-            ->add('description', null, array('attr' => array('rows' => 10)))
+            ->add('joinMyCv', CheckboxType::class, array(
+                'required'=> false,
+                'label' => 'Joindre mon CV'))//ecojob_candidatbundle_candidature_description
             ->add('cvFile', EmbeddedCv::class, array('label' => false));
     }
 

@@ -6,7 +6,7 @@
 <div class="latest_news">
     <div class="team1 clearfix">
         <div class="caption">
-            <div class="txt3">{{candidature.description}}.</div>
+            <div class="txt3">{{ candidature.description | raw }}</div>
             <div class="title5 pull-right"><b>{{candidature.getDateCandidature() | date}}</b></div>
         </div>
     </div>

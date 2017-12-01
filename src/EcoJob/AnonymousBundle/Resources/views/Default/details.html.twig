@@ -1,14 +1,15 @@
 <div class="latest_news">
-    <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
-    <div class="title7">Offre numero {{offre.id}}</div>
+    <div class="txt1">Ajoutée le {{ offre.createdAt | date('d-m-y') }}</div>
+    <div class="title7">Offre numero {{ offre.id }}</div>
     <div class="news1">
-        <div class="txt2"><a href="#">{{offre.titre}}</a></div>
-        <div class="txt3">{{offre.description}}</div>  
-        <div class="txt3">{{offre.localisation}}</div>  
+        <div class="txt2"><a href="#">{{ offre.titre }}</a></div>
+        <div class="txt3">{{ offre.description }}</div>
+        <div class="txt3">{{ offre.localisation }}</div>
         {% if not app.user %}
             <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Save</a>
             <a href="#" class="btn-default btn1" data-toggle="modal" data-target="#globModal">Postuler</a>
-            <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id,'localisation': offre.localisation }) }}" target="_blank" class="btn-default btn1">Voir</a>
+            <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id,'localisation': offre.localisation }) }}"
+               target="_blank" class="btn-default btn1">Voir</a>
         {% else %}
             {% if is_granted('ROLE_CANDIDAT') %}
                 {% if offre.added %}
@@ -22,25 +23,31 @@
                 {% if postuled %}
                     <a href="#" class="btn-default btn-warning">Déja postulé</a>
                 {% else %}
-                    <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</button>
+                    <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal"
+                            data-target="#m-m-u">Postuler
+                    </button>
                 {% endif %}
-            {% endif %}   
-            <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id,'localisation': offre.localisation }) }}" target="_blank" class="btn-default btn1">Voir</a>
+            {% endif %}
+            <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id,'localisation': offre.localisation }) }}"
+               target="_blank" class="btn-default btn1">Voir</a>
         {% endif %}
     </div>
 
 </div>
-<div id="m-m-u" class="modal fade" data-backdrop="true">
+<div id="m-m-u" class="modal fade" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}</h4>
+
+                <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </h4>
             </div>
             <div class="modal-body">
                 {{ form_start(form) }}
                 <div class="form-group row">
                     <div class="col-lg-10">
-                        {{ form_row(form.description) }}
+                        <div id="froala-editor"></div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -56,10 +63,17 @@
                     </div>
                 </div>
                 {% if app.user and app.user.curriculum.showable %}
-                    <input type="submit" class="btn-default btn1" value="Envoyer ma candidature">
+                    <div class="form-group row">
+                        <div class="col-md-4 pull-right">
+                            <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
                 {% else %}
                     <div class="alert alert-warning">
-                        Vous n'avez pas encore fini de remplir votre <a href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant d'Envoyer votre candidature.
+                        Vous n'avez pas encore fini de remplir votre <a
+                                href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
+                        d'Envoyer votre candidature.
                     </div>
                 {% endif %}
                 <div class="alert alert-dismissable" id="responseStore">
@@ -68,3 +82,82 @@
         </div>
     </div>
 </div>
+
+<script type="application/javascript">
+    $(function () {
+        var _toggleState = true;
+        var _editor = $(document).find('#froala-editor');
+        var _editorOptions = {
+            inlineMode: false,
+            toolbarButtons: ['undo', 'redo', '|', 'bold', 'color', 'fontFamily', 'fontSize', 'inlineStyle', 'paragraphStyle', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'outdent', 'indent', 'clearFormatting', '|', 'paragraphFormat', 'align', 'print'],
+            toolbarButtonsXS: ['undo', 'redo', '-', 'bold', 'italic', 'underline'],
+            height: 250,
+            quickInsertTags: [''],
+            colorsBackground: ['#61BD6D', '#1ABC9C', '#54ACD2', 'REMOVE']
+        };
+
+        console.log('editor', _editor);
+        _editor.froalaEditor(_editorOptions);
+
+
+        var handleChange = function (event) {
+            if (_toggleState) {
+                $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').attr('required', false);
+                $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').hide();
+                _toggleState = false;
+                console.log(_toggleState);
+            } else {
+                $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').show();
+                _toggleState = true;
+                console.log(_toggleState);
+            }
+        };
+
+        $(document).on('change', '#externalFile', handleChange.bind(this));
+
+        $(document).on('submit', '#candidatureForm', function (event) {
+            event.preventDefault();
+            var description = _editor.froalaEditor('html.get');
+            if (description === "") {
+                alert("Veuillez remplir votre formulaire");
+                return;
+            }
+            var form_data = new FormData($(this)[0]);
+            form_data.set('description', description);
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: form_data,
+                dataType: 'json',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function () {
+                    $.blockUI({
+                        message: '<p class="loader"></p>',
+                        css: {
+                            border: 'none',
+                            backgroundColor: 'transparent',
+                            width: '66px',
+                            top: ($(window).height() - 100) / 2 + 'px',
+                            left: ($(window).width() - 100) / 2 + 'px',
+                        }
+                    });
+                },
+                error: function (err) {
+                    $('#responseStore').addClass('alert-danger').html("L'envoie de votre candidature a échoué").show();
+                },
+                success: function (data) {
+                    $('#responseStore').addClass('alert-success').html(data.message).show();
+                    $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                    $('#m-m-u').modal('hide');
+                    console.log(data);
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            });
+        });
+    });
+</script>

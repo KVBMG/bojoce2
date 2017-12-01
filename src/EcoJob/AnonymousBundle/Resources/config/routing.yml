@@ -65,3 +65,10 @@ eco_job_anonymous_offre_integralite:
     path:     /offre/{localisation}/{id}
     defaults: { _controller: "EcoJobAnonymousBundle:Default:integraliteOffre",localisation: "Lyon, France" }
     methods:  [GET,POST]
+
+eco_job_anonymous_sendToFriend:
+    path:     /offre/sendToFriend
+    defaults: { _controller: "EcoJobAnonymousBundle:Default:sendToFriend" }
+    methods:  [POST]
+    options:
+        expose:  true
