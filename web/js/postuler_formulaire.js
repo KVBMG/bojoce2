@@ -7,6 +7,7 @@ $(function () {
         toolbarButtons: ['undo', 'redo' , '|', 'bold','color', 'fontFamily', 'fontSize', 'inlineStyle', 'paragraphStyle', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'outdent', 'indent', 'clearFormatting','|', 'paragraphFormat','align','print'],
         toolbarButtonsXS: ['undo', 'redo' , '-', 'bold', 'italic', 'underline'],
         height: 250,
+        placeholderText: 'Ecrivez votre lettre de motivation',
         quickInsertTags : [''],
         colorsBackground: ['#61BD6D', '#1ABC9C', '#54ACD2', 'REMOVE']
     };
