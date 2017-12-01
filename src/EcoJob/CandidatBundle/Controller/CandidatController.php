@@ -127,7 +127,7 @@ class CandidatController extends Controller {
         $langueForm = $this->createForm(new LangueType, $langue);
         $imageForm = $this->createForm(new ImageType, $image);
 
-        return $this->render('EcoJobCandidatBundle:Candidat:fill.html.twig', array(
+        $response = $this->render('EcoJobCandidatBundle:Candidat:fill.html.twig', array(
                     'cvfileForm' => $cvfileForm->createView(),
                     'competenceForm' => $competenceForm->createView(),
                     'etatcivilForm' => $etatcivilForm->createView(),
@@ -137,6 +137,12 @@ class CandidatController extends Controller {
                     'imageForm' => $imageForm->createView(),
                     'cv' => $this->getUser()->getCurriculum()
         ));
+    $response->setSharedMaxAge(3600);
+
+    // (optional) set a custom Cache-Control directive
+    $response->headers->addCacheControlDirective('must-revalidate', true);
+
+    return $response;
     }
 
     public function ShowAction(Request $request) {
@@ -188,7 +194,7 @@ class CandidatController extends Controller {
         $langueForm = $this->createForm(new LangueType, $langue);
         $imageForm = $this->createForm(new ImageType, $image);
 
-        return $this->render('EcoJobCandidatBundle:Candidat:edit.html.twig', array(
+        $response = $this->render('EcoJobCandidatBundle:Candidat:edit.html.twig', array(
                     'cvfileForm' => $cvfileForm->createView(),
                     'competenceForm' => $competenceForm->createView(),
                     'etatcivilForm' => $etatcivilForm->createView(),
@@ -203,6 +209,12 @@ class CandidatController extends Controller {
                     'competences' => $competences,
                     'cvFile' => $cvfile
         ));
+    $response->setSharedMaxAge(3600);
+
+    // (optional) set a custom Cache-Control directive
+    $response->headers->addCacheControlDirective('must-revalidate', true);
+
+    return $response;
     }
 
     public function DeleteAction(Request $request) {

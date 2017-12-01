@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 {% else %}
-                    {% if app.user.curriculum is not null %}
+                    {% if app.user and app.user.curriculum is not null %}
                     <div class="alert alert-warning">
                         Vous n'avez pas encore fini de remplir votre <a
                                 href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant

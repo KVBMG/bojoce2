@@ -221,7 +221,7 @@ class AdminController extends Controller {
         $this->getNumbers();
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $users = $em->getRepository('EcoJobUserBundle:User')->findAll();
+            $users = $em->getRepository('EcoJobUserBundle:User')->getAllUser();
             $serializer = $this->container->get('jms_serializer');
             $res = $serializer->serialize($users, 'json');
             return new Response($res);
