@@ -11,7 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use EcoJob\RecruteurBundle\Entity\Offre;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
+/**
+ * @Cache(expires="tomorrow", public=true,smaxage="15")
+ */
 class DefaultController extends Controller
 {
 

@@ -33,7 +33,9 @@ framework:
     trusted_hosts: ~
     trusted_proxies: ~
     session:
-        handler_id: session.handler.pdo            
+        handler_id: session.handler.pdo  
+        cookie_lifetime: 86400
+        gc_maxlifetime: 1800        
     fragments: ~
     http_method_override: true
     translator: { fallback: %locale% }

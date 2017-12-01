@@ -36,7 +36,11 @@ use EcoJob\CandidatBundle\Entity\Competence;
 use EcoJob\UserBundle\Entity\Image;
 use EcoJob\UserBundle\Form\ImageType;
 use FOS\MessageBundle\Model\MessageInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
+/**
+ * @Cache(expires="tomorrow", public=true,smaxage="15")
+ */
 class CandidatController extends Controller {
 
     public function indexAction() {

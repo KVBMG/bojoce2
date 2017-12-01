@@ -15,7 +15,11 @@ use Elastica\Query\QueryString;
 use Elastica\Query;
 use Symfony\Component\HttpFoundation\Response;
 use EcoJob\RecruteurBundle\Model\OffreSearch;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
+/**
+ * @Cache(expires="tomorrow", public=true,smaxage="15")
+ */
 class RecruteurController extends Controller {
 
     public function indexAction() {

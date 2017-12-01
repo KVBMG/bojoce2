@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/details.html.twig</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/map.html.twig</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/integralite_offre.html.twig</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Resources/config/routing.yml</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/search.html.twig</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/config/routing.yml</file>
-            <file>file:/opt/lampp/htdocs/ecojob/app/Resources/views/base.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/views/Candidat/edit.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Controller/RecruteurController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/views/Candidat/fill.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Controller/DefaultController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Controller/CandidatController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/app/config/config.yml</file>
         </group>
     </open-files>
 </project-private>
