@@ -122,7 +122,7 @@ $(function(){
             return;
         var _id = $(this).attr('data-candidature-item-id');
         var _url = Routing.generate('eco_job_recruteur_candidature_detail',{ id : _id});
-
+        console.log(_url);
         $(document).trigger("getCandidatureDetail",_url);
     });
     1

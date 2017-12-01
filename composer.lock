@@ -226,7 +226,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2016-10-16 14:57:20"
+            "time": "2016-10-16T14:57:20+00:00"
         },
         {
             "name": "captcha-com/captcha",
@@ -1154,7 +1154,7 @@
                 "symfony",
                 "validation"
             ],
-            "time": "2016-06-01 11:44:14"
+            "time": "2016-06-01T11:44:14+00:00"
         },
         {
             "name": "friendsofsymfony/elastica-bundle",

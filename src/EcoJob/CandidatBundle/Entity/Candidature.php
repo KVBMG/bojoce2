@@ -52,7 +52,7 @@ class Candidature
     private $date_candidature;
 
     /**
-     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove","persist"},orphanRemoval=true)
      * @Exclude
      */
     private $cvFile;

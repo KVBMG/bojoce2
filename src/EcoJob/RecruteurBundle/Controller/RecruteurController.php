@@ -169,7 +169,7 @@ class RecruteurController extends Controller {
     public function candidatureDetailAction(Request $request, $id) {
         $this->getNumbers();
         $candidature = $this->getDoctrine()->getManager()->getRepository('EcoJobCandidatBundle:Candidature')->find($id);
-        return $this->render('EcoJobRecruteurBundle:Recruteur:candidatureDetail.html.twig',array('candidature' => $candidature));
+        return $this->render('EcoJobRecruteurBundle:Recruteur:candidature-detail.html.twig',array('candidature' => $candidature));
     }
 
     public function banquecvAction(Request $request){
@@ -206,6 +206,8 @@ class RecruteurController extends Controller {
     }    
     protected function getNumbers() {
         $em = $this->getDoctrine()->getEntityManager();
+        $provider = $this->get('fos_message.provider');
+        $unreadMsg = $provider->getNbUnreadMessages();
         $offres = count($this->getUser()->getOffres());
         $repo = $em->getRepository("EcoJobCandidatBundle:Candidature");
         $qb = $repo->createQueryBuilder('c');
@@ -215,7 +217,8 @@ class RecruteurController extends Controller {
         $candidatures = $qb->getQuery()->getSingleScalarResult();
 
         $canditatures = count($this->getUser()->getCandidatures());
-
+        
+        $this->get('session')->set('unread',$unreadMsg);
         $this->get('session')->set('offres', $offres);  
         $this->get('session')->set('candidatures',$candidatures);                        
         return true;

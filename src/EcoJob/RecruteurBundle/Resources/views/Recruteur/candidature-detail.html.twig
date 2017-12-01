@@ -1,13 +1,13 @@
 <div class="">
     <div class="breadcrumbs1">
-        <a href="#">{{candidature.offre.titre}}</a><span></span>
+        <a href="#">{{ candidature.offre.titre }}</a><span></span>
     </div>
 </div>
 <div class="latest_news">
     <div class="team1 clearfix">
         <div class="caption">
-            <div class="txt3">{{ candidature.description | raw }}</div>
-            <div class="title5 pull-right"><b>{{candidature.getDateCandidature() | date}}</b></div>
+            <div class="txt3">{{ candidature.description | raw }}.</div>
+            <div class="title5 pull-right"><b>{{ candidature.getDateCandidature() | date }}</b></div>
         </div>
     </div>
 </div>
@@ -16,95 +16,114 @@
         <div class="title4"><span>CURRICULUM VITAE</span></div>
         <div id="note"></div>
         <div id="fields">
-            <div id="page-wrap">
-                {% set cv = candidature.candidat.curriculum %}
-                {% if cv.image is not null %}           
-                    <img class='img-responsive' height='400px' id="pic" width='400px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
-                {% else %}
-                    Aucune photo
-                {% endif %}
+            {% set cv = candidature.candidat.curriculum %}
 
-                <div id="contact-info" class="vcard">
-                    {% if cv.etatCivil is not null %}
+            {% if cv is not null %}
+                <div id="page-wrap">
+                    {% if cv.cvFile is defined and cv.cvFile is not null %}
+                        <a href="{{ asset('cv/'~cv.cvFile.cvName) }}" target="_blank">Télécharger CV</a>
+                    {% endif %}
+                    {% if cv.image is not null %}
+                        <img class='img-responsive' height='400px' id="pic" width='400px'
+                             src='{{ asset('images/users/'~cv.image.imageName~'') }}'/>
+                    {% else %}
+                        Aucune photo
+                    {% endif %}
+
+                    <div id="contact-info" class="vcard">
+                        {% if cv.etatCivil is not null %}
                         <!-- Microformats! -->
 
-                        <h1 class="fn">{{cv.etatCivil.nom}} {{cv.etatCivil.prenom}}</h1>
+                        <h1 class="fn">{{ cv.etatCivil.nom }} {{ cv.etatCivil.prenom }}</h1>
 
                         <p>
-                            Téléphone mobile: <span class="tel">{{cv.etatCivil.telephone}}</span><br>
-                            Téléphone fix: <span class="tel">{{cv.etatCivil.telephoneFixe}}</span><br>
+                            Téléphone mobile: <span class="tel">{{ cv.etatCivil.telephone }}</span><br>
+                            Téléphone fix: <span class="tel">{{ cv.etatCivil.telephoneFixe }}</span><br>
 
-                            Email: <a class="email" href="{{cv.etatCivil.email}}">{{cv.etatCivil.email}}</a>
+                            Email: <a class="email" href="{{ cv.etatCivil.email }}">{{ cv.etatCivil.email }}</a>
                         </p>
                     </div>
 
-                {% endif %}
-                <div class="clear"></div>
+                    {% endif %}
+                    <div class="clear"></div>
 
-                <dl>
-                    <dd class="clear"></dd>
-                    {% if cv.formations is not null %}
-                        <dt>Formations</dt>
-                        {% for form in cv.formations %}
+                    <dl>
+                        <dd class="clear"></dd>
+                        {% if cv.formations is not null %}
+                            <dt>Formations</dt>
+                            {% for form in cv.formations %}
+                                <dd>
+                                    <h2>{{ form.anneeObtention }}: {{ form.intituleDiplome }}</h2>
+                                    <p><strong>Spécialisation:</strong> {{ form.specialisation }}<br>
+                                        <strong>Lieu:</strong> {{ form.lieu }}
+                                        <strong>Etablissement:</strong> {{ form.etablissement }}
+                                        <strong>Niveau:</strong> {{ form.niveau }}
+                                        {% if form.formationEtranger %}
+                                            <strong>Formation effectuée à l'étranger</strong>
+                                        {% endif %}
+                                    </p>
+                                </dd>
+                            {% endfor %}
+                        {% endif %}
+                        <dd class="clear"></dd>
+                        {% if cv.competences is not null %}
+                            <dt>Compétences</dt>
                             <dd>
-                                <h2>{{form.anneeObtention}}: {{form.intituleDiplome}}</h2>
-                                <p><strong>Spécialisation:</strong> {{form.specialisation}}<br>
-                                    <strong>Lieu:</strong> {{form.lieu}}
-                                    <strong>Etablissement:</strong> {{form.etablissement}}                
-                                    <strong>Niveau:</strong> {{form.niveau}}
-                                    {% if form.formationEtranger %}
-                                        <strong>Formation effectuée à l'étranger</strong> 
-                                    {% endif %}
-                                </p>
-                            </dd>
-                        {% endfor %}
-                    {% endif %}
-                    <dd class="clear"></dd>
-                    {% if cv.competence is not null %}
-                        <dt></dt>
-                        <dd>
-                            <h2>Compétences en informatique</h2>
-                            <p>{{cv.competence.informatique}}</p>
-                            <h2>Autres compétences</h2>
-                            <p>{{cv.competence.autre}}</p>
-                        </dd>
-                    {% endif %}
-                    <dd class="clear"></dd>
-                    {% if cv.experiences is not null %}
-                        <dt>Experience</dt>
-                        <dd>
-                            {% for exp in cv.experiences %}
-
-                                <h2>{{exp.poste}} <span> {{exp.societe}}- {{exp.localisation}}, {{dateDebut|date('d-m-y')}}-{{dateFin|date('d-m-y')}}</span></h2>
+                                <h2>Compétences en informatique</h2>
                                 <ul>
-                                    <li><strong>Zone de prospéction:</strong>{{exp.zoneProspection}}</li>
-                                    <li><strong>Rémunération: </strong>{{exp.remuneration}}</li>
-                                    <li><strong>Type de la clientèle:</strong>{{exp.typeClientele}}</li>
-                                    <li><strong>Secteur d'activité:</strong> {{exp.secteurActivite}}</li>
-                                    <li><strong>Fonction: </strong>{{exp.fonction}}</li>
-                                    <li><strong>Détails de la mission: </strong> {{exp.detailsMission}}</li>
-
+                                    {% for competence in cv.competences %}
+                                        <li>{{ competence.informatique }}</li>
+                                    {% endfor %}
                                 </ul>
-                            {% endfor %}
-                        </dd>
+                                <h2>Autres compétences</h2>
+                                <ul>
+                                    {% for competence in cv.competences %}
+                                        <li>{{ competence.autres }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </dd>
+                        {% endif %}
+                        <dd class="clear"></dd>
+                        {% if cv.experiences is not null %}
+                            <dt>Experience</dt>
+                            <dd>
+                                {% for exp in cv.experiences %}
 
-                    {% endif %}
-                    <dd class="clear"></dd>
-                    {% if cv.langues is not null %}
-                        <dt>Langues</dt>
-                        <dd>
-                            {% for l in cv.langues %}
+                                    <h2>{{ exp.poste }} <span> {{ exp.societe }}- {{ exp.localisation }}
+                                            , {{ exp.dateDebut|date('d-m-y') }}-{{ exp.dateFin|date('d-m-y') }}</span>
+                                    </h2>
+                                    <ul>dateDe
+                                        <li><strong>Zone de prospéction:</strong>{{ exp.zoneProspection }}</li>
+                                        <li><strong>Rémunération: </strong>{{ exp.remuneration }}</li>
+                                        <li><strong>Type de la clientèle:</strong>{{ exp.typeClientele }}</li>
+                                        <li><strong>Secteur d'activité:</strong> {{ exp.secteurActivite }}</li>
+                                        <li><strong>Fonction: </strong>{{ exp.fonction }}</li>
+                                        <li><strong>Détails de la mission: </strong> {{ exp.detailsMission }}</li>
 
-                                <h2>{{l.langue }}<span>{{l.niveau}}</span></h2>
+                                    </ul>
+                                {% endfor %}
+                            </dd>
 
-                            {% endfor %}
-                        </dd>
-                    {% endif %}
-                </dl>
+                        {% endif %}
+                        <dd class="clear"></dd>
+                        {% if cv.langues is not null %}
+                            <dt>Langues</dt>
+                            <dd>
+                                {% for l in cv.langues %}
 
-                <div class="clear"></div>
+                                    <h2>{{ l.langue }}<span> {{ l.niveau }}</span></h2>
 
-            </div>             
+                                {% endfor %}
+                            </dd>
+                        {% endif %}
+                    </dl>
+
+                    <div class="clear"></div>
+
+                </div>
+            {% else %}
+                Le candidat n'a pas rempli son cv.
+            {% endif %}
         </div>
     </div>
 </div>

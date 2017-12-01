@@ -48,7 +48,6 @@ $(function () {
                 $('#responseStore').addClass('alert-success').html(data.message).show();
                 $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
                 $('#m-m-u').modal('hide');
-                console.log(data);
             },
             complete: function () {
                 $.unblockUI();

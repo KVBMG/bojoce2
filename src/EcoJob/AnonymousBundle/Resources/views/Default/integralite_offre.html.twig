@@ -143,20 +143,20 @@
                                 {{ form_row(form.cvFile) }}
                             </div>
                         </div>
-                        {#{% if app.user and app.user.curriculum.showable %}#}
+                        {% if app.user and app.user.curriculum.showable %}
                             <div class="form-group row">
                                 <div class="col-md-4 pull-right">
                                     <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature
                                     </button>
                                 </div>
                             </div>
-                        {#{% else %}#}
-                            {#<div class="alert alert-warning">#}
-                                {#Vous n'avez pas encore fini de remplir votre <a#}
-                                        {#href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant#}
-                                {#d'Envoyer votre candidature.#}
-                            {#</div>#}
-                        {#{% endif %}#}
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                        href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>
+                        {% endif %}
                         {{ form_end(form) }}
                     </div>
                 </div>

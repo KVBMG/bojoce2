@@ -57,7 +57,7 @@
                                 <option value="3">3 derniers jours</option>
                                 <option value="7">Les 7 derniers jours</option>
                                 <option value="14">Les 14 derniers jours</option>
-                                <option value="30">30 derniers jours</option>
+                                <option value="30">30 derniers jours</option>                               
                             </select>
                         </div>
                         <div class="form-group">
@@ -98,7 +98,7 @@
                                             </a>
                                         {% endif %}
                                     {% else %}
-                                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id ,'localisation': offre.localisation}) }}" target="_blank" class="btn-default btn1">Voir</a>
+                                        <a href="{{ path('eco_job_anonymous_offre_integralite',{ 'id': offre.id ,'localisation': offre.localisation}) }}" target="_blank" class="btn-default btn1">Voir</a>                
 
                                     {% endif %}
                                 {% endif %}
@@ -214,9 +214,9 @@
 
 {% block javascripts %}
     <!--[if lte IE 9 ]>
-    <script type="text/javascript">
-        window.location.href= '{{path('eco_job_anonymous__offre_searchpage')}}';
-    </script>
+        <script type="text/javascript">
+            window.location.href= '{{path('eco_job_anonymous__offre_searchpage')}}';
+        </script>
     <![endif]-->
 
     {{parent()}}

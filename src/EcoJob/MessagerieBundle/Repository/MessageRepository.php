@@ -10,4 +10,5 @@ namespace EcoJob\MessagerieBundle\Repository;
  */
 class MessageRepository extends \Doctrine\ORM\EntityRepository
 {
+   
 }

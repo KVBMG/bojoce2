@@ -80,7 +80,7 @@
         "symfony-web-dir": "../",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml",
+            "file": "app/config/parameters.yml"
         },
         "branch-alias": null
     }

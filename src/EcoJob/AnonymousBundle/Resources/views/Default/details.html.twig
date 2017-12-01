@@ -43,8 +43,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </h4>
             </div>
+            {{ form_start(form) }}
             <div class="modal-body">
-                {{ form_start(form) }}
                 <div class="form-group row">
                     <div class="col-lg-10">
                         <div id="froala-editor"></div>
@@ -58,17 +58,21 @@
                 <div class="form-group row">
                     <div class="col-lg-10">
                         <label class="checkbox-inline"><input type="checkbox" name="externalFile" id="externalFile"
-                                                              checked="checked">Joindre un fichier externe</label>
+                                                              checked="checked" class="form-control-file">Joindre un fichier externe</label>
                         {{ form_row(form.cvFile) }}
                     </div>
                 </div>
+
+                <div class="alert alert-dismissable" id="responseStore">
+                </div>
                 {% if app.user and app.user.curriculum.showable %}
+                <hr>
                     <div class="form-group row">
-                        <div class="col-md-4 pull-right">
+                        <div class="col-md-5 pull-right">
                             <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                            <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
                         </div>
                     </div>
-                    {{ form_end(form) }}
                 {% else %}
                     <div class="alert alert-warning">
                         Vous n'avez pas encore fini de remplir votre <a
@@ -76,11 +80,11 @@
                         d'Envoyer votre candidature.
                     </div>
                 {% endif %}
-                <div class="alert alert-dismissable" id="responseStore">
-                </div>
             </div>
+            {{ form_end(form) }}
         </div>
     </div>
+</div>
 </div>
 
 <script type="application/javascript">
@@ -91,7 +95,7 @@
             inlineMode: false,
             toolbarButtons: ['undo', 'redo', '|', 'bold', 'color', 'fontFamily', 'fontSize', 'inlineStyle', 'paragraphStyle', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'outdent', 'indent', 'clearFormatting', '|', 'paragraphFormat', 'align', 'print'],
             toolbarButtonsXS: ['undo', 'redo', '-', 'bold', 'italic', 'underline'],
-            height: 250,
+            height: 150,
             quickInsertTags: [''],
             colorsBackground: ['#61BD6D', '#1ABC9C', '#54ACD2', 'REMOVE']
         };

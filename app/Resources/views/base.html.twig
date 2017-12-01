@@ -82,7 +82,7 @@
             <div class="top2 clearfix">
                 <header>
                     <div class="logo_wrapper">
-                        <a href="{{path('eco_job_main_index')}}" class="logo">
+                        <a href="index.html" class="logo">
                             <img src="{{asset('images/logo.png')}}" alt="" class="img-responsive">
                         </a>
                     </div>
@@ -96,30 +96,24 @@
                     </button>
                     <div class="navbar-collapse navbar-collapse_ collapse">
                         <ul class="nav navbar-nav sf-menu clearfix">
-                            <li class="active"><a href="{{path('eco_job_anonymous__offre_searchpage')}}">Accueil</a></li>
+                            <li class="active"><a href="{{path('eco_job_main_index')}}">Accueil</a></li>
                             {% if not app.user %}
-                                <li><a href="{{path('eco_job_anonymous__offre_searchpage')}}">Recherche</a></li>
+                                <li><a href="{{path('eco_job_anonymous_map')}}">Recherche</a></li>
                                 <li><a href="{{path('eco_job_candidat_index')}}">Candidat</a></li>
                                 <li><a href="{{path('eco_job_recruteur_index')}}">Recruteur</a></li>
                             {% else %}
                                 {% if is_granted('ROLE_RECRUTEUR') %}
-                                    <li><a href="{{path('eco_job_recruteur_banquecv')}}">Banque de CV</a></li>
+                                    <li><a href="{{path('eco_job_anonymous_map')}}">Recherche</a></li>
                                     <li><a href="{{path('eco_job_recruteur_index')}}">Recruteur</a></li>
                                 {% elseif is_granted('ROLE_CANDIDAT') %}
                                     <li><a href="{{path('eco_job_anonymous_map')}}">Recherche</a></li>
                                     <li><a href="{{path('eco_job_candidat_index')}}">Candidat</a></li>
                                 {% endif %}
-                                <li><a href="{{path('eco_job_messagerie_inbox')}}">Messages</a></li>
                             {% endif %}
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 <li class="sub-menu sub-menu-1"><a href="#">Mon compte<em></em></a>
                                     <ul>
-                                        {% if is_granted('ROLE_RECRUTEUR') %}
-                                            <li><a href="{{path('eco_job_recruteur_index')}}">Accueil(mon espace)</a></li>
-                                        {% elseif is_granted('ROLE_CANDIDAT') %}
-                                            <li><a href="{{path('eco_job_candidat_index')}}">Accueil(mon espace)</a></li>
-                                        {% endif %}
-                                        <li><a href="{{path('fos_user_profile_show')}}">Profil</a></li>
+                                        <li><a href="{{path('fos_user_profile_show')}}">Profile</a></li>
                                         <li><a href="{{path('fos_user_security_logout')}}">Se déconnecter</a></li>
                                     </ul>
                                 </li>
@@ -131,44 +125,43 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% block content %}
-        <div class="header_wrapper">
-            <div class="img"><img src="{{asset('images/header5.jpg')}}" alt="" class="img-responsive"></div>
-            <div class="header_inner">
-                <div class="container">
-                    <h1>{% block content_title %} {% endblock %}</h1>
-                    <div class="breadcrumbs1"><a href="{{path('eco_job_main_index')}}">Accueil</a><span></span>{% block content_stitle %} {% endblock %}</div>
-                </div>
+    </div>{% block content %}
+    <div class="header_wrapper">
+        <div class="img"><img src="{{asset('images/header5.jpg')}}" alt="" class="img-responsive"></div>
+        <div class="header_inner">
+            <div class="container">
+                <h1>{% block content_title %} {% endblock %}</h1>
+                <div class="breadcrumbs1"><a href="{{path('eco_job_main_index')}}">Accueil</a><span></span>{% block content_stitle %} {% endblock %}</div>
             </div>
-            <div id="free">
-                <div class="container">
-                    <div class="free_inner">
-                        <div class="free">
-                            <div class="txt1">call us</div>
-                            <div class="txt2">1-800-123-1234</div>
-                            <div class="txt3"><span>or</span></div>
-                            <div class="txt4"><a href="#" class="btn-default btn2">email us</a></div>
-                            <div class="txt5">free consultation</div>
-                        </div>
+        </div>
+        <div id="free">
+            <div class="container">
+                <div class="free_inner">
+                    <div class="free">
+                        <div class="txt1">call us</div>
+                        <div class="txt2">1-800-123-1234</div>
+                        <div class="txt3"><span>or</span></div>
+                        <div class="txt4"><a href="#" class="btn-default btn2">email us</a></div>
+                        <div class="txt5">free consultation</div>
                     </div>
                 </div>
             </div>
         </div>
-        {% if app.request.hasPreviousSession %}
-            {% for flashMessage in app.session.flashBag.get('notice_error') %}
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Erreur! </strong>{{ flashMessage }}
-                </div>
-            {% endfor %}
-            {% for flashMessage in app.session.flashBag.get('notice_success') %}
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Succes! </strong>{{ flashMessage }}
-                </div>
-            {% endfor %}
-        {% endif %}
+    </div>
+    {% if app.request.hasPreviousSession %}
+        {% for flashMessage in app.session.flashBag.get('notice_error') %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Erreur! </strong>{{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashBag.get('notice_success') %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Succes! </strong>{{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     {% endblock %}
     <div class="bot2_wrapper">
