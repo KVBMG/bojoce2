@@ -65,7 +65,7 @@
 
                 <div class="alert alert-dismissable" id="responseStore">
                 </div>
-                {% if app.user and app.user.curriculum.showable %}
+                {% if app.user and app.user.curriculum is not null and app.user.curriculum.showable %}
                 <hr>
                     <div class="form-group row">
                         <div class="col-md-5 pull-right">
@@ -74,11 +74,19 @@
                         </div>
                     </div>
                 {% else %}
+                    {% if app.user.curriculum is not null %}
                     <div class="alert alert-warning">
                         Vous n'avez pas encore fini de remplir votre <a
                                 href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
                         d'Envoyer votre candidature.
                     </div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        Vous n'avez pas encore fini de remplir votre <a
+                                href="{{ path('eco_job_candidat_cv_fill') }}">CV</a> , veuillez le remplir avant
+                        d'Envoyer votre candidature.
+                    </div>                        
+                    {% endif %}
                 {% endif %}
             </div>
             {{ form_end(form) }}
