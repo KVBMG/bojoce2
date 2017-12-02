@@ -102,7 +102,7 @@
                     <li><a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a></li>        
                 {% endif %}
                 <li><a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a></li>
-                <li><a href="#"  data-toggle="modal" data-target="#supModal"> Supprimer</a></li>  
+                <li><a href="#"  data-toggle="modal" data-target="#supCVModal"> Supprimer</a></li>  
                 <li><a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a></li>
 
                 {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
@@ -125,6 +125,23 @@
     
 </div>
 </div>
+<div style="z-index:2016;" class="modal fade " id="supCVModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression de votre CV?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary validerDelete">Valider</button>
+                </div>            
+            </div>
+        </div>
+    </div> 
 <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -135,6 +152,8 @@
                 <h4 class="modal-title">Alerte</h4>
             </div>
             <div class="modal-body">
+                Vous devez remplir complètement votre CV avant de pouvoir activer la publication de votre CV.
+                
             </div>
         </div>
     </div>

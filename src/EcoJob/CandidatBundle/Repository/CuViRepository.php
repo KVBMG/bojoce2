@@ -87,7 +87,10 @@ class CuViRepository extends \Doctrine\ORM\EntityRepository {
                     ->andWhere('ex.anneeExp = :exp')
                     ->setParameter('exp', $experience);
         }
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()
+                        ->useQueryCache(true)    // here
+                        ->useResultCache(true)
+                        ->getResult();                
     }
 
 }
