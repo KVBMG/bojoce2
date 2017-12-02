@@ -126,6 +126,9 @@ class DefaultController extends Controller {
     /**
      * @Cache(expires="tomorrow", public=true,smaxage="15")
      */
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
     public function showOffreAction(Offre $offre) {
         return $this->render('EcoJobAnonymousBundle:Default:offre.html.twig', array('offre' => $offre));
     }
@@ -222,7 +225,9 @@ class DefaultController extends Controller {
             }
         }
     }
-
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
     public function getAllJsonAction() {
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
