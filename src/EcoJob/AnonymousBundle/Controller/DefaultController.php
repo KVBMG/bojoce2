@@ -13,16 +13,11 @@ use Symfony\Component\Security\Acl\Exception\Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
-/**
- * @Cache(expires="tomorrow", public=true,smaxage="15")
- */
-class DefaultController extends Controller
-{
+class DefaultController extends Controller {
 
-    public function mapAction()
-    {
+    public function mapAction() {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -35,11 +30,13 @@ class DefaultController extends Controller
         $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:map.html.twig', array(
-            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
+                    'offres' => $results, 'added' => $results, 'contrats' => $contrats, 'secteurs' => $secteurs));
     }
 
-    public function searchAjaxTemplatedAction(Request $request)
-    {
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
+    public function searchAjaxTemplatedAction(Request $request) {
         $keywords = $request->request->get('keywords');
         $contrat = $request->request->get('contrat');
         $datePublication = $request->request->get('datePublication');
@@ -48,7 +45,7 @@ class DefaultController extends Controller
         $limit = $request->request->get('limit');
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication,$secteur, $offset, $limit);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search($keywords, $contrat, $datePublication, $secteur, $offset, $limit);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             for ($i = 0; $i < count($mines); $i++) {
@@ -65,8 +62,7 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function searchAjaxAction(Request $request)
-    {
+    public function searchAjaxAction(Request $request) {
         $keywords = $request->request->get('keywords');
         $contrat = $request->request->get('contrat');
         $experience = $request->request->get('experience');
@@ -87,8 +83,7 @@ class DefaultController extends Controller
         return new Response($res);
     }
 
-    public function searchAction(Request $request)
-    {
+    public function searchAction(Request $request) {
         $keywords = $request->request->get('keywords');
         $contrat = $request->request->get('contrat');
         $experience = $request->request->get('experience');
@@ -110,10 +105,9 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function doSearchAction()
-    {
+    public function doSearchAction() {
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $mines = $this->getUser()->getPostuled();
             $added = [];
@@ -126,16 +120,20 @@ class DefaultController extends Controller
         $contrats = $em->getRepository('EcoJobRecruteurBundle:ContratType')->findAll();
         $secteurs = $em->getRepository('EcoJobRecruteurBundle:ContratCategorie')->findAll();
         return $this->render('EcoJobAnonymousBundle:Default:search.html.twig', array(
-            'offres' => $results, 'added' => $results,'contrats' => $contrats,'secteurs' => $secteurs));
+                    'offres' => $results, 'added' => $results, 'contrats' => $contrats, 'secteurs' => $secteurs));
     }
 
-    public function showOffreAction(Offre $offre)
-    {
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
+    public function showOffreAction(Offre $offre) {
         return $this->render('EcoJobAnonymousBundle:Default:offre.html.twig', array('offre' => $offre));
     }
 
-    public function detailsOffreAction(Offre $offre, Request $request)
-    {
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
+    public function detailsOffreAction(Offre $offre, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $postuled = false;
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -189,8 +187,7 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function notifyByMail($candidature)
-    {
+    public function notifyByMail($candidature) {
         $alert_mail = $this->get('eco_job_candidat.alert_mail');
         $recruteur = $candidature->getOffre()->getRecruteur();
         $mail_content = array();
@@ -208,46 +205,43 @@ class DefaultController extends Controller
         $alert_mail->sendMail($mail, true);
     }
 
-
-    public function sendToFriendAction(Request $request)
-    {
+    public function sendToFriendAction(Request $request) {
         if ($request->isXmlHttpRequest() && $request->isMethod("POST")) {
             $id = $request->request->get('offreId');
-            $body = $this->renderView('EcoJobAnonymousBundle:AlertMail:alertMail.html.twig', array('id'=> $id,'contenu' => $request->request->get('friendContent')));
+            $body = $this->renderView('EcoJobAnonymousBundle:AlertMail:alertMail.html.twig', array('id' => $id, 'contenu' => $request->request->get('friendContent')));
             $message = \Swift_Message::newInstance()
-                ->setSubject('Eco-Job-Fr')
-                ->setFrom($this->container->getParameter('mailer_user'))
-                ->setTo($request->request->get('friendEmail'))
-                ->setBody($body, 'text/html');
+                    ->setSubject('Eco-Job-Fr')
+                    ->setFrom($this->container->getParameter('mailer_user'))
+                    ->setTo($request->request->get('friendEmail'))
+                    ->setBody($body, 'text/html');
             try {
                 $this->get('mailer')->send($message);
                 return new JsonResponse(['data' => 'Offre partagé']);
             } catch (Exception $e) {
                 return new JsonResponse(['data' => 'Echec lors de l\'envoie, veuillez contacter l\'administrateur du site.'], 500);
             }
-
         }
     }
 
-    public function getAllJsonAction()
-    {
+    public function getAllJsonAction() {
         $serializer = $this->container->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("",0,-2,0,0,10);
+        $results = $em->getRepository('EcoJobRecruteurBundle:Offre')->search("", 0, -2, 0, 0, 10);
         $res = $serializer->serialize($offres, 'json');
         return new Response($res);
     }
 
-    private function unsetValue(array $array, $value, $strict = TRUE)
-    {
+    private function unsetValue(array $array, $value, $strict = TRUE) {
         if (($key = array_search($value, $array, $strict)) !== FALSE) {
             $results[$key]->setAdded(true);
         }
         return $array;
     }
 
-    public function integraliteOffreAction(Offre $offre, Request $request)
-    {
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
+    public function integraliteOffreAction(Offre $offre, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $securityContext = $this->container->get('security.authorization_checker');
         $postuled = false;
@@ -289,10 +283,10 @@ class DefaultController extends Controller
         }
 
         return $this->render('EcoJobAnonymousBundle:Default:integralite_offre.html.twig', array(
-            'offre' => $offre,
-            'postuled' => $postuled,
-            'saved' => $saved,
-            'form' => $form->createView()
+                    'offre' => $offre,
+                    'postuled' => $postuled,
+                    'saved' => $saved,
+                    'form' => $form->createView()
         ));
     }
 
