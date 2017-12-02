@@ -32,7 +32,7 @@ eco_job_candidat_offre_postuler:
 eco_job_candidat_offre:
     path:     /{localisation}/{id}
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:showOffre" }
-    methods:  [POST]
+    methods:  [GET,POST]
     
                  
 
@@ -55,7 +55,10 @@ eco_job_candidat_offre_delet:
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteOffre" }
     methods:  [GET,POST]  
     
-            
+eco_job_candidat_offre_delete:
+    path:     /supprimer/offre/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteOffre" }
+    methods:  [GET,POST]              
     
 eco_job_candidat_myoffres:
     path:     /sauvegardees.php
