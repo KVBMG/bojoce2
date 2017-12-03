@@ -104,4 +104,21 @@ class Mailer implements MailerInterface
 
         $this->mailer->send($message);
     }
+    public function sendPasswordOrProfilChanged(UserInterface $user)
+    {
+        $body = $this->templating
+            ->render('@FOSUser/ChangePassword/Mail/alertedit.html.twig', array(
+                'user' => $user
+        ));
+
+        $message = (new \Swift_Message())
+            ->setSubject("Alert Eco-Job")
+            ->setFrom(array("postmaster@eco-job.fr" => 'Alert Eco-Job'))
+            ->setTo($user->getEmail())
+            ->setCharset('utf-8')
+            ->setContentType('text/html')                
+            ->setBody($body);
+
+        $this->mailer->send($message);
+    }    
 }

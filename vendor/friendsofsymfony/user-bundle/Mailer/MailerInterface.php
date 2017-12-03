@@ -31,4 +31,7 @@ interface MailerInterface
      * @param UserInterface $user
      */
     public function sendResettingEmailMessage(UserInterface $user);
+    
+    public function sendPasswordOrProfilChanged(UserInterface $user);
+    
 }

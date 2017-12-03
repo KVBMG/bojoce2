@@ -91,7 +91,11 @@ class ChangePasswordController extends Controller {
                     $userManager->updateUser($user);
 
                     if (null === $response = $event->getResponse()) {
-                        $url = "";                     
+                        $url = "";  
+                        $session = $this->get('session');
+                        $session->getFlashBag()->add('notice_success', 'Votre mot de passe a été changé avec succes.');                        
+                        $this->get('fos_user.mailer')->sendPasswordOrProfilChanged($user);
+                        
                         if(in_array('ROLE_CANDIDAT',$user->getRoles())){
                         $url = $this->generateUrl('eco_job_candidat_index');
                             return $this->redirectToRoute('eco_job_candidat_index');
