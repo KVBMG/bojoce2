@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- Modal apply for Offer --->
         <div id="m-m-u" class="modal fade" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -144,26 +144,30 @@
                             </div>
                         </div>
                         {% if app.user and app.user.curriculum is not null and app.user.curriculum.showable %}
-                        <hr>
+                            <hr>
                             <div class="form-group row">
                                 <div class="col-md-5 pull-right">
-                                    <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
-                                    <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature
+                                    </button>
+                                    <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer
+                                    </button>
                                 </div>
                             </div>
                         {% else %}
                             {% if app.user and app.user.curriculum is not null %}
-                            <div class="alert alert-warning">
-                                Vous n'avez pas encore fini de remplir votre <a
-                                        href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
-                                d'Envoyer votre candidature.
-                            </div>
+                                <div class="alert alert-warning">
+                                    Vous n'avez pas encore fini de remplir votre <a
+                                            href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir
+                                    avant
+                                    d'Envoyer votre candidature.
+                                </div>
                             {% else %}
-                            <div class="alert alert-warning">
-                                Vous n'avez pas encore fini de remplir votre <a
-                                        href="{{ path('eco_job_candidat_cv_fill') }}">CV</a> , veuillez le remplir avant
-                                d'Envoyer votre candidature.
-                            </div>                        
+                                <div class="alert alert-warning">
+                                    Vous n'avez pas encore fini de remplir votre <a
+                                            href="{{ path('eco_job_candidat_cv_fill') }}">CV</a> , veuillez le remplir
+                                    avant
+                                    d'Envoyer votre candidature.
+                                </div>
                             {% endif %}
                         {% endif %}
                         {{ form_end(form) }}

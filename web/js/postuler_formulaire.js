@@ -31,6 +31,10 @@ $(function () {
 
     $(document).on('change', '#externalFile', handleChange.bind(this));
 
+    $(document).on('shown.bs.modal', '#m-m-u.fr-wrapper', function (e) {
+        $(document).find('#froala-editor').find('a').hide();
+    });
+
     $(document).on('submit', '#candidatureForm', function (event) {
         event.preventDefault();
         var description = _editor.froalaEditor('html.get');

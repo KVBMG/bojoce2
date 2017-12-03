@@ -20,10 +20,8 @@
                     <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
                     <div class="txt3">{{offre.description}}</div>
                     <a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation})}}" class="btn-default btn3">Afficher</a>
-                    {% if not offre.added %}
-                        <a href="#" class="postulerBtn txt3" offreId="{{offre.id}}" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</a>                        
-                    {% else %}
-                        <a href="#" class="btn-default btn-warning">Déja postulé</a>                            
+                    {% if offre.added %}
+                        <a href="#" class="btn-default btn-warning">Déja postulé</a>
                     {% endif %}
                     <a href="{{ path('eco_job_candidat_offre_delet',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
                     {% if offre.expired %}

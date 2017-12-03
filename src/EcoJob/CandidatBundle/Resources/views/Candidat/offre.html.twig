@@ -1,83 +1,165 @@
-{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+{% extends "EcoJobCandidatBundle::layout.html.twig" %}
 
 {% block title %} Mes offres{% endblock %}
 
 {% block content_title %} Candidat {% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.min.css' ) }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.pkgd.min.css' ) }}"/>
+{% endblock %}
 {% block content_stitle %} Offres d'emploi {% endblock %}
 
-{% block scontent %} 
-    {{parent()}}
+{% block scontent %}
+    {{ parent() }}
     <div class="latest_news">
-        <div class="title7">Offre numero {{offre.id}}</div>
+        <div class="title7">Offre numero {{ offre.id }}</div>
         <div class="news1">
-            <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
+            <div class="txt1">Ajoutée le {{ offre.createdAt | date('d-m-y') }}</div>
 
-            <div class="txt2"><a href="">{{offre.titre}}</a></div>
-            <div class="txt3">{{offre.description}}</div>
+            <div class="txt2"><a href="">{{ offre.titre }}</a></div>
+            <div class="txt3">{{ offre.description }}</div>
 
         </div>
         <div class="button-group">
             {% if not app.user %}
-                <a href="{{ path('fos_user_registration_register')}}" class="btn-default btn1">Save</a>
-                <a href="{{ path('fos_user_registration_register')}}" class="btn-default btn1">Postuler</a>
-                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a href="{{ path('fos_user_registration_register') }}" class="btn-default btn1">Save</a>
+                <a href="{{ path('fos_user_registration_register') }}" class="btn-default btn1">Postuler</a>
+                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                   aria-controls="collapseExample">
                     Share
                 </a>
             {% else %}
                 {% if saved %}
                     <a href="#" class="btn-default btn-warning">Déja sauvegardée</a>
                 {% else %}
-                    <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id})}}" class="btn-default btn1">Save</a>
+                    <a href="{{ path('eco_job_candidat_offre_save',{'id': offre.id}) }}"
+                       class="btn-default btn1">Save</a>
                 {% endif %}
                 {% if postuled %}
                     <a href="#" class="btn-default btn-warning">Déja postulé</a>
                 {% else %}
-                    <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal" data-target="#m-m-u" >Postuler</button>
+                    <button class="btn-default btn1" id="postulerBtn" type="button" data-toggle="modal"
+                            data-target="#m-m-u">Postuler
+                    </button>
                 {% endif %}
-                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn-default btn1" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                   aria-controls="collapseExample">
                     Share
                 </a>
-                <a href="{{ path('eco_job_candidat_offre_delete',{'id': offre.id})}}" class="btn-default btn1">Supprimer</a>    
+                <a href="{{ path('eco_job_candidat_offre_delete',{'id': offre.id}) }}" class="btn-default btn1">Supprimer</a>
 
             {% endif %}
         </div>
         <div class="collapse" id="collapseExample">
             <div class="card card-block">
                 <ul class="social clearfix">
+                    <li>
+                        <button class="btn btn-success btn-xs" data-url-id={{ offre.id }} data-toggle="modal"
+                                data-target="#friendModal">Envoyer à un ami <i class="fa fa-user"></i></button>
+                    </li>
                     <li><a href="" id="fb-share"><i class="fa fa-facebook"></i></a>
                     </li>
                     <li><a class="twitter popup" href="http://twitter.com/share"><i class="fa fa-twitter"></i></a></li>
                     <li>
                         <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
-                        <script type="IN/Share" data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}" data-counter="right"></script>
+                        <script type="IN/Share"
+                                data-url="ecojob.fr/valfid/developpement/web/search/offre/{{ offre.id }}"
+                                data-counter="right"></script>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-
-    <div id="m-m-u" class="modal fade" data-backdrop="true">
+    <!-- Modal apply for offer -->
+    <div id="m-m-u" class="modal fade" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form action="{{ path('eco_job_candidat_offre_postuler',{ 'id' : offre.id }) }}" id="candidatureForm">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Posulter pour l'offre : {{ offre.titre }}</h4>
+                <div class="modal-header">
+                    <h4 class="modal-title">Postuler pour l'offre : {{ offre.titre }}
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    <div class="form-group row">
+                        <div class="col-lg-10">
+                            <div id="froala-editor"></div>
+                        </div>
                     </div>
-                    <div class="modal-body text-center p-lg">
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            {{ form_row(form.joinMyCv) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-10">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="externalFile" id="externalFile" checked="checked">Joindre
+                                un fichier
+                                externe
+                            </label>
+                            {{ form_row(form.cvFile) }}
+                        </div>
+                    </div>
+                    {% if app.user and app.user.curriculum is not null and app.user.curriculum.showable %}
+                        <hr>
                         <div class="form-group row">
-                            <label for="libelle" class="col-sm-2 form-control-label">Qu'est-ce qui vous motive?</label>
-                            <div class="col-lg-10">
-                                <textarea class="form-control" name="motivation" id="" cols="30" rows="15" required></textarea>
+                            <div class="col-md-5 pull-right">
+                                <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                                <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
                             </div>
                         </div>
-                        <div class="alert" id="responseStore">
-
+                    {% else %}
+                        {% if app.user and app.user.curriculum is not null %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                        href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                        href="{{ path('eco_job_candidat_cv_fill') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="z-index:2016;" class="modal fade " data-backdrop="static" id="friendModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Envoyer à un ami</h4>
+                </div>
+                <form method="POST" id="friendForm">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="friendSubject" class="control-label required">E-mail</label>
+                                <input type="email" required name="friendEmail" placeholder="Entrez l'adresse E-mail"
+                                       class="form-control">
+                            </div>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-md-12"><label for="friendSubject" class="control-label required">Entrez
+                                    quelques phrases d'introduction pour votre ami.</label>
+                                    <textarea name="friendContent" id="" rows="5" required
+                                              class="form-control"></textarea>
+
+                            </div>
+                        </div>
+                        <div id="responseStore" class="alert-dismissable"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn success p-x-md" >Envoyer ma candidature</button>
-                        <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Annuler</button>
+                        <input type="submit" class="btn-default btn1" value="Envoyer à un ami">
                     </div>
                 </form>
             </div>
@@ -87,84 +169,61 @@
 {% block javascripts %}
 
     {{ parent() }}
-    <script src="{{asset('js/jquery.blockUI.js')}}"></script>
+    <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
     <script>
-                            $(function () {
-                                var _url = window.location.href;
-                                window.fbAsyncInit = function () {
-                                    FB.init({
-                                        appId: '1750551898578027',
-                                        xfbml: true,
-                                        version: 'v2.10'
-                                    });
-                                    FB.AppEvents.logPageView();
-                                };
+        $(function () {
+            var _url = window.location.href;
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '1750551898578027',
+                    xfbml: true,
+                    version: 'v2.10'
+                });
+                FB.AppEvents.logPageView();
+            };
 
-                                (function (d, s, id) {
-                                    var js, fjs = d.getElementsByTagName(s)[0];
-                                    if (d.getElementById(id)) {
-                                        return;
-                                    }
-                                    js = d.createElement(s);
-                                    js.id = id;
-                                    js.src = "//connect.facebook.net/en_US/sdk.js";
-                                    fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
-                                $('#fb-share').click(function (e) {
-                                    e.preventDefault();
-                                    FB.ui({
-                                        method: 'share',
-                                        display: 'popup',
-                                        href: _url, // to change with the true hrefLink when production
-                                    }, function (response) {});
-                                    return false;
-                                });
+            $('#fb-share').click(function (e) {
+                e.preventDefault();
+                FB.ui({
+                    method: 'share',
+                    display: 'popup',
+                    href: _url, // to change with the true hrefLink when production
+                }, function (response) {
+                });
+                return false;
+            });
 
-                                $('.popup').click(function (event) {
-                                    var width = 575,
-                                            height = 400,
-                                            left = ($(window).width() - width) / 2,
-                                            top = ($(window).height() - height) / 2,
-                                            url = this.href,
-                                            opts = 'status=1' +
-                                            ',width=' + width +
-                                            ',height=' + height +
-                                            ',top=' + top +
-                                            ',left=' + left;
+            $('.popup').click(function (event) {
+                var width = 575,
+                        height = 400,
+                        left = ($(window).width() - width) / 2,
+                        top = ($(window).height() - height) / 2,
+                        url = this.href,
+                        opts = 'status=1' +
+                                ',width=' + width +
+                                ',height=' + height +
+                                ',top=' + top +
+                                ',left=' + left;
 
-                                    window.open(url, 'twitter', opts);
+                window.open(url, 'twitter', opts);
 
-                                    return false;
-                                });
-
-                                $('#candidatureForm').submit(function (event) {
-                                    event.preventDefault();
-                                    var form_data = $(this).serialize();
-                                    console.log(form_data);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: $(this).attr('action'),
-                                        data: form_data,
-                                        beforeSend: function () {
-                                            $.blockUI({
-                                                message: '<p class="loader"></p>',
-                                                css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
-                                            });
-                                        },
-                                        error: function (err) {
-                                            $('#responseStore').addClass('alert-danger').html("L'envoie de votre candidature a échoué").show();
-                                        },
-                                        success: function (data) {
-                                            $('#responseStore').addClass('alert-success').html(data.message).show();
-                                            $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
-                                            $('#m-m-u').modal('hide');
-                                        },
-                                        complete: function () {
-                                            $.unblockUI();
-                                        }
-                                    })
-                                });
-                            })
+                return false;
+            });
+        })
     </script>
+    <script src="{{ asset('froala_editor/js/froala_editor.min.js') }}"></script>
+    <script src="{{ asset('froala_editor/js/froala_editor.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/postuler_formulaire.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('js/sendToFriend.js') }}"></script>
 {% endblock %}
