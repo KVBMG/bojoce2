@@ -83,7 +83,6 @@ class ProfileFormType extends AbstractType {
      */
     protected function buildUserForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
                 ->add('email', RepeatedType::class, array(
                     'type' => EmailType::class,
                     'invalid_message' => 'Les deux adresses emails ne sont pas identiques.',
