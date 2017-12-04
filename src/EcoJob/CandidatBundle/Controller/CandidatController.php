@@ -39,9 +39,7 @@ use EcoJob\UserBundle\Form\ImageType;
 use FOS\MessageBundle\Model\MessageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
-/**
- * @Cache(expires="tomorrow", public=true,smaxage="15")
- */
+
 class CandidatController extends Controller
 {
 
@@ -68,7 +66,7 @@ class CandidatController extends Controller
 
     public function ParamAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $param = $em->getRepository('EcoJobCandidatBundle:ParamCandidat')->findBy(array('candidat' => $this->getUser()->getId()));
 
@@ -94,10 +92,9 @@ class CandidatController extends Controller
             'form' => $form->createView(),
         ));
     }
-
     public function ResetParamAction()
     {
-        //$this->getNumbers();
+        $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $param = $em->getRepository('EcoJobCandidatBundle:ParamCandidat')->findBy(array('candidat' => $this->getUser()->getId()));
         foreach ($param as $p) {
@@ -109,7 +106,7 @@ class CandidatController extends Controller
 
     public function fillAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
 
         if ($this->getUser()->getCurriculum() != NULL) {
@@ -158,9 +155,15 @@ class CandidatController extends Controller
 
     public function ShowAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
+        
+        $response = new Response();
+        $response->setLastModified($cv->getUpdatedAt());
+        if ($response->isNotModified($request)) {
+            return $response;
+        }        
         if ($cv != null) {
             return $this->render('EcoJobCandidatBundle:Candidat:show.html.twig', array(
                 'cv' => $cv,
@@ -172,9 +175,15 @@ class CandidatController extends Controller
 
     public function EditAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
+        $response = new Response();
+        $response->setLastModified($cv->getUpdatedAt());
+        if ($response->isNotModified($request)) {
+            return $response;
+        }         
+        
         $em = $this->getDoctrine()->getManager();
         $cv->setCreatedAt(new \DateTime());
         $em->persist($cv);
@@ -232,7 +241,7 @@ class CandidatController extends Controller
 
     public function DeleteAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
         if ($request->getMethod() == 'GET') {
@@ -292,16 +301,19 @@ class CandidatController extends Controller
             $this->getUser()->addPostuled($offre);
             $em->flush();
             $count = count($this->getUser()->getPostuled());
-
+	    $this->getNumbers();	    
             return new JsonResponse([
                 "saved" => $count,
             ]);
         }
-    }
 
+    }
+/**
+ * @Cache(expires="tomorrow", public=true,smaxage="15")
+ */
     public function showOffreAction(Offre $offre, Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $em = $this->getDoctrine()->getManager();
         $securityContext = $this->container->get('security.authorization_checker');
@@ -365,7 +377,7 @@ class CandidatController extends Controller
 
     public function myOffresAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $offres = $this->getUser()->getPostuled();
 
@@ -395,14 +407,14 @@ class CandidatController extends Controller
 
     public function detailsOffre2Action(Offre $offre)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         return $this->render('EcoJobCandidatBundle:Candidat:details2.html.twig', array('offre' => $offre));
     }
 
     public function uploadCVAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $cvfile = new CVFile();
         $form = $this->createForm(CVFileType::class, $cvfile);
@@ -439,7 +451,7 @@ class CandidatController extends Controller
 
     public function postuledOffresAction(Request $request)
     {
-        //$this->getNumbers();
+        $this->getNumbers();
 
         $em = $this->getDoctrine()->getManager();
         $candidatures = $this->getUser()->getCandidatures();

@@ -3,7 +3,6 @@
 namespace EcoJob\CandidatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Exclude;
@@ -13,9 +12,10 @@ use JMS\Serializer\Annotation\Exclude;
  *
  * @ORM\Table(name="cu_vi")
  * @ORM\Entity(repositoryClass="EcoJob\CandidatBundle\Repository\CuViRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class CuVi
-{
+class CuVi {
+
     /**
      * @var int
      *
@@ -30,21 +30,19 @@ class CuVi
      * @Exclude     
      */
     private $etatCivil;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
      * @Exclude     
      */
     private $cvFile;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="EcoJob\UserBundle\Entity\Image",cascade={"remove"},orphanRemoval=true)
      * @Exclude     
      */
-    private $image;    
-  
-    
-        
+    private $image;
+
     /**
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Formation",mappedBy="cuvi",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
@@ -57,52 +55,86 @@ class CuVi
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
-    private $competences;    
-    
+    private $competences;
+
     /**
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Langue",mappedBy="cuvi",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
     private $langues;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Experience",mappedBy="cuvi",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
-    private $experiences;        
-    
+    private $experiences;
+
     /**
      * @var bool
      *
      * @ORM\Column(name="showable", type="boolean",options={"default": true},nullable=true)
      */
-    private $showable;     
+    private $showable;
+
     /**
      * @ORM\Column(type="datetime",nullable=true)
      *
      * @var \DateTime
      */
-    private $createdAt;     
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate(){
+        $this->updatedAt = new \DateTime();
+    }
+
+    public function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
     public function __construct() {
         $this->showable = false;
         $this->createdAt = new \DateTime();
     }
-    
-
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-
-
 
     /**
      * Set showable
@@ -111,10 +143,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setShowable($showable)
-    {
+    public function setShowable($showable) {
         $this->showable = $showable;
-    
+
         return $this;
     }
 
@@ -123,8 +154,7 @@ class CuVi
      *
      * @return boolean
      */
-    public function getShowable()
-    {
+    public function getShowable() {
         return $this->showable;
     }
 
@@ -135,10 +165,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setEtatCivil(\EcoJob\CandidatBundle\Entity\EtatCivil $etatCivil = null)
-    {
+    public function setEtatCivil(\EcoJob\CandidatBundle\Entity\EtatCivil $etatCivil = null) {
         $this->etatCivil = $etatCivil;
-    
+
         return $this;
     }
 
@@ -147,8 +176,7 @@ class CuVi
      *
      * @return \EcoJob\CandidatBundle\Entity\EtatCivil
      */
-    public function getEtatCivil()
-    {
+    public function getEtatCivil() {
         return $this->etatCivil;
     }
 
@@ -159,10 +187,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null)
-    {
+    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null) {
         $this->cvFile = $cvFile;
-    
+
         return $this;
     }
 
@@ -171,8 +198,7 @@ class CuVi
      *
      * @return \EcoJob\CandidatBundle\Entity\CVFile
      */
-    public function getCvFile()
-    {
+    public function getCvFile() {
         return $this->cvFile;
     }
 
@@ -183,10 +209,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setImage(\EcoJob\UserBundle\Entity\Image $image = null)
-    {
+    public function setImage(\EcoJob\UserBundle\Entity\Image $image = null) {
         $this->image = $image;
-    
+
         return $this;
     }
 
@@ -195,8 +220,7 @@ class CuVi
      *
      * @return \EcoJob\UserBundle\Entity\Image
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -207,8 +231,7 @@ class CuVi
      *
      * @return CuVi
      */
-    public function addFormation(\EcoJob\CandidatBundle\Entity\Formation $formation)
-    {
+    public function addFormation(\EcoJob\CandidatBundle\Entity\Formation $formation) {
         $this->formations[] = $formation;
         $formation->setCuvi($this);
         return $this;
@@ -219,8 +242,7 @@ class CuVi
      *
      * @param \EcoJob\CandidatBundle\Entity\Formation $formation
      */
-    public function removeFormation(\EcoJob\CandidatBundle\Entity\Formation $formation)
-    {
+    public function removeFormation(\EcoJob\CandidatBundle\Entity\Formation $formation) {
         $this->formations->removeElement($formation);
     }
 
@@ -229,8 +251,7 @@ class CuVi
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFormations()
-    {
+    public function getFormations() {
         return $this->formations;
     }
 
@@ -241,8 +262,7 @@ class CuVi
      *
      * @return CuVi
      */
-    public function addExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
-    {
+    public function addExperience(\EcoJob\CandidatBundle\Entity\Experience $experience) {
         $this->experiences[] = $experience;
         $experience->setCuVi($this);
         return $this;
@@ -253,8 +273,7 @@ class CuVi
      *
      * @param \EcoJob\CandidatBundle\Entity\Experience $experience
      */
-    public function removeExperience(\EcoJob\CandidatBundle\Entity\Experience $experience)
-    {
+    public function removeExperience(\EcoJob\CandidatBundle\Entity\Experience $experience) {
         $this->experiences->removeElement($experience);
     }
 
@@ -263,12 +282,10 @@ class CuVi
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getExperiences()
-    {
+    public function getExperiences() {
         return $this->experiences;
     }
 
- 
     /**
      * Add langue
      *
@@ -276,8 +293,7 @@ class CuVi
      *
      * @return CuVi
      */
-    public function addLangue(\EcoJob\CandidatBundle\Entity\Langue $langue)
-    {
+    public function addLangue(\EcoJob\CandidatBundle\Entity\Langue $langue) {
         $this->langues[] = $langue;
         $langue->setCuVi($this);
         return $this;
@@ -288,8 +304,7 @@ class CuVi
      *
      * @param \EcoJob\CandidatBundle\Entity\Langue $langue
      */
-    public function removeLangue(\EcoJob\CandidatBundle\Entity\Langue $langue)
-    {
+    public function removeLangue(\EcoJob\CandidatBundle\Entity\Langue $langue) {
         $this->langues->removeElement($langue);
     }
 
@@ -298,8 +313,7 @@ class CuVi
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLangues()
-    {
+    public function getLangues() {
         return $this->langues;
     }
 
@@ -310,8 +324,7 @@ class CuVi
      *
      * @return CuVi
      */
-    public function addCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence)
-    {
+    public function addCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence) {
         $this->competences[] = $competence;
         $competence->setCuvi($this);
         return $this;
@@ -322,8 +335,7 @@ class CuVi
      *
      * @param \EcoJob\CandidatBundle\Entity\Competence $competence
      */
-    public function removeCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence)
-    {
+    public function removeCompetence(\EcoJob\CandidatBundle\Entity\Competence $competence) {
         $this->competences->removeElement($competence);
     }
 
@@ -332,8 +344,7 @@ class CuVi
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCompetences()
-    {
+    public function getCompetences() {
         return $this->competences;
     }
 
@@ -344,10 +355,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setContrat(\EcoJob\RecruteurBundle\Entity\ContratType $contrat)
-    {
+    public function setContrat(\EcoJob\RecruteurBundle\Entity\ContratType $contrat) {
         $this->contrat = $contrat;
-    
+
         return $this;
     }
 
@@ -356,8 +366,7 @@ class CuVi
      *
      * @return \EcoJob\RecruteurBundle\Entity\ContratType
      */
-    public function getContrat()
-    {
+    public function getContrat() {
         return $this->contrat;
     }
 
@@ -368,10 +377,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setRecruteur(\EcoJob\UserBundle\Entity\User $recruteur)
-    {
+    public function setRecruteur(\EcoJob\UserBundle\Entity\User $recruteur) {
         $this->recruteur = $recruteur;
-    
+
         return $this;
     }
 
@@ -380,12 +388,9 @@ class CuVi
      *
      * @return \EcoJob\UserBundle\Entity\User
      */
-    public function getRecruteur()
-    {
+    public function getRecruteur() {
         return $this->recruteur;
     }
-
-
 
     /**
      * Set createdAt
@@ -394,10 +399,9 @@ class CuVi
      *
      * @return CuVi
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -406,8 +410,8 @@ class CuVi
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
+
 }

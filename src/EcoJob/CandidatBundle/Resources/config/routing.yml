@@ -119,7 +119,7 @@ eco_job_candidat_offre_details_2:
     methods:  GET 
     
 eco_job_candidat_reset_param:
-    path:     /parametre-email.php/reinitialiser
+    path:     /reinitialiser.php
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:ResetParam" }
     methods:  GET
     

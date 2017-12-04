@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use EcoJob\RecruteurBundle\Model\OffreSearch;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
-/**
- * @Cache(expires="tomorrow", public=true,smaxage="15")
- */
 class RecruteurController extends Controller {
 
     public function indexAction() {
@@ -176,6 +173,9 @@ class RecruteurController extends Controller {
         return $this->render('EcoJobRecruteurBundle:Recruteur:candidature-detail.html.twig',array('candidature' => $candidature));
     }
 
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */
     public function banquecvAction(Request $request){
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
@@ -188,6 +188,10 @@ class RecruteurController extends Controller {
         return $this->render('EcoJobRecruteurBundle:Recruteur:banquecv.html.twig',array('experiences'=>$experiences
                 ,'cv'=>$cvs,'niveauFormation' => $nivformation,'contrats' => $contrats,'secteurs' => $secteurs));
     }
+
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */    
     public function searchAjaxAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $keywords = $request->request->get('keywords');
@@ -227,6 +231,10 @@ class RecruteurController extends Controller {
         $this->get('session')->set('candidatures',$candidatures);                        
         return true;
     }
+
+    /**
+     * @Cache(expires="tomorrow", public=true,smaxage="15")
+     */    
     public function showCVAction(\EcoJob\CandidatBundle\Entity\CuVi $cv){
         $html = $this->renderView('EcoJobRecruteurBundle:Recruteur:cv.html.twig', array(
             'cv' => $cv));        
