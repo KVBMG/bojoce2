@@ -24,36 +24,6 @@ p { margin: 0 0 16px 0; }
     {{parent()}} 
 
     <div class="title6">Mon CV </div>
-
-    <div class="team1 clearfix">
-        {% if cv is not null %}
-        {% if (cv.etatCivil is not null or cv.cvFile is not null or cv.image is not null or 
-        cv.formations | length > 0 or cv.experiences | length > 0 or cv.competences | length > 0
-                or cv.langues | length > 0) %}            
-            <a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a>
-        {% else %}
-            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>        
-        {% endif %}
-        <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
-        <a href="#"  data-toggle="modal" data-target="#supModal"> Supprimer</a>  
-        <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
-
-        {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
-                or cv.langues is null) %}
-        <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
-        {% else %}                
-            {% if cv.showable %}
-                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
-            {% else %}
-                <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>                
-            {% endif %}
-            {% endif %}
-
-        {% else %}
-            <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
-
-        {% endif %}
-   </div>
     {% if cv.cvFile is not null %}
         <a href='{{asset('cv/'~cv.cvFile.cvName~'')}}' target='_blank'>Aperçu du CV envoyé </a>            
     {% endif %}
@@ -165,8 +135,67 @@ p { margin: 0 0 16px 0; }
         <div class="clear"></div>
     
     </div> 
+        <div class="col-sm-3">
+            <ul style="list-style: none;">
+                {% if cv is not null %}
+                {% if (cv.etatCivil is not null or cv.cvFile is not null or cv.image is not null or 
+                cv.formations | length > 0 or cv.experiences | length > 0 or cv.competences | length > 0
+                        or cv.langues | length > 0) %}            
+                    <li><a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a></li>
+                {% else %}
+                    <li><a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a></li>        
+                {% endif %}
+                <li><a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a></li>
+                <li><a href="#"  data-toggle="modal" data-target="#supModal"> Supprimer</a></li>  
+                <li><a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a></li>
+
+                {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
+                        or cv.langues is null) %}
+                <li><a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a></li>
+                {% else %}                
+                    {% if cv.showable %}
+                        <li><a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a></li>
+                    {% else %}
+                        <li><a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a></li>                
+                    {% endif %}
+                    {% endif %}
+
+                {% else %}
+                    <li><a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a></li>            
+
+                {% endif %}
+            </ul>
+       </div>        
         {% else %}           
-            
+        <div class="team1 clearfix">
+                {% if cv is not null %}
+                {% if (cv.etatCivil is not null or cv.cvFile is not null or cv.image is not null or 
+                cv.formations | length > 0 or cv.experiences | length > 0 or cv.competences | length > 0
+                        or cv.langues | length > 0) %}            
+                    <a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a>
+                {% else %}
+                    <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer un nouveau CV</a>        
+                {% endif %}
+                <a href="{{ path('eco_job_candidat_cv_edit')}}" >Modifier</a>
+                <a href="#"  data-toggle="modal" data-target="#supModal"> Supprimer</a>  
+                <a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a>
+
+                {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
+                        or cv.langues is null) %}
+                <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
+                {% else %}                
+                    {% if cv.showable %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
+                    {% else %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>                
+                    {% endif %}
+                    {% endif %}
+
+                {% else %}
+                    <a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon nouveau CV</a>            
+
+                {% endif %}
+           </div>            
         {% endif %}
                     <div style="z-index:2016;" class="modal fade " id="globModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">

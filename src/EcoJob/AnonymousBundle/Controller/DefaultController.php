@@ -123,9 +123,7 @@ class DefaultController extends Controller {
                     'offres' => $results, 'added' => $results, 'contrats' => $contrats, 'secteurs' => $secteurs));
     }
 
-    /**
-     * @Cache(expires="tomorrow", public=true,smaxage="15")
-     */
+
     /**
      * @Cache(expires="tomorrow", public=true,smaxage="15")
      */
@@ -133,9 +131,6 @@ class DefaultController extends Controller {
         return $this->render('EcoJobAnonymousBundle:Default:offre.html.twig', array('offre' => $offre));
     }
 
-    /**
-     * @Cache(expires="tomorrow", public=true,smaxage="15")
-     */
     public function detailsOffreAction(Offre $offre, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $postuled = false;

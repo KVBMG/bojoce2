@@ -2,10 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Controller/RecruteurController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Controller/CandidatController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/config/routing.yml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
