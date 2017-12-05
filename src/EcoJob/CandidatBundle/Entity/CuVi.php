@@ -125,6 +125,7 @@ class CuVi {
     public function __construct() {
         $this->showable = false;
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
