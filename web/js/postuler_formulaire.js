@@ -27,7 +27,7 @@ $(function () {
 
     $(document).on('submit', '#candidatureForm', function (event) {
         event.preventDefault();
-        var form_data = new FormData($(this)[0]);
+        var form_data = new FormData($(this)[0]);         
         $.ajax({
             url: $(this).attr('action'),
             method: 'POST',

@@ -9,7 +9,7 @@ $(function () {
         videoUpload: false,
     }
     _editor.richText(_editorOptions);
-    
+
     var handleChange = function (event) {
         if (_toggleState) {
             $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').attr('required', false);
@@ -27,7 +27,11 @@ $(function () {
 
     $('#m-m-u').on('show.bs.modal', function (e) {
         _id = $(e.relatedTarget).data('offre-id');
-    })
+    });
+
+    $('#m-m-u').on('hidden.bs.modal', function (e) {
+        _id = undefined;
+    });
 
     $(document).on('submit', '#candidatureForm', function (event) {
         event.preventDefault();
