@@ -1,13 +1,17 @@
-{% extends "EcoJobCandidatBundle::layout.html.twig"%}
+{% extends "EcoJobCandidatBundle::layout.html.twig" %}
 
 {% block title %} Mes offres{% endblock %}
 
 {% block content_title %} Candidat {% endblock %}
 
 {% block content_stitle %} Les offres d'emploi sauvegardées {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
+{% endblock %}
 
-{% block scontent %}   
-        {{parent()}} 
+{% block scontent %}
+    {{ parent() }}
 
     <div class="latest_news">
         <div class="title7">Liste des offres d'emploi sauvegardées</div>
@@ -16,96 +20,100 @@
             {% for offre in offres %}
 
                 <div class="news1">
-                    <div class="txt2"><a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation})}}">{{offre.titre}}</a></div>
-                    <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
-                    <div class="txt3">{{offre.description}}</div>
-                    <a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation})}}" class="btn-default btn3">Afficher</a>
+                    <div class="txt2"><a
+                                href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation}) }}">{{ offre.titre }}</a>
+                    </div>
+                    <div class="txt1">Ajoutée le {{ offre.createdAt | date('d-m-y') }}</div>
+                    <div class="txt3">{{ offre.description }}</div>
+                    <a href="{{ path('eco_job_candidat_offre',{'id': offre.id,'localisation': offre.localisation}) }}"
+                       class="btn-default btn3">Afficher</a>
                     {% if offre.added %}
                         <a href="#" class="btn-default btn-warning">Déja postulé</a>
+                    {% else %}
+                        <button class="btn-default btn1" id="postulerBtn" data-offre-id="{{ offre.id }}" type="button" data-toggle="modal"
+                                data-target="#m-m-u">Postuler
+                        </button>
                     {% endif %}
-                    <a href="{{ path('eco_job_candidat_offre_delet',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                    <a href="{{ path('eco_job_candidat_offre_delet',{'id': offre.id}) }}" class="btn-default btn3">Supprimer</a>
                     {% if offre.expired %}
-                        <div class="label label-warning"> Offre est expirée</div>     
-                    {% endif%}
+                        <div class="label label-warning"> Offre est expirée</div>
+                    {% endif %}
                 </div>
 
 
             {% endfor %}
         {% else %}
-            aucune offre sauvegardée 
-        {%endif %}
+            aucune offre sauvegardée
+        {% endif %}
 
     </div>
-</div>
-
-<div id="m-m-u" class="modal fade" data-backdrop="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form id="candidatureForm">
+    </div>
+    <div id="m-m-u" class="modal fade" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Posulter pour l'offre </h4>
+
+                    <h4 class="modal-title">Postuler pour l'offre :
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </h4>
                 </div>
-                <div class="modal-body text-center p-lg">
+                {{ form_start(form) }}
+                <div class="modal-body">
                     <div class="form-group row">
-                        <label for="libelle" class="col-sm-2 form-control-label">Qu'est-ce qui vous motive?</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" name="motivation" id="" cols="30" rows="15" required></textarea>
+                            {{ form_row(form.description) }}
                         </div>
                     </div>
-                    <div class="alert" id="responseStore">
-
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            {{ form_row(form.joinMyCv) }}
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-lg-10">
+                            <label class="checkbox-inline"><input type="checkbox" name="externalFile" id="externalFile"
+                                                                  checked="checked" class="form-control-file">Joindre un
+                                fichier externe</label>
+                            {{ form_row(form.cvFile) }}
+                        </div>
+                    </div>
+
+                    <div class="alert alert-dismissable" id="responseStore">
+                    </div>
+                    {% if app.user and app.user.curriculum is not null and app.user.curriculum.showable %}
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-md-5 pull-right">
+                                <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                                <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% if app.user and app.user.curriculum is not null %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                        href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                        href="{{ path('eco_job_candidat_cv_fill') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>
+                        {% endif %}
+                    {% endif %}
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn success p-x-md" >Envoyer ma candidature</button>
-                    <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Annuler</button>
-                </div>
-            </form>
+                {{ form_end(form) }}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}  
 {% block javascripts %}
-
     {{ parent() }}
-    <script src="{{asset('js/jquery.blockUI.js')}}"></script>
-    <script>
-        $(function () {
-            var offreId = 0;
-            $('.postulerBtn').click(function () {
-                offreId = $(this).attr('offreId');
-                $(this).addClass('clickedPostul');
-            });
-            $('#candidatureForm').submit(function (event) {
-                event.preventDefault();
-                var form_data = $(this).serialize();
-                console.log(form_data);
-                $.ajax({
-                    type: "POST",
-                    url: Routing.generate('eco_job_candidat_offre_postuler', {id: offreId}),
-                    data: form_data,
-                    beforeSend: function () {
-                        $.blockUI({
-                            message: '<p class="loader"></p>',
-                            css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
-                        });
-                    },
-                    error: function (err) {
-                        $('#responseStore').addClass('alert-danger').html("L'envoie de votre candidature a échoué").show();
-                    },
-                    success: function (data) {
-                        $('#responseStore').addClass('alert-success').html(data.message).show();
-                        $('.clickedPostul').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
-                        $(".clickedPostul").removeClass("clickedPostul");
-                        $('#m-m-u').modal('hide');
-                    },
-                    complete: function () {
-                        $.unblockUI();
-                    }
-                })
-            });
-        })
-    </script>
+    <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
+    <script src="{{ asset('js/cdt-postuler_formulaire.js') }}"></script>
 {% endblock %}
 
 

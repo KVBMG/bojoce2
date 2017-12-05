@@ -5,8 +5,7 @@
     {{ parent() }}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.min.css' ) }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.pkgd.min.css' ) }}"/>
+    <link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
 {% endblock %}
 
 {% block content_title %} Détails de l'offre {% endblock %}
@@ -125,7 +124,7 @@
                         {{ form_start(form) }}
                         <div class="form-group row">
                             <div class="col-lg-10">
-                                <div id="froala-editor"></div>
+                                {{ form_row(form.description) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -240,8 +239,7 @@
         {{ parent() }}
         <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
         <!-- Froala Editor -->
-        <script src="{{ asset('froala_editor/js/froala_editor.min.js') }}"></script>
-        <script src="{{ asset('froala_editor/js/froala_editor.pkgd.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
         <script src="{{ asset('js/postuler_formulaire.js') }}"></script>
         <!-- animation de l'image -->
         <script src="{{ asset('js/addToCart.js') }}"></script>

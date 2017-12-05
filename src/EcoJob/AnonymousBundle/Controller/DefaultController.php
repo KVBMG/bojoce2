@@ -146,18 +146,14 @@ class DefaultController extends Controller {
             $user = $this->getUser();
             $postuled = $em->getRepository('EcoJobCandidatBundle:Candidature')->isPostuled($offre->getId(), $user->getId());
         }
-
-
         $candidature = new Candidature();
         $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
         $form->bind($request, $candidature);
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $description = $request->request->get('description');
             if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
                 $candidature->setOffre($offre);
                 $candidature->setRecruteur($offre->getRecruteur());
-                $candidature->setDescription($description);
                 if ($request->request->get('externalFile') != "on") {
                     $candidature->setCvFile(null);
                 }
@@ -257,12 +253,10 @@ class DefaultController extends Controller {
         $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
         $form->bind($request, $candidature);
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $description = $request->request->get('description');
             if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
                 $candidature->setOffre($offre);
                 $candidature->setRecruteur($offre->getRecruteur());
-                $candidature->setDescription($description);
                 if ($request->request->get('externalFile') != "on") {
                     $candidature->setCvFile(null);
                 }

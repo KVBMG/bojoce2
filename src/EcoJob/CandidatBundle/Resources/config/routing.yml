@@ -64,7 +64,8 @@ eco_job_candidat_myoffres:
     path:     /sauvegardees.php
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:myOffres" }
     methods:  [GET,POST]
-    
+    options:
+        expose: true
             
 
 eco_job_offres:
@@ -93,21 +94,15 @@ eco_job_candidat_uploadcv:
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:uploadCV" }
     methods:  [GET,POST]
 
-eco_job_candidat_postuled_offres:
-    path:     /postulees.php
-    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postuledOffres" }
-    methods:  [GET,POST]
-    
-        
-        
 eco_job_candidat_cancel_postuled:
     path:     /postulation-annuler.php/{id}
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:cancelPosulation" }
     methods:  [GET,POST]
-    
-        
-#endofmycode
 
+eco_job_candidat_postuled_offres:
+    path:     /postulees.php
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postuledOffres" }
+    methods:  [GET,POST]
 eco_job_offres:
     path:     /offres
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:map" }

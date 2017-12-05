@@ -262,36 +262,7 @@ class CandidatController extends Controller
         $offres = $this->getUser()->getPostuled();
         $this->getNumbers();
 
-        $candidature = new Candidature();
-        $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
-        $form->bind($request, $candidature);
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $description = $request->request->get('description');
-            if ($form->isValid()) {
-                $candidature->setCandidat($this->getUser());
-                $candidature->setOffre($offre);
-                $candidature->setRecruteur($offre->getRecruteur());
-                $candidature->setDescription($description);
-                if ($request->request->get('externalFile') != "on") {
-                    $candidature->setCvFile(null);
-                }
-                if ($request->request->get('attach') == "on") {
-                    $candidature->setJoinMyCv(true);
-                }
-                try {
-                    $this->notifyByMail($candidature);
-                } catch (Exception $e) {
-                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
-                }
-                $em->persist($candidature);
-                $em->flush();
-                return new Response(json_encode(['data' => 'Candidature envoyée']));
-            } else {
-                return new JsonResponse(['data' => 'Candidature non envoyée']);
-            }
-        }
-
-        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('form'=>$form->createView(),'offres' => $offres));
+        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
     }
 
     public function saveAsyncAction(Offre $offre, Request $request)
@@ -375,6 +346,25 @@ class CandidatController extends Controller
         return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
     }
 
+    public function notifyByMail($candidature) {
+        $alert_mail = $this->get('eco_job_candidat.alert_mail');
+        $recruteur = $candidature->getOffre()->getRecruteur();
+        $mail_content = array();
+        $mail_content['titre_offre'] = $candidature->getOffre()->getTitre();
+        $mail_content['id_offre'] = $candidature->getOffre()->getId();
+        $mail_content['recruteur_username'] = $recruteur->getUsername();
+        $mail_content['candidat_username'] = $candidature->getCandidat()->getUsername();
+
+        $content = $alert_mail->generateContentBeta($mail_content);
+
+        $mail = new \EcoJob\CandidatBundle\Model\Mail();
+        $mail->setReceiver($recruteur);
+        $mail->setSubject('Un candidat vient de postuler sur l\'offre : ' . $mail_content['titre_offre']);
+        $mail->setContent($content);
+        $alert_mail->sendMail($mail, true);
+    }
+
+
     public function myOffresAction(Request $request)
     {
         $this->getNumbers();
@@ -394,7 +384,36 @@ class CandidatController extends Controller
                 }
             }
         }
-        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
+        $candidature = new Candidature();
+        $form = $this->createForm(new CandidatureType(), $candidature, array( 'attr' => array('id' => 'candidatureForm')));
+        $form->bind($request, $candidature);
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $offre_id = $request->request->get('offre_id');
+            $offre = $this->getDoctrine()->getManager()->getRepository('EcoJobRecruteurBundle:Offre')->find($offre_id);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $candidature->setCandidat($this->getUser());
+                $candidature->setOffre($offre);
+                $candidature->setRecruteur($offre->getRecruteur());
+                if ($request->request->get('externalFile') != "on") {
+                    $candidature->setCvFile(null);
+                }
+                if ($request->request->get('attach') == "on") {
+                    $candidature->setJoinMyCv(true);
+                }
+                try {
+                    $this->notifyByMail($candidature);
+                } catch (Exception $e) {
+                    return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
+                }
+                $em->persist($candidature);
+                $em->flush();
+                return new Response(json_encode(['data' => 'Candidature envoyée']));
+            } else {
+                return new JsonResponse(['data' => 'Candidature non envoyée']);
+            }
+        }
+        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('form'=> $form->createView(),'offres' => $offres));
     }
 
     private function unsetValue(array $array, $value, $strict = TRUE)
