@@ -27,6 +27,9 @@ $(function () {
 
     $('#m-m-u').on('show.bs.modal', function (e) {
         _id = $(e.relatedTarget).data('offre-id');
+        var html = $(e.relatedTarget).data('offre-titre');
+        html = 'Postuler pour l\'offre : '+ html +'<button type="button" class="close" data-dismiss="modal">&times;</button>';
+        $(this).find('.modal-title').html(html);
     });
 
     $('#m-m-u').on('hidden.bs.modal', function (e) {
