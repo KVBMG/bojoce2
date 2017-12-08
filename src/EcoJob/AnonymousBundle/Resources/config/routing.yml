@@ -1,5 +1,5 @@
 eco_job_main_index:
-    path:     /cachee
+    path:     /
     defaults: { _controller: "EcoJobAnonymousBundle:Default:doSearch" }
     methods:  [GET,POST] 
     

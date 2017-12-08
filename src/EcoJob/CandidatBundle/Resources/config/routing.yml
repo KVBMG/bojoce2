@@ -95,7 +95,7 @@ eco_job_candidat_uploadcv:
     methods:  [GET,POST]
 
 eco_job_candidat_cancel_postuled:
-    path:     /postulation-annuler.php/{id}
+    path:     /candidature/{id}/annuler
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:cancelPosulation" }
     methods:  [GET,POST]
 
