@@ -47,7 +47,7 @@ $(function () {
             $(".showing").removeClass("showing");
             var sel = ".news1 div[offreid="+secretMessage.id+"]";
             console.log(sel);
-            $(sel).parent().parent().addClass('showing');
+            $(sel).parent().addClass('showing');
             $('.news1').hide();
             $('.showing').show();            
             showOffre(secretMessage.id);
