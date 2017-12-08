@@ -34,7 +34,7 @@ p { margin: 0 0 16px 0; }
     <div id="page-wrap">
     
         {% if cv.image is not null %}           
-           <img class='img-responsive' height='400px' id="pic" width='400px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
+           <img class='img-responsive pull-left' height='300px' id="pic" width='300px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
         {% else %}
                Aucune photo
        {% endif %}
@@ -136,7 +136,7 @@ p { margin: 0 0 16px 0; }
         <div class="clear"></div>
     
     </div> 
-        </div>
+        </div>        
         <div class="col-sm-3">
             <ul style="list-style: none;">
                 {% if cv is not null %}
