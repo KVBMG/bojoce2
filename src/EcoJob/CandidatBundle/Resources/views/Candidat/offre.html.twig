@@ -79,11 +79,11 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </h4>
                 </div>
+                {{ form_start(form) }}
                 <div class="modal-body">
-                    {{ form_start(form) }}
                     <div class="form-group row">
                         <div class="col-lg-10">
-                            <div id="froala-editor"></div>
+                            {{ form_row(form.description) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -93,33 +93,23 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-10">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="externalFile" id="externalFile" checked="checked">Joindre
-                                un fichier
-                                externe
-                            </label>
+                            <label class="checkbox-inline"><input type="checkbox" name="externalFile" id="externalFile"
+                                                                  checked="checked" class="form-control-file">Joindre un
+                                fichier externe</label>
                             {{ form_row(form.cvFile) }}
                         </div>
                     </div>
-                    {% if app.user and app.user.curriculum is not null %}
-                        {% set cv = app.user.curriculum %} 
-                        {% if (cv.etatCivil is not null and cv.cvFile is not null and cv.image is not null and 
-                                        cv.formations | length > 0 and cv.experiences | length > 0 and cv.competences | length > 0
-                                                and cv.langues | length > 0) %}
-                            <hr>
-                                <div class="form-group row">
-                                    <div class="col-md-5 pull-right">
-                                        <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
-                                        <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
-                                    </div>
-                                </div>
-                        {% else %}
-                            <div class="alert alert-warning">
-                                Vous n'avez pas encore fini de remplir votre <a
-                                        href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
-                                d'Envoyer votre candidature.
-                            </div>                        
-                        {% endif %}
+
+                    <div class="alert alert-dismissable" id="responseStore">
+                    </div>
+                    {% if app.user and app.user.curriculum is not null and app.user.curriculum.showable %}
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-md-5 pull-right">
+                                <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                                <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
                     {% else %}
                         {% if app.user and app.user.curriculum is not null %}
                             <div class="alert alert-warning">
@@ -135,8 +125,8 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    {{ form_end(form) }}
                 </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
