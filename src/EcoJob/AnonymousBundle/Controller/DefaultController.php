@@ -175,8 +175,10 @@ class DefaultController extends Controller {
 
         $html = $this->renderView('EcoJobAnonymousBundle:Default:details.html.twig', array('offre' => $offre, 'postuled' => $postuled, 'form' => $form->createView()));
 
+        $list = $this->renderView('EcoJobAnonymousBundle:Default:one.html.twig', array('offre' => $offre));
+        
         $serializer = $this->container->get('jms_serializer');
-        $response = new Response(json_encode(array("html" => $html, 'id' => $offre->getId(), 'titre' => $offre->getTitre(), 'lat' => $offre->getLatitude(), 'long' => $offre->getLongitude())));
+        $response = new Response(json_encode(array("html" => $html,"list"=>$list, 'id' => $offre->getId(), 'titre' => $offre->getTitre(), 'lat' => $offre->getLatitude(), 'long' => $offre->getLongitude())));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

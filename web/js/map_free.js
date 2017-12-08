@@ -44,12 +44,7 @@ $(function () {
         //});
 
         marker.addListener('click', function () {
-            $(".showing").removeClass("showing");
-            var sel = ".news1 div[offreid="+secretMessage.id+"]";
-            console.log(sel);
-            $(sel).parent().addClass('showing');
-            $('.news1').hide();
-            $('.showing').show();            
+            $('#offreList').children().remove();
             showOffre(secretMessage.id);
         });
     }
@@ -124,6 +119,7 @@ $(function () {
             statusCode: {
                 200: function (response) {
                     resetDiv();
+                    $("#offreList").append(response.list);
                     $('#details').append(response.html);
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(response.lat, response.long),
@@ -280,7 +276,7 @@ $(function () {
             resetDiv();
             if (responseText.total > 0) {
                 resetDiv();
-                $("#offreList").append("<div class='title6'>Résultats </div> <br> Total: " + responseText.total);
+                $("#offreList").append("<div class='title6' id='res'>Résultats  <br> Total: " + responseText.total+ "</div>");
                 $('#offreList').append(responseText.html);
 
             } else {
