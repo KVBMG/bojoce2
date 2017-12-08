@@ -5,8 +5,7 @@
 {% block content_title %} Candidat {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.min.css' ) }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'froala_editor/css/froala_editor.pkgd.min.css' ) }}"/>
+    <link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
 {% endblock %}
 {% block content_stitle %} Offres d'emploi {% endblock %}
 
@@ -233,8 +232,7 @@
             });
         })
     </script>
-    <script src="{{ asset('froala_editor/js/froala_editor.min.js') }}"></script>
-    <script src="{{ asset('froala_editor/js/froala_editor.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
     <script src="{{ asset('js/postuler_formulaire.js') }}"></script>
     <script type="application/javascript" src="{{ asset('js/sendToFriend.js') }}"></script>
 {% endblock %}
