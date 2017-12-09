@@ -930,7 +930,7 @@ class CandidatController extends Controller {
                 $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
                 $form = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType(), $cvFile);
                 $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
-                    'cvform' => $form->createView(), 'edit' => true));
+                    'cvform' => $form->createView(), 'edit' => false));
                 $response = new Response(json_encode(array("html" => $html)));
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
@@ -999,7 +999,7 @@ class CandidatController extends Controller {
                 $lettre = new \EcoJob\CandidatBundle\Entity\Lettre();
                 $form = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType(), $lettre);
                 $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
-                    'lform' => $form->createView(), 'edit' => true));
+                    'lform' => $form->createView(), 'edit' => false));
                 $response = new Response(json_encode(array("html" => $html)));
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;

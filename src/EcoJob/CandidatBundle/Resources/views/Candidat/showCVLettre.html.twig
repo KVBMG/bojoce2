@@ -23,7 +23,7 @@
             Ajouter un CV
         </a>        
         <div class="collapse" id="addCV">
-            {{ form_start(cvform) }}
+            {{ form_start(cvform, { 'attr': {'id': 'addCVForm'} }) }}       
             {{ form_widget(cvform) }}
             <button type="submit" id="cvForm" class="btn-default btn-cf-submit">Valider </button>
             {{ form_end(cvform) }} 
@@ -44,7 +44,7 @@
             Ajouter une lettre
         </a>        
         <div class="collapse" id="addLettre">
-            {{ form_start(lform) }}
+            {{ form_start(lform, { 'attr': {'id': 'addLettreForm'} }) }}        
             {{ form_widget(lform) }}
             <button type="submit" id="cvForm" class="btn-default btn-cf-submit">Valider </button>
             {{ form_end(lform) }} 

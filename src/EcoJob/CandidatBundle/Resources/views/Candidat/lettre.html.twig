@@ -7,12 +7,23 @@
         <a href="#lettreC" class="btn btn1 btn deleteLettre" lettreId="{{file.id}}">Supprimer</a>                    
     </div>            
 {% endfor %}
+{% if edit %}
+<a class="btn btn-default" data-toggle="collapse" href="#addLettre"
+   aria-expanded="false" aria-controls="collapseExample">
+    Modification
+</a>    
+{% else %}
 <a class="btn btn-default" data-toggle="collapse" href="#addLettre"
    aria-expanded="false" aria-controls="collapseExample">
     Ajouter une lettre
-</a>        
+</a>  
+{% endif %}
 <div class="collapse" id="addLettre">
-    {{ form_start(lform) }}
+    {% if edit %}
+    {{ form_start(lform, { 'attr': {'id': 'editLettreForm'} }) }}
+    {% else %}
+    {{ form_start(lform, { 'attr': {'id': 'addLettreForm'} }) }}        
+    {% endif %}
     {{ form_widget(lform) }}
     <button type="submit" id="cvForm" class="btn-default btn-cf-submit">Valider </button>
     {{ form_end(lform) }} 

@@ -43,13 +43,13 @@ $(function () {
             cv = loadCVSubmition();
             $.unblockUI();
         }
-        $(document).on('submit', 'form[name=ecojob_candidatbundle_cvfichier]', function (e) {
+        $(document).on('submit', '#addCVForm', function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_cvfichier_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");
                 return false;
             } else {
-                $('form[name=ecojob_candidatbundle_cvfichier]').ajaxSubmit(cvOptions);
+                $('#addCVForm').ajaxSubmit(cvOptions);
                 return false;
             }
         });
@@ -88,16 +88,16 @@ $(function () {
             } else {
                 alert("Une erreur s'est produite.");
             }
-            cv = loadCVSubmition();
+            //cv = loadCVSubmition();
             $.unblockUI();
         }
-        $(document).on('submit', 'form[name=ecojob_candidatbundle_cvfichier]', function (e) {
+        $(document).on('submit', '#addCVForm', function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_cvfichier_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");
                 return false;
             } else {
-                $('form[name=ecojob_candidatbundle_cvfichier]').ajaxSubmit(cvOptions);
+                $('#addCVForm').ajaxSubmit(cvOptions);
                 return false;
             }
         });
@@ -164,11 +164,11 @@ $(function () {
             } else {
                 alert("Une erreur s'est produite.");
             }
-            lettre = loadLettreSubmition();
-            lettre_edit = loadLettreEditSubmition();
+            //lettre = loadLettreSubmition();
+            //lettre_edit = loadLettreEditSubmition();
             $.unblockUI();
         }
-        $('form[name=ecojob_candidatbundle_lettre]').submit(function (e) {
+        $('#addLettreForm').submit(function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_lettre_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");
@@ -207,11 +207,11 @@ $(function () {
         });
 
     });
-    $(document).on('click', 'form[name=ecojob_candidatbundle_lettre] button[type=submit]', function () {
+    $(document).on('click', '#editLettreForm button[type=submit]', function () {
         lettre_edit = loadLettreEditSubmition(lettre_id);
     });
 
-    $(document).on('click', 'form[name=ecojob_candidatbundle_cvfichier] button[type=submit]', function () {
+    $(document).on('click', '#editCVForm button[type=submit]', function () {
         cv_edit = loadCVEditSubmition(cv_id);
     });    
     function loadLettreEditSubmition(id) {
@@ -248,11 +248,11 @@ $(function () {
             } else {
                 alert("Une erreur s'est produite.");
             }
-            lettre = loadLettreSubmition();
-            lettre_edit = loadLettreEditSubmition();
+            //lettre = loadLettreSubmition();
+            //lettre_edit = loadLettreEditSubmition();
             $.unblockUI();
         }
-        $('form[name=ecojob_candidatbundle_lettre]').submit(function (e) {
+        $('#editLettreForm').submit(function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_lettre_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");

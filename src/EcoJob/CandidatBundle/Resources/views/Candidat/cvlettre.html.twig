@@ -17,7 +17,11 @@
 </a>             
 {% endif %}
 <div class="collapse" id="addCV">
-    {{ form_start(cvform) }}
+    {% if edit %}
+    {{ form_start(cvform, { 'attr': {'id': 'editCVForm'} }) }}
+    {% else %}
+    {{ form_start(cvform, { 'attr': {'id': 'addCVForm'} }) }}       
+    {% endif %}
     {{ form_widget(cvform) }}
     <button type="submit" class="btn-default btn-cf-submit">Valider </button>
     {{ form_end(cvform) }} 
