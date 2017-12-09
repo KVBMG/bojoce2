@@ -1041,7 +1041,9 @@ class CandidatController extends Controller {
             $candidature->setOffre($offre);
             $candidature->setRecruteur($offre->getRecruteur());
             $candidature->setDescription($tform["description"]->getData());
-            
+            if(($tform["description"]->getData() == NULL)){
+                $candidature->setDescription("Bonjour,je postule à votre offre");
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($candidature);
             $em->flush(); 
