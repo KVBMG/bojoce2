@@ -1063,7 +1063,10 @@ class CandidatController extends Controller {
                     $message->setCc($this->getUser()->getEmail());
                 }
                 // Give it a body
-                $message->setBody($tform["description"]->getData())
+                
+                $mes = "Poste souhaité: ".$candidatureT->getCvfichier()->getPoste().",";
+                $mes = $mes."\n Rémunération: ".$candidatureT->getCvfichier()->getRemuneration()->getLibelle().",";
+                $message->setBody($tform["description"]->getData()."\n".$mes);
 
                         // Optionally add any attachments
                         ->attach(\Swift_Attachment::fromPath($lettre))
