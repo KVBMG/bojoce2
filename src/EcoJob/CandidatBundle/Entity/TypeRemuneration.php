@@ -37,6 +37,13 @@ class TypeRemuneration
     private $experiences;    
     
     /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier",mappedBy="remuneration",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     * @Exclude     
+     */
+    private $cvfichiers;      
+    
+    /**
      * Get id
      *
      * @return integer
@@ -114,4 +121,38 @@ class TypeRemuneration
     {
         return $this->libelle;
     }    
+
+    /**
+     * Add cvfichier
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFichier $cvfichier
+     *
+     * @return TypeRemuneration
+     */
+    public function addCvfichier(\EcoJob\CandidatBundle\Entity\CVFichier $cvfichier)
+    {
+        $this->cvfichiers[] = $cvfichier;
+    
+        return $this;
+    }
+
+    /**
+     * Remove cvfichier
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFichier $cvfichier
+     */
+    public function removeCvfichier(\EcoJob\CandidatBundle\Entity\CVFichier $cvfichier)
+    {
+        $this->cvfichiers->removeElement($cvfichier);
+    }
+
+    /**
+     * Get cvfichiers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCvfichiers()
+    {
+        return $this->cvfichiers;
+    }
 }

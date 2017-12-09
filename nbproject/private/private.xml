@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/details.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/map.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/web/js/postuler_formulaire.js</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Controller/DefaultController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Controller/CandidatController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/views/Candidat/offre.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/views/Candidat/myoffres.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/integralite_offre.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Resources/config/routing.yml</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/search.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/CandidatBundle/Form/CandidatureTType.php</file>
+        </group>
     </open-files>
 </project-private>

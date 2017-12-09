@@ -219,16 +219,34 @@
 
 {% block javascripts %}
     {{ parent() }}
-{% javascripts
-    'js/jquery.blockUI.js'
-    'js/jquery.debounce.js'
-    'js/search_free.js'
-'js/search_social_network.js'
-    'js/addToCart.js'
-'js/jquery.easing.1.3.js'
-'js/jquery.richtext.min.js'
-'js/sendToFriend.js' filter='uglifyjs2'%}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}    
-    
+       <script src="{{ asset('js/postuler_formulaire.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.debounce.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/search_free.js') }}"></script>
+    <!--Social network scripts -->
+    <script type="text/javascript" src="{{ asset('js/search_social_network.js') }}"></script>
+    <script src="{{ asset('js/addToCart.js') }}"></script>
+    <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+    <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
+        <script src="{{ asset('js/sendToFriend.js') }}"></script>
+
+                <script type="text/javascript">
+                    var type_post = "eco";
+                    var offreid = 0;
+                            function enableEco() {
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseOne').addClass('in');
+                                type_post = "eco";
+                            }
+                    function disableEco() {
+                        $('#collapseOne').removeClass('in');
+                        $('#collapseTwo').addClass('in');
+                        type_post = "trad";
+
+                    }
+                    $(document).on('click','.postulerC',function(){
+                       offreid = $(this).attr('data-offre-id');
+                    });
+                </script> 
 {% endblock %}

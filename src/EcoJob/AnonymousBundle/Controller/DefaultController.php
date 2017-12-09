@@ -147,8 +147,13 @@ class DefaultController extends Controller {
             $postuled = $em->getRepository('EcoJobCandidatBundle:Candidature')->isPostuled($offre->getId(), $user->getId());
         }
         $candidature = new Candidature();
-        $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
+        $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id'=> 'candidatureForm')));
         $form->bind($request, $candidature);
+        
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id'=> 'candidatureFormT')));
+        
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
@@ -173,12 +178,12 @@ class DefaultController extends Controller {
             }
         }
 
-        $html = $this->renderView('EcoJobAnonymousBundle:Default:details.html.twig', array('offre' => $offre, 'postuled' => $postuled, 'form' => $form->createView()));
+        $html = $this->renderView('EcoJobAnonymousBundle:Default:details.html.twig', array('offre' => $offre,'tform'=>$tform->createView(), 'postuled' => $postuled, 'form' => $form->createView()));
 
         $list = $this->renderView('EcoJobAnonymousBundle:Default:one.html.twig', array('offre' => $offre));
         
         $serializer = $this->container->get('jms_serializer');
-        $response = new Response(json_encode(array("html" => $html,"list"=>$list, 'id' => $offre->getId(), 'titre' => $offre->getTitre(), 'lat' => $offre->getLatitude(), 'long' => $offre->getLongitude())));
+        $response = new Response(json_encode(array("html" => $html,"list"=>$list, 'id'=> $offre->getId(), 'titre' => $offre->getTitre(), 'lat' => $offre->getLatitude(), 'long' => $offre->getLongitude())));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -252,8 +257,14 @@ class DefaultController extends Controller {
         }
 
         $candidature = new Candidature();
-        $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
+        $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id'=> 'candidatureForm')));
         $form->bind($request, $candidature);
+        
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+              
+        
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             if ($form->isValid()) {
                 $candidature->setCandidat($this->getUser());
@@ -282,7 +293,8 @@ class DefaultController extends Controller {
                     'offre' => $offre,
                     'postuled' => $postuled,
                     'saved' => $saved,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'tform' => $tform->createView(),
         ));
     }
 

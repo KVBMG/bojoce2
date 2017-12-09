@@ -234,4 +234,58 @@ eco_job_candidat_delete_competence:
     defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteCompetence" }
     methods:  [GET,POST]
     options:
+        expose: true 
+        
+eco_job_candidat_add_cv_fichier:
+    path:     /cv/gestion/ajouter/fichier
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addCVFichier" }
+    methods:  POST
+    options:
+        expose: true
+eco_job_candidat_edit_cv_fichier:
+    path:     /cv/gestion/edit/fichier/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editCVFichier" }
+    methods:  [POST,GET]
+    options:
+        expose: true 
+        
+eco_job_candidat_delete_cv_fichier:
+    path:     /cv/gestion/delete/fichier/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteCVFichier" }
+    methods:  [POST,GET]
+    options:
+        expose: true         
+        
+eco_job_candidat_add_lettre:
+    path:     /cv/gestion/ajouter/lettre
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:addLettre" }
+    methods:  POST
+    options:
+        expose: true
+eco_job_candidat_edit_lettre:
+    path:     /cv/gestion/edit/lettre/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:editLettre" }
+    methods:  [POST,GET]
+    options:
+        expose: true 
+        
+eco_job_candidat_delete_lettre:
+    path:     /cv/gestion/delete/lettre/{id}
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:deleteLettre" }
+    methods:  [POST,GET]
+    options:
+        expose: true 
+        
+eco_job_candidat_cv_lettres:
+    path:     /lm
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:showCVLettres" }
+    methods:  GET
+    options:
+        expose: true        
+        
+eco_job_candidat_trad_post:
+    path:     /postuler.php/{id}/offre
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:postTrad" }
+    methods:  [GET,POST]
+    options:
         expose: true         

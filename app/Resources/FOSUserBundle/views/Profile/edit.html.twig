@@ -26,6 +26,8 @@
                             {% else %}
                             <li><a href="{{path('eco_job_candidat_cv_fill')}}"> Créer mon CV</a></li>                            
                             {% endif %}
+                            <li><a href="{{path('eco_job_candidat_cv_lettres')}}"> CV et lettres </a></li>                            
+                            
                             <li><a href="{{path('eco_job_candidat_myoffres')}}"> Offres d'emploi sauvegardées ({{app.session.get('saved')}})</a></li>
                             <li><a href="{{path('eco_job_candidat_postuled_offres')}}"> Offres d'emploi postulés ({{app.session.get('postuled')}})</a></li>
                             <li><a href="{{path('eco_job_messagerie_inbox')}}">Messages({{app.session.get('unread')}})</a></li>

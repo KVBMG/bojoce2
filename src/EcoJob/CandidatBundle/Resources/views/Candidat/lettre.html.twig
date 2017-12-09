@@ -1,0 +1,19 @@
+<div class="title6">Lettre</div>        
+
+{% for file in app.user.lettres %}
+    <div id="lettre{{file.id}}">
+        {{file.titre}}
+        <a href="#lettreC" class="btn btn1 btn editLettre" lettreId="{{file.id}}">Changer la lettre</a>
+        <a href="#lettreC" class="btn btn1 btn deleteLettre" lettreId="{{file.id}}">Supprimer</a>                    
+    </div>            
+{% endfor %}
+<a class="btn btn-default" data-toggle="collapse" href="#addLettre"
+   aria-expanded="false" aria-controls="collapseExample">
+    Ajouter une lettre
+</a>        
+<div class="collapse" id="addLettre">
+    {{ form_start(lform) }}
+    {{ form_widget(lform) }}
+    <button type="submit" id="cvForm" class="btn-default btn-cf-submit">Valider </button>
+    {{ form_end(lform) }} 
+</div>         

@@ -39,18 +39,14 @@ use EcoJob\UserBundle\Form\ImageType;
 use FOS\MessageBundle\Model\MessageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
+class CandidatController extends Controller {
 
-class CandidatController extends Controller
-{
-
-    public function indexAction()
-    {
+    public function indexAction() {
         $this->getNumbers();
         return $this->render('EcoJobCandidatBundle:Candidat:index.html.twig');
     }
 
-    public function alertMailAction()
-    {
+    public function alertMailAction() {
         $request = $this->getRequest();
         $response = new Response();
         $key = $request->query->get('key');
@@ -64,8 +60,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function ParamAction(Request $request)
-    {
+    public function ParamAction(Request $request) {
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $param = $em->getRepository('EcoJobCandidatBundle:ParamCandidat')->findBy(array('candidat' => $this->getUser()->getId()));
@@ -89,11 +84,11 @@ class CandidatController extends Controller
         }
 
         return $this->render('EcoJobCandidatBundle:Candidat:param.html.twig', array(
-            'form' => $form->createView(),
+                    'form' => $form->createView(),
         ));
     }
-    public function ResetParamAction()
-    {
+
+    public function ResetParamAction() {
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
         $param = $em->getRepository('EcoJobCandidatBundle:ParamCandidat')->findBy(array('candidat' => $this->getUser()->getId()));
@@ -104,8 +99,7 @@ class CandidatController extends Controller
         return $this->redirect($this->generateUrl('eco_job_candidat_param'));
     }
 
-    public function fillAction(Request $request)
-    {
+    public function fillAction(Request $request) {
         $this->getNumbers();
         $em = $this->getDoctrine()->getManager();
 
@@ -153,28 +147,26 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function ShowAction(Request $request)
-    {
+    public function ShowAction(Request $request) {
         $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
-        
+
         $response = new Response();
         $response->setLastModified($cv->getUpdatedAt());
         if ($response->isNotModified($request)) {
             return $response;
-        }        
+        }
         if ($cv != null) {
             return $this->render('EcoJobCandidatBundle:Candidat:show.html.twig', array(
-                'cv' => $cv,
+                        'cv' => $cv,
             ));
         } else {
             return $this->redirectToRoute('eco_job_candidat_cv_fill');
         }
     }
 
-    public function EditAction(Request $request)
-    {
+    public function EditAction(Request $request) {
         $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
@@ -182,8 +174,8 @@ class CandidatController extends Controller
         $response->setLastModified($cv->getUpdatedAt());
         if ($response->isNotModified($request)) {
             return $response;
-        }         
-        
+        }
+
         $em = $this->getDoctrine()->getManager();
         $cv->setCreatedAt(new \DateTime());
         $em->persist($cv);
@@ -239,8 +231,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function DeleteAction(Request $request)
-    {
+    public function DeleteAction(Request $request) {
         $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
@@ -254,36 +245,30 @@ class CandidatController extends Controller
         return $this->redirect($this->generateUrl('eco_job_candidat_cv_show'));
     }
 
-    public function saveAction(Offre $offre, Request $request)
-    {
+    public function saveAction(Offre $offre, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $this->getUser()->addPostuled($offre);
         $em->flush();
         $offres = $this->getUser()->getPostuled();
         $this->getNumbers();
 
-        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
+        return $this->redirectToRoute('eco_job_candidat_myoffres');
     }
 
-    public function saveAsyncAction(Offre $offre, Request $request)
-    {
+    public function saveAsyncAction(Offre $offre, Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $this->getUser()->addPostuled($offre);
             $em->flush();
             $count = count($this->getUser()->getPostuled());
-	    $this->getNumbers();	    
+            $this->getNumbers();
             return new JsonResponse([
                 "saved" => $count,
             ]);
         }
-
     }
-/**
- * @Cache(expires="tomorrow", public=true,smaxage="15")
- */
-    public function showOffreAction(Offre $offre, Request $request)
-    {
+
+    public function showOffreAction(Offre $offre, Request $request) {
         $this->getNumbers();
 
         $em = $this->getDoctrine()->getManager();
@@ -300,6 +285,12 @@ class CandidatController extends Controller
         $candidature = new Candidature();
         $form = $this->createForm(new CandidatureType(), $candidature, array('action' => $this->generateUrl('eco_job_anonymous_offre_details', array('id' => $offre->getId())), 'method' => 'POST', 'attr' => array('id' => 'candidatureForm')));
         $form->bind($request, $candidature);
+
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+        
+
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $description = $request->request->get('description');
             if ($form->isValid()) {
@@ -325,16 +316,16 @@ class CandidatController extends Controller
                 return new JsonResponse(['data' => 'Candidature non envoyée']);
             }
         }
-        
+
         return $this->render('EcoJobCandidatBundle:Candidat:offre.html.twig', array('offre' => $offre,
-            'postuled' => $postuled,
-            'saved' => $saved,
-            'form' => $form->createView()
+                    'postuled' => $postuled,
+                    'saved' => $saved,
+                    'form' => $form->createView(),
+                    'tform' => $tform->createView()
         ));
     }
 
-    public function deleteOffreAction(Offre $offre, Request $request)
-    {
+    public function deleteOffreAction(Offre $offre, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $this->getUser()->removePostuled($offre);
         $em->persist($this->getUser());
@@ -343,7 +334,7 @@ class CandidatController extends Controller
         $this->get('session')->getFlashBag()->add('success', 'Offre supprimée');
         $this->getNumbers();
 
-        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('offres' => $offres));
+        return $this->redirectToRoute('eco_job_candidat_myoffres');
     }
 
     public function notifyByMail($candidature) {
@@ -364,15 +355,13 @@ class CandidatController extends Controller
         $alert_mail->sendMail($mail, true);
     }
 
-
-    public function myOffresAction(Request $request)
-    {
+    public function myOffresAction(Request $request) {
         $this->getNumbers();
 
         $offres = $this->getUser()->getPostuled();
 
         $candidatures = $this->getDoctrine()->getManager()->getRepository('EcoJobCandidatBundle:Candidature')
-            ->findBy(array('candidat' => $this->getUser()));
+                ->findBy(array('candidat' => $this->getUser()));
         $postuled = [];
         foreach ($candidatures as $c) {
             $postuled[] = $c->getOffre();
@@ -385,8 +374,14 @@ class CandidatController extends Controller
             }
         }
         $candidature = new Candidature();
-        $form = $this->createForm(new CandidatureType(), $candidature, array( 'attr' => array('id' => 'candidatureForm')));
+        $form = $this->createForm(new CandidatureType(), $candidature, array('attr' => array('id' => 'candidatureForm')));
         $form->bind($request, $candidature);
+
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+        
+
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $offre_id = $request->request->get('offre_id');
             $offre = $this->getDoctrine()->getManager()->getRepository('EcoJobRecruteurBundle:Offre')->find($offre_id);
@@ -413,26 +408,25 @@ class CandidatController extends Controller
                 return new JsonResponse(['data' => 'Candidature non envoyée']);
             }
         }
-        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('form'=> $form->createView(),'offres' => $offres));
+        return $this->render('EcoJobCandidatBundle:Candidat:myoffres.html.twig', array('form' => $form->createView(),
+                    'tform' => $tform->createView(),
+                    'offres' => $offres));
     }
 
-    private function unsetValue(array $array, $value, $strict = TRUE)
-    {
+    private function unsetValue(array $array, $value, $strict = TRUE) {
         if (($key = array_search($value, $array, $strict)) !== FALSE) {
             $results[$key]->setAdded(true);
         }
         return $array;
     }
 
-    public function detailsOffre2Action(Offre $offre)
-    {
+    public function detailsOffre2Action(Offre $offre) {
         $this->getNumbers();
 
         return $this->render('EcoJobCandidatBundle:Candidat:details2.html.twig', array('offre' => $offre));
     }
 
-    public function uploadCVAction(Request $request)
-    {
+    public function uploadCVAction(Request $request) {
         $this->getNumbers();
 
         $cvfile = new CVFile();
@@ -447,12 +441,11 @@ class CandidatController extends Controller
             return $this->redirectToRoute('eco_job_candidat_cv_show');
         }
         return $this->render('EcoJobCandidatBundle:Candidat:uploadcv.html.twig', array(
-            'form' => $form->createView(),
+                    'form' => $form->createView(),
         ));
     }
 
-    public function cancelPosulationAction(Candidature $candidature, Request $request)
-    {
+    public function cancelPosulationAction(Candidature $candidature, Request $request) {
         $this->getNumbers();
 
         $em = $this->getDoctrine()->getManager();
@@ -461,15 +454,13 @@ class CandidatController extends Controller
         return $this->redirectToRoute('eco_job_candidat_postuled_offres');
     }
 
-    public function isPostuled($offre_id, $user_id)
-    {
+    public function isPostuled($offre_id, $user_id) {
         $em = $this->getDoctrine()->getManager();
         $isPostuled = $em->getRepository('EcoJobCandidatBundle:Candidature')->isPostuled($offre_id, $user_id);
         return $isPostuled;
     }
 
-    public function postuledOffresAction(Request $request)
-    {
+    public function postuledOffresAction(Request $request) {
         $this->getNumbers();
 
         $em = $this->getDoctrine()->getManager();
@@ -477,18 +468,16 @@ class CandidatController extends Controller
         return $this->render('EcoJobCandidatBundle:Candidat:mycandidatures.html.twig', array('candidatures' => $candidatures));
     }
 
-    public function gererCVAction(Request $request)
-    {
+    public function gererCVAction(Request $request) {
         $this->getNumbers();
 
         $cv = $this->getUser()->getCurriculum();
         return $this->render('EcoJobCandidatBundle:Candidat:show.html.twig', array(
-            'cv' => $cv,
+                    'cv' => $cv,
         ));
     }
 
-    public function stopAction(CuVi $cv, Request $request)
-    {
+    public function stopAction(CuVi $cv, Request $request) {
         if ($cv->getShowable()) {
             $cv->setShowable(false);
         } else {
@@ -500,8 +489,7 @@ class CandidatController extends Controller
         return $this->redirect($this->generateUrl('eco_job_candidat_cv_show'));
     }
 
-    protected function getNumbers()
-    {
+    protected function getNumbers() {
         $em = $this->getDoctrine()->getEntityManager();
         $saved = count($this->getUser()->getPostuled());
         $postuled = count($this->getUser()->getCandidatures());
@@ -515,8 +503,7 @@ class CandidatController extends Controller
         return true;
     }
 
-    public function addPhotoAction(Request $request)
-    {
+    public function addPhotoAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $image = new Image();
             $form = $this->createForm(new ImageType(), $image);
@@ -547,8 +534,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function addEtAction(Request $request)
-    {
+    public function addEtAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $et = new EtatCivil();
             $form = $this->createForm(new EtatCivilType(), $et);
@@ -574,8 +560,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function addCVFileAction(Request $request)
-    {
+    public function addCVFileAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $cvFile = new CVFile();
             $form = $this->createForm(new CVFileType(), $cvFile);
@@ -606,8 +591,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function addFormationAction(Request $request)
-    {
+    public function addFormationAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $formation = new Formation();
             $form = $this->createForm(new FormationType(), $formation);
@@ -636,8 +620,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function editFormationAction(Request $request, Formation $formation)
-    {
+    public function editFormationAction(Request $request, Formation $formation) {
         $form = $this->createForm(new FormationType(), $formation);
         $form->handleRequest($request);
         if ($request->getMethod() == 'POST') {
@@ -668,8 +651,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function addExperienceAction(Request $request)
-    {
+    public function addExperienceAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $experience = new Experience();
             $form = $this->createForm(new ExperienceType(), $experience);
@@ -698,8 +680,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function editExperienceAction(Request $request, Experience $experience)
-    {
+    public function editExperienceAction(Request $request, Experience $experience) {
         $form = $this->createForm(new ExperienceType(), $experience);
         $form->handleRequest($request);
         if ($request->getMethod() == 'POST') {
@@ -730,8 +711,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function addLangueAction(Request $request)
-    {
+    public function addLangueAction(Request $request) {
         $langue = new Langue();
         $form = $this->createForm(new LangueType(), $langue);
         $form->handleRequest($request);
@@ -760,11 +740,10 @@ class CandidatController extends Controller
             }
         }
         return $this->render('EcoJobCandidatBundle:Candidat:addLangue.html.twig', array(
-            'form' => $form->createView()));
+                    'form' => $form->createView()));
     }
 
-    public function editLangueAction(Request $request, Langue $langue)
-    {
+    public function editLangueAction(Request $request, Langue $langue) {
         $form = $this->createForm(new LangueType(), $langue);
         $form->handleRequest($request);
         if ($request->getMethod() == 'POST') {
@@ -795,8 +774,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function deleteLangueAction(Request $request, Langue $langue)
-    {
+    public function deleteLangueAction(Request $request, Langue $langue) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($langue);
@@ -807,8 +785,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function deleteExperienceAction(Request $request, Experience $experience)
-    {
+    public function deleteExperienceAction(Request $request, Experience $experience) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($experience);
@@ -819,8 +796,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function deleteFormationAction(Request $request, Formation $formation)
-    {
+    public function deleteFormationAction(Request $request, Formation $formation) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($formation);
@@ -831,8 +807,7 @@ class CandidatController extends Controller
         }
     }
 
-    public function addCompetenceAction(Request $request)
-    {
+    public function addCompetenceAction(Request $request) {
         $competence = new Competence();
         $form = $this->createForm(new CompetenceType(), $competence);
         $form->handleRequest($request);
@@ -861,11 +836,10 @@ class CandidatController extends Controller
             }
         }
         return $this->render('EcoJobCandidatBundle:Candidat:addCompetence.html.twig', array(
-            'form' => $form->createView()));
+                    'form' => $form->createView()));
     }
 
-    public function editCompetenceAction(Request $request, Competence $competence)
-    {
+    public function editCompetenceAction(Request $request, Competence $competence) {
         $form = $this->createForm(new CompetenceType(), $competence);
         $form->handleRequest($request);
         if ($request->getMethod() == 'POST') {
@@ -896,8 +870,7 @@ class CandidatController extends Controller
         return $response;
     }
 
-    public function deleteCompetenceAction(Request $request, Competence $competence)
-    {
+    public function deleteCompetenceAction(Request $request, Competence $competence) {
         if (($request->getMethod() == 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($competence);
@@ -906,6 +879,212 @@ class CandidatController extends Controller
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
+    }
+
+    public function showCVLettresAction(Request $request) {
+        $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
+        $cvform = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType(), $cvFile);
+
+        $lettre = new \EcoJob\CandidatBundle\Entity\Lettre();
+        $lform = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType(), $lettre);
+
+        return $this->render("EcoJobCandidatBundle:Candidat:showCVLettre.html.twig", array('cvform' => $cvform->createView(),
+                    'lform' => $lform->createView()));
+    }
+
+    public function addCVFichierAction(Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
+            $form = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType(), $cvFile);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($cvFile);
+                $this->getUser()->addCv($cvFile);
+                $em->flush();
+            }
+            $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
+            $form = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType(), $cvFile);
+            $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
+                'cvform' => $form->createView(), 'edit' => false));
+            $response = new Response(json_encode(array("html" => $html)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            $error = true;
+            $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
+                'cvform' => $form->createView(), 'edit' => false));
+            $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
+    public function editCvFichierAction(Request $request, \EcoJob\CandidatBundle\Entity\CVFichier $cvfichier) {
+        $form = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType, $cvfichier);
+        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
+                $form = $this->createForm(new \EcoJob\CandidatBundle\Form\CVFichierType(), $cvFile);
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
+                    'cvform' => $form->createView(), 'edit' => true));
+                $response = new Response(json_encode(array("html" => $html)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } else {
+                $error = true;
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
+                    'cvform' => $form->createView(), 'edit' => true));
+                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+        }
+        $html = $this->renderView('EcoJobCandidatBundle:Candidat:cvlettre.html.twig', array(
+            'cvform' => $form->createView(), 'edit' => true));
+        $response = new Response(json_encode(array("html" => $html)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function deleteCVFichierAction(Request $request, \EcoJob\CandidatBundle\Entity\CVFichier $cvfile) {
+        if (($request->getMethod() == 'POST')) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($cvfile);
+            $em->flush();
+            $response = new Response(json_encode(array("html" => "Succes")));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
+    public function addLettreAction(Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $lettre = new \EcoJob\CandidatBundle\Entity\Lettre();
+            $form = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType(), $lettre);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($lettre);
+                $this->getUser()->addLettre($lettre);
+                $em->flush();
+            }
+            $lettre = new \EcoJob\CandidatBundle\Entity\Lettre();
+            $form = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType(), $lettre);
+            $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
+                'lform' => $form->createView(), 'edit' => false));
+            $response = new Response(json_encode(array("html" => $html)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            $error = true;
+            $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
+                'lform' => $form->createView(), 'edit' => false));
+            $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
+    public function editLettreAction(Request $request, \EcoJob\CandidatBundle\Entity\Lettre $lettre) {
+        $form = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType, $lettre);
+        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $lettre = new \EcoJob\CandidatBundle\Entity\Lettre();
+                $form = $this->createForm(new \EcoJob\CandidatBundle\Form\LettreType(), $lettre);
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
+                    'lform' => $form->createView(), 'edit' => true));
+                $response = new Response(json_encode(array("html" => $html)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } else {
+                $error = true;
+                $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
+                    'lform' => $form->createView(), 'edit' => true));
+                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+        }
+        $html = $this->renderView('EcoJobCandidatBundle:Candidat:lettre.html.twig', array(
+            'lform' => $form->createView(), 'edit' => true));
+        $response = new Response(json_encode(array("html" => $html)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function deleteLettreAction(Request $request, \EcoJob\CandidatBundle\Entity\Lettre $lettre) {
+        if (($request->getMethod() == 'POST')) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($lettre);
+            $em->flush();
+            $response = new Response(json_encode(array("html" => "Succes")));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
+    public function postTradAction(Request $request, Offre $offre) {
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+        $tform->bind($request, $candidatureT);
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $candidature = new Candidature();
+            $candidature->setCandidat($this->getUser());
+            $candidature->setOffre($offre);
+            $candidature->setRecruteur($offre->getRecruteur());
+            $candidature->setDescription($tform["description"]->getData());
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($candidature);
+            $em->flush(); 
+           
+            try {
+                $lettre = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getLettre()->getNom();
+                $cv = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getCvfichier()->getNom();
+
+                $message = (new \Swift_Message())
+
+                        // Give the message a subject
+                        ->setSubject("Candidature à une offre d'emploi sur eco-job.fr")
+                        ->setFrom(array("postmaster@eco-job.fr" => 'Alert Eco-Job'))
+                        ->setCharset('utf-8')
+                        ->setContentType('text/html')
+                        // Set the To addresses with an associative array (setTo/setCc/setBcc)
+                        ->setTo($offre->getRecruteur()->getEmail());
+                if ($tform["copie"]->getData()) {
+                    $message->setCc($this->getUser()->getEmail());
+                }
+                // Give it a body
+                $message->setBody($tform["description"]->getData())
+
+                        // Optionally add any attachments
+                        ->attach(\Swift_Attachment::fromPath($lettre))
+                        ->attach(\Swift_Attachment::fromPath($cv));
+                $this->get('mailer')->send($message);
+                ;
+            } catch (Exception $e) {
+                return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
+            }
+
+            return new Response(json_encode(['data' => 'Candidature envoyée']));
+        } else {
+            return new JsonResponse(['data' => 'Candidature non envoyée']);
+        }
+    }
+
+    public function returnTradForm() {
+        $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
+        return $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+        
     }
 
 }

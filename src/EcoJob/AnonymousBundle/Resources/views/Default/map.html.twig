@@ -229,9 +229,27 @@
 'js/jquery.easing.1.3.js'
 'js/jquery.richtext.min.js'
 'js/markerclusterer.js'
-'js/sendToFriend.js' filter='uglifyjs2'%}
+'js/sendToFriend.js' filter='uglifyjs2' filter='jsrewrite'%}
     <script src="{{ asset_url }}"></script>
-{% endjavascripts %}    
+{% endjavascripts %}
+                <script type="text/javascript">
+                    var type_post = "eco";
+                    var offreid = 0;
+                            function enableEco() {
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseOne').addClass('in');
+                                type_post = "eco";
+                            }
+                    function disableEco() {
+                        $('#collapseOne').removeClass('in');
+                        $('#collapseTwo').addClass('in');
+                        type_post = "trad";
+
+                    }
+                    $(document).on('click','.postulerC',function(){
+                       offreid = $(this).attr('data-offre-id');
+                    });
+                </script> 
     <script>
         var assetsBaseDir = "{{ asset('images/') }}"
     </script>

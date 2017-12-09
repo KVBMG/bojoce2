@@ -74,6 +74,23 @@ class User extends BaseUser implements ParticipantInterface {
      * 
      */
     private $candidatures;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", mappedBy="candidat",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")           
+     * 
+     */
+    private $cvs;    
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", mappedBy="candidat",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")           
+     * 
+     */
+    private $lettres;    
+    
 
     /**
      *
@@ -352,5 +369,73 @@ class User extends BaseUser implements ParticipantInterface {
     public function getCanConsultCV()
     {
         return $this->canConsultCV;
+    }
+
+    /**
+     * Add cv
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFichier $cv
+     *
+     * @return User
+     */
+    public function addCv(\EcoJob\CandidatBundle\Entity\CVFichier $cv)
+    {
+        $this->cvs[] = $cv;
+        $cv->setCandidat($this);
+        return $this;
+    }
+
+    /**
+     * Remove cv
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFichier $cv
+     */
+    public function removeCv(\EcoJob\CandidatBundle\Entity\CVFichier $cv)
+    {
+        $this->cvs->removeElement($cv);
+    }
+
+    /**
+     * Get cvs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCvs()
+    {
+        return $this->cvs;
+    }
+
+    /**
+     * Add lettre
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Lettre $lettre
+     *
+     * @return User
+     */
+    public function addLettre(\EcoJob\CandidatBundle\Entity\Lettre $lettre)
+    {
+        $this->lettres[] = $lettre;
+        $lettre->setCandidat($this);
+        return $this;
+    }
+
+    /**
+     * Remove lettre
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Lettre $lettre
+     */
+    public function removeLettre(\EcoJob\CandidatBundle\Entity\Lettre $lettre)
+    {
+        $this->lettres->removeElement($lettre);
+    }
+
+    /**
+     * Get lettres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLettres()
+    {
+        return $this->lettres;
     }
 }

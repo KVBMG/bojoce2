@@ -1,0 +1,24 @@
+{% for file in app.user.cvs %}
+    <div id="cv{{file.id}}">
+        {{file.titre}}
+        <a href="#cvC" class="btn btn1 btn editCV" cvId="{{file.id}}">Changer le CV</a>
+        <a href="#cvC" class="btn btn1 btn deleteCV" cvId="{{file.id}}">Supprimer</a>                    
+    </div>            
+{% endfor %}
+{% if edit != true %}
+<a class="btn btn-default" data-toggle="collapse" href="#addCV"
+   aria-expanded="false" aria-controls="collapseExample">
+    Ajouter un CV
+</a>     
+    {% else %}
+<a class="btn btn-default bnt3" data-toggle="collapse" href="#addCV"
+   aria-expanded="false" aria-controls="collapseExample">
+    Modifier CV
+</a>             
+{% endif %}
+<div class="collapse" id="addCV">
+    {{ form_start(cvform) }}
+    {{ form_widget(cvform) }}
+    <button type="submit" class="btn-default btn-cf-submit">Valider </button>
+    {{ form_end(cvform) }} 
+</div> 
