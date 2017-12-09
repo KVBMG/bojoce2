@@ -1066,7 +1066,7 @@ class CandidatController extends Controller {
                 
                 $mes = "Poste souhaité: ".$candidatureT->getCvfichier()->getPoste().",";
                 $mes = $mes."\n Rémunération: ".$candidatureT->getCvfichier()->getRemuneration()->getLibelle().",";
-                $message->setBody($tform["description"]->getData()."\n".$mes);
+                $message->setBody($tform["description"]->getData()."\n".$mes)
 
                         // Optionally add any attachments
                         ->attach(\Swift_Attachment::fromPath($lettre))

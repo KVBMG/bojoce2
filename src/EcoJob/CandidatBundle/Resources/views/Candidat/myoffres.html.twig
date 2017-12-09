@@ -153,6 +153,7 @@
                 <script type="text/javascript">
                     var type_post = "eco";
                     var offreid = 0;
+                    var curr_post = null;
                             function enableEco() {
                                 $('#collapseTwo').removeClass('in');
                                 $('#collapseOne').addClass('in');
@@ -166,6 +167,7 @@
                     }
                     $(document).on('click','.postulerC',function(){
                        offreid = $(this).attr('data-offre-id');
+                       curr_post = $(this);
                     });
                     
                 </script>    

@@ -91,6 +91,7 @@ $(function () {
         }
         function showResponse(responseText, statusText, xhr, $form) {
             if (xhr.status == 200) {
+                curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
                 $('.modal').modal('hide');
             } else {
                 alert("Une erreur s'est produite. Connexion au serveur impossible.");

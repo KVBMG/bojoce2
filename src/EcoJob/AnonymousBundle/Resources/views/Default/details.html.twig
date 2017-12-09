@@ -110,6 +110,7 @@
                             {{ form_end(form) }}
                         </div>
                         <div id='collapseTwo' class="collapse">
+                            {% if app.user %}
                             {% if app.user.lettres | length >0 and app.user.cvs | length > 0 %}
                             
                             {{form_start(tform ,{'attr': {'novalidate': 'novalidate'}})}}
@@ -129,7 +130,7 @@
                                     Cliquer <a href="{{path('eco_job_candidat_cv_lettres')}}"> ici. </a>
                                 </div>                                
                             {% endif %}                            
-
+                            {% endif %}
                         </div>
                     </div>
                 </div>
