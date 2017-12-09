@@ -168,7 +168,7 @@ $(function () {
             lettre_edit = loadLettreEditSubmition();
             $.unblockUI();
         }
-        $('form[name=ecojob_candidatbundle_lettre]').click(function (e) {
+        $('form[name=ecojob_candidatbundle_lettre]').submit(function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_lettre_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");

@@ -146,15 +146,25 @@
                             {{ form_end(form) }}
                         </div>
                         <div id='collapseTwo' class="collapse">
+                            {% if app.user.lettres | length >0 and app.user.cvs | length > 0 %}
+                            
                             {{form_start(tform ,{'attr': {'novalidate': 'novalidate'}})}}
                             {{form_widget(tform)}}
                             <div class="form-group row">
                                 <div class="col-md-5 pull-right">
-                                    <button type="submit" class="btn-default btn1" >Envoyer ma candidature</button>
+                                    <button type="submit" class="btn-default btn1">Envoyer ma candidature</button>
                                     <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
                                 </div>
-                            </div>                          
+                            </div>  
+
                             {{form_end(tform)}}
+                            
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    Vous n'avez pas encore envoyé une lettre et/ou un CV. 
+                                    Cliquer <a href="{{path('eco_job_candidat_cv_lettres')}}"> ici. </a>
+                                </div>                                
+                            {% endif %}                            
 
                         </div>
                     </div>
