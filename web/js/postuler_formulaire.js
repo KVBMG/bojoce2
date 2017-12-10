@@ -91,7 +91,9 @@ $(function () {
         }
         function showResponse(responseText, statusText, xhr, $form) {
             if (xhr.status == 200) {
+                if (typeof curr_post !== 'undefined') {
                 curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                }
                 $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
                 
                 $('.modal').modal('hide');
