@@ -25,10 +25,7 @@ class CandidatureType extends AbstractType
     {
         $builder
             ->add('description',TextareaType::class,array('attr' => array('class'=>'editor')))
-            ->add('joinMyCv', CheckboxType::class, array(
-                'required'=> false,
-                'label' => 'Joindre mon CV'))//ecojob_candidatbundle_candidature_description
-            ->add('cvFile', EmbeddedCv::class, array('label' => false));
+                ;
     }
 
     /**

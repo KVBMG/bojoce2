@@ -44,8 +44,7 @@ class CandidatureTType extends AbstractType {
                                 ->where('c.candidat = :candidat')
                                 ->setParameter('candidat', $user);
                     }))
-                ->add('copie',CheckboxType::class,array('label' => "M'envoyer une copie de la candidature"))
-                ->add('description', TextareaType::class, array('label'=>"Un petit texte"))
+                ->add('description', TextareaType::class,array('attr' => array('class'=>'editor ','label'=>"Un petit texte")))
                   ;
     }
 

@@ -1,0 +1,1 @@
+ALTER TABLE candidature ADD enablecv_pj TINYINT(1) DEFAULT NULL, ADD enablelm_pj TINYINT(1) DEFAULT NULL;

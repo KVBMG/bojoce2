@@ -277,8 +277,15 @@ eco_job_candidat_delete_lettre:
         expose: true 
         
 eco_job_candidat_cv_lettres:
-    path:     /lm
-    defaults: { _controller: "EcoJobCandidatBundle:Candidat:showCVLettres" }
+    path:     /cv_pj
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:showCVPJ" }
+    methods:  GET
+    options:
+        expose: true    
+        
+eco_job_candidat_lettres:
+    path:     /lm_pj
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:showLMPJ" }
     methods:  GET
     options:
         expose: true        

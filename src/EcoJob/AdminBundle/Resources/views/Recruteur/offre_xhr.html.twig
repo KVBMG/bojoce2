@@ -1,0 +1,58 @@
+    <table>
+        <tbody>
+            <tr>
+                <th>Titre</th>
+                <td>{{ offre.titre }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ offre.reference }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ offre.description }}</td>
+            </tr>
+            <tr>
+                <th>Pre-requis</th>
+                <td>{{ offre.prerequis }}</td>
+            </tr>
+            <tr>
+                <th>Societe</th>
+                <td>{{ offre.societe }}</td>
+            </tr>
+            <tr>
+                <th>Description société</th>
+                <td>{{ offre.descSociete }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ offre.duree }}</td>
+            </tr>
+            <tr>
+                <th>Validée</th>
+                <td>{% if offre.valid %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Suspendu</th>
+                <td>{% if offre.suspendu %}Oui{% else %}Non{% endif %}</td>
+            </tr>
+
+
+            <tr>
+                <th>Localisation</th>
+                <td>{{ offre.localisation }}</td>
+            </tr>
+            <tr>
+                <th>Crée le</th>
+                <td>{% if offre.createdAt %}{{ offre.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Validité</th>
+                <td>{{ offre.expireAt }}</td>
+            </tr>
+            <tr>
+                <th>Validée le</th>
+                <td>{% if offre.validAt %}{{ offre.validAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>

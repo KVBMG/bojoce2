@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register ajax-inscription-form form-horizontal'}}) }}
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'novalidate':'novalidate','class': 'fos_user_registration_register ajax-inscription-form form-horizontal'}}) }}
 
 <div class="row">
     <div class="col-sm-12">

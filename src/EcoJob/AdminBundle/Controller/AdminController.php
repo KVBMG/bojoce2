@@ -116,7 +116,13 @@ class AdminController extends Controller {
         return $this->render('EcoJobAdminBundle:Recruteur:offres.html.twig', array('offres' => $offres));
     }
 
-    public function showOffreAction(Offre $offre) {
+    public function showOffreAction(Request $request,Offre $offre) {
+        if($request->isXmlHttpRequest()){
+            $html = $this->renderView('EcoJobAdminBundle:Recruteur:offre_xhr.html.twig', array('offre' => $offre));
+            $response = new Response(json_encode(array("html" => $html)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;            
+        }
         $this->getNumbers();
         return $this->render('EcoJobAdminBundle:Recruteur:offre.html.twig', array('offre' => $offre));
     }

@@ -24,7 +24,14 @@ p { margin: 0 0 16px 0; }
     {{parent()}} 
 
     <div class="title6">Mon CV </div>
-        <div class="col-sm-9">     
+        <div class="col-sm-9"> 
+        Avancement du remplissage    
+        <div class="progress">
+         <div class="progress-bar progress-bar-striped active" role="progressbar"
+         aria-valuenow="{{app.user.getPercent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{app.user.getPercent}}%">
+           {{app.user.getPercent}}%
+         </div>
+       </div>             
         {% if (cv.etatCivil is not null or cv.cvFile is not null or cv.image is not null or 
         cv.formations | length > 0 or cv.experiences | length > 0 or cv.competences | length > 0
                 or cv.langues | length > 0) %}   
@@ -86,16 +93,10 @@ p { margin: 0 0 16px 0; }
             {% if cv.competences is not null %}
             <dt>Compétences</dt>
             <dd>
-                <h2>Compétences en informatique</h2>
+                <h2>Compétences: </h2>
                 <ul>
                 {% for competence in cv.competences %}
-                    <li>{{competence.informatique}}</li>
-                {% endfor %}
-                </ul>
-                <h2>Autres compétences</h2>
-                <ul>
-                {% for competence in cv.competences %}
-                    <li>{{competence.autres}}</li>
+                    <li>{{competence.competence}}</li>
                 {% endfor %}
                 </ul>
             </dd>
@@ -108,7 +109,6 @@ p { margin: 0 0 16px 0; }
                 
                 <h2>{{exp.poste}} <span> {{exp.societe}}- {{exp.localisation}}, {{exp.dateDebut|date('d-m-y')}}-{{exp.dateFin|date('d-m-y')}}</span></h2>
                 <ul>
-                    <li><strong>Zone de prospéction:</strong>{{exp.zoneProspection}}</li>
                     <li><strong>Rémunération: </strong>{{exp.remuneration}}</li>
                     <li><strong>Type de la clientèle:</strong>{{exp.typeClientele}}</li>
                     <li><strong>Secteur d'activité:</strong> {{exp.secteurActivite}}</li>

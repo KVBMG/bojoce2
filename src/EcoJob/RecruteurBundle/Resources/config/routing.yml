@@ -15,7 +15,7 @@ eco_job_recruteur_offre_create:
 
         
 eco_job_recruteur_offre_edit:
-    path:     /modifier-offre.php/{id}
+    path:     /edit/modifier-offre.php/{id}
     defaults: { _controller: "EcoJobRecruteurBundle:Recruteur:edit" }
     methods:  [GET,POST]
    

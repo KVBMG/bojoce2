@@ -94,7 +94,7 @@
     <div class="col-sm-3">
             <ul style="list-style: none;">
                 {% if cv is not null %}
-                {% if (cv.etatCivil is not null or cv.cvFile is not null or cv.image is not null or 
+                {% if (cv.etatCivil is not null or cv.image is not null or 
                 cv.formations | length > 0 or cv.experiences | length > 0 or cv.competences | length > 0
                         or cv.langues | length > 0) %}            
                     <li><a href="#" data-toggle="modal" data-target="#newModal"> Créer un nouveau CV</a></li>
@@ -105,7 +105,7 @@
                 <li><a href="#"  data-toggle="modal" data-target="#supCVModal"> Supprimer</a></li>  
                 <li><a href="{{path('eco_job_candidat_cv_show')}}"> Voir mon CV</a></li>
 
-                {% if (cv.etatCivil is null or cv.cvFile is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
+                {% if (cv.etatCivil is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
                         or cv.langues is null) %}
                 <li><a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a></li>
                 {% else %}                

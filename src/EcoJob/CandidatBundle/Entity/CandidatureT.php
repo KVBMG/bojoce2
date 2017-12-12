@@ -23,13 +23,13 @@ class CandidatureT
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", inversedBy="candidatures")
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", inversedBy="candidaturesT")
     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $lettre;
     
     /**
-     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidatures")
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidaturesT")
     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $cvfichier;    

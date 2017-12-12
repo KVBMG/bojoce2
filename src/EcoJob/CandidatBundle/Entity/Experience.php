@@ -64,19 +64,10 @@ class Experience
      */
     private $localisation;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="zoneProspection", type="string", length=15)
-     * @Assert\NotBlank()
-     */
+
     private $zoneProspection;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\TypeRemuneration",inversedBy="experiences")
-    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
-    * @Exclude    
-    */    
+    
     private $remuneration;    
 
     /**
@@ -94,11 +85,6 @@ class Experience
     */    
     private $cuvi;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\TypeClientele",inversedBy="experiences")
-    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
-    * @Exclude    
-    */    
     private $typeClientele;    
     
     /**

@@ -6,7 +6,7 @@
         Mes compétences:            
             {% for competence in competences %}
                 <div id="competence{{competence.id}}">
-                {{competence.informatique}} {{competence.autres}}
+                {{competence.competence}} 
                 <a href="#competenceC" class="btn btn1 btn editCompetence" competenceId="{{competence.id}}">Modifier</a>
                 <a href="#competenceC" class="btn btn1 btn deleteCompetence" competenceId="{{competence.id}}">Supprimer</a>                    
                 </div>

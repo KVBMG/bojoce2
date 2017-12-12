@@ -31,8 +31,15 @@ class CVFichier
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\CandidatureT",mappedBy="cvfichier",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      */
-    private $candidatures;     
+    private $candidaturesT;     
 
+ 
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Candidature",mappedBy="cvfichier",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     */
+    private $candidatures;     
+    
     /**
      * @Assert\File(
      *     maxSize="3M",
@@ -61,19 +68,7 @@ class CVFichier
      * @var string
      */
     private $titre;    
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
-     */
-    private $poste;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\TypeRemuneration",inversedBy="cvfichiers")
-    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")  
-    */    
-    private $remuneration;     
+  
 
     /**
      * @ORM\Column(type="datetime")

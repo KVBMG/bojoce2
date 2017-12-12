@@ -24,6 +24,13 @@ class Formation
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="detailsFormation", type="string", length=1000,nullable=true)
+     */
+    private $detailsFormation;    
+    
+    /**
      * @var int
      *
      * @ORM\Column(name="anneeObtention", type="integer")
@@ -284,5 +291,29 @@ class Formation
     public function getNiveau()
     {
         return $this->niveau;
+    }
+
+    /**
+     * Set detailsFormation
+     *
+     * @param string $detailsFormation
+     *
+     * @return Formation
+     */
+    public function setDetailsFormation($detailsFormation)
+    {
+        $this->detailsFormation = $detailsFormation;
+    
+        return $this;
+    }
+
+    /**
+     * Get detailsFormation
+     *
+     * @return string
+     */
+    public function getDetailsFormation()
+    {
+        return $this->detailsFormation;
     }
 }

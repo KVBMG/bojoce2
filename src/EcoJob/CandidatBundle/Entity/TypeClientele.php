@@ -29,11 +29,7 @@ class TypeClientele
      */
     private $libelle;
 
-    /**
-     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Experience",mappedBy="typeClientele",orphanRemoval=true)
-     * @ORM\JoinColumn(onDelete="CASCADE")     
-     * @Exclude     
-     */
+
     private $experiences;    
 
     /**

@@ -28,7 +28,7 @@ $(function () {
     $('#m-m-u').on('show.bs.modal', function (e) {
         _id = $(e.relatedTarget).data('offre-id');
         var html = $(e.relatedTarget).data('offre-titre');
-        html = 'Postuler pour l\'offre : '+ html +'<button type="button" class="close" data-dismiss="modal">&times;</button>';
+        html = 'Postuler pour l\'offre : ' + html + '<button type="button" class="close" data-dismiss="modal">&times;</button>';
         $(this).find('.modal-title').html(html);
     });
 
@@ -78,6 +78,13 @@ $(function () {
     });
     $(document).on('submit', '#candidatureFormT', function (event) {
         event.preventDefault();
+        if (!isOneChecked()) {
+            alert("Veuillez choisir votre de méthode de candidature");
+            return;
+        }
+        if(!isValid()){
+            return;
+        }
         var options = {
             target: '#candidatureFormT', // target element(s) to be updated with server response 
             beforeSubmit: showRequest, // pre-submit callback 
@@ -101,7 +108,11 @@ $(function () {
         }
         function showResponse(responseText, statusText, xhr, $form) {
             if (xhr.status == 200) {
-                curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");                
+                if (typeof curr_post !== 'undefined') {
+                    curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                }
+                $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+
                 $('.modal').modal('hide');
             } else {
                 alert("Une erreur s'est produite. Connexion au serveur impossible.");

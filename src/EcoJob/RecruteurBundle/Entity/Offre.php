@@ -77,12 +77,7 @@ class Offre
      */
     private $descSociete;        
     
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="duree", type="string", length=255)
-     * @Assert\NotBlank()          
-     */
+
     private $duree;        
 
 

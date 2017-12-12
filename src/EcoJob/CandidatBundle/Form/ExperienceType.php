@@ -25,13 +25,6 @@ class ExperienceType extends AbstractType {
                         'group_by' => 'categorieFonction'))                
                 ->add('societe','text',array('label' => 'Société'))
                 ->add('localisation','text',array('label' => 'Localisation'))
-                ->add('zoneProspection','text',array('label' => 'Zone de prospéction'))
-                ->add('remuneration','entity', array(
-                    'class' => 'EcoJobCandidatBundle:TypeRemuneration',
-                        'label' => 'Rémunération'))
-                ->add('typeClientele','entity', array(
-                    'class' => 'EcoJobCandidatBundle:TypeClientele',
-                        'label' => 'Type de la clientèle'))
                 ->add('detailsMission', TextareaType::class, array('label' => 'Détails de la mission'));
     }
 

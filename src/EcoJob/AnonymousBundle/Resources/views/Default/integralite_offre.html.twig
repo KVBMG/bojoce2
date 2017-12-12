@@ -120,55 +120,36 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </h4>
                     </div>
-<div class="modal-body">
+                <div class="modal-body">
                 <div id="type">
-                    <input type="radio" name="myRadios" onclick="enableEco();" value="1" checked /> Utiliser le CV et lettre de motivation numérique d'eco-job (candidature interne dans eco-job)
+                    <input type="checkbox"  id="enableEco" onclick="enableEco();" /> Utiliser le CV optimisé ecojob
                     <br/>
-                    <input type="radio" name="myRadios" onclick="disableEco()" value="2" /> Utiliser vos CV et lettre de motivation (candidature traditionnelle)
-                </div>
-                
-                <div class='collapse in' id="collapseOne">
-                    {{ form_start(form) }}
-                    <div class="form-group row">
-                        <div class="col-lg-10">
-                            {{ form_row(form.description) }}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            {{ form_row(form.joinMyCv) }}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-lg-10">
-                            <label class="checkbox-inline"><input type="checkbox" name="externalFile" id="externalFile"
-                                                                  checked="checked" class="form-control-file">Joindre un
-                                fichier externe</label>
-                                {{ form_row(form.cvFile) }}
-                        </div>
-                    </div>
+                    <input type="checkbox"  id="enableCVPJ" onclick="enableCVPJ()"  /> Envoyer un des CV téléchargés en pièce jointe
+                    <br/>
+                    <input type="checkbox"  id="enableLMPJ" onclick="enableLMPJ()"  /> Choisir une des lettres téléchargées 
 
-                    <div class="alert alert-dismissable" id="responseStore">
-                    </div>
+                </div>                
+                {{ form_start(tform) }}
+                    <input type="hidden" name="enableEco" id="enableEcoV"  /> 
+                    <br/>
+                    <input type="hidden" name="enableCVPJ" id="enableCVPJV" /> 
+                    <br/>
+                    <input type="hidden" name="enableLMPJ" id="enableLMPJV"/>
+             
+                <div class='collapse' id="collapseOne">
                     {% if app.user and app.user.curriculum is not null %}
                         {% set cv = app.user.curriculum %} 
                         {% if (cv.etatCivil is not null and cv.cvFile is not null and cv.image is not null and 
                                     cv.formations | length > 0 and cv.experiences | length > 0 and cv.competences | length > 0
                                             and cv.langues | length > 0) %}
-                        <hr>
-                        <div class="form-group row">
-                            <div class="col-md-5 pull-right">
-                                <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
-                                <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="alert alert-warning">
-                            Vous n'avez pas encore fini de remplir votre <a
-                                href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
-                            d'Envoyer votre candidature.
-                        </div>                        
-                    {% endif %}
+                            <hr>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Vous n'avez pas encore fini de remplir votre <a
+                                    href="{{ path('eco_job_candidat_gerercv') }}">CV</a> , veuillez le remplir avant
+                                d'Envoyer votre candidature.
+                            </div>                        
+                        {% endif %}
                     {% else %}
                         {% if app.user and app.user.curriculum is not null %}
                             <div class="alert alert-warning">
@@ -183,34 +164,50 @@
                                 d'Envoyer votre candidature.
                             </div>
                         {% endif %}
-                        {% endif %}
-                            {{ form_end(form) }}
-                        </div>
-                        <div id='collapseTwo' class="collapse">
-                            {% if app.user %}
-                            {% if app.user.lettres | length >0 and app.user.cvs | length > 0 %}
-                            
-                            {{form_start(tform ,{'attr': {'novalidate': 'novalidate'}})}}
-                            {{form_widget(tform)}}
-                            <div class="form-group row">
-                                <div class="col-md-5 pull-right">
-                                    <button type="submit" class="btn-default btn1">Envoyer ma candidature</button>
-                                    <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>  
+                    {% endif %}
+                </div>
+                <div id='collapseTwo' class="collapse">
+                    {% if app.user.cvs | length > 0 %}
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                {{ form_row(tform.cvfichier) }}
+                            </div>
+                        </div>                         
+                    {% else %}
+                        <div class="alert alert-warning">
+                            Vous n'avez pas encore envoyé un CV.
+                        </div>                          
+                    {% endif %}
 
-                            {{form_end(tform)}}
-                            
-                            {% else %}
-                                <div class="alert alert-warning">
-                                    Vous n'avez pas encore envoyé une lettre et/ou un CV. 
-                                    Cliquer <a href="{{path('eco_job_candidat_cv_lettres')}}"> ici. </a>
-                                </div>                                
-                            {% endif %} 
-                            {% endif %}
+                </div>
+                <div id='collapseThree' class="collapse">
+                    {% if app.user.lettres | length > 0 %}
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                {{ form_row(tform.lettre) }}
+                            </div>
+                        </div>                         
+                    {% else %}
+                        <div class="alert alert-warning">
+                            Vous n'avez pas encore envoyé une lettre.
+                        </div>                          
+                    {% endif %}
 
-                        </div>
+                </div>   
+                <div class="form-group row">
+                    <div class="col-lg-10">
+                        {{ form_row(tform.description) }}
                     </div>
+                </div>    
+                <hr>
+                <div class="form-group row">
+                    <div class="col-md-5 pull-right">
+                        <button type="submit" class="btn-default btn1" value="">Envoyer ma candidature</button>
+                        <button type="button" class="btn btn-default btn4" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>                      
+                {{form_end(tform)}}             
+            </div>
             </div>
         </div>
     </div>
@@ -277,21 +274,91 @@
             {% block javascripts %}
 
                 {{ parent() }}
-                <script type="text/javascript">
-                    var type_post = "eco";
-                    var offreid ={{offre.id}}
+<script type="text/javascript">
+                            var ecojob = false;
+                            var cv_pj = false;
+                            var lm_pj = false;
                             function enableEco() {
-                                $('#collapseTwo').removeClass('in');
-                                $('#collapseOne').addClass('in');
-                                type_post = "eco";
-                            }
-                    function disableEco() {
-                        $('#collapseOne').removeClass('in');
-                        $('#collapseTwo').addClass('in');
-                        type_post = "trad";
+                                if($("#enableEco").is(':checked')){                               
+                                    $('#collapseOne').addClass('in');
+                                    $('#collapseTwo').removeClass('in');
+                                    $('#collapseThree').removeClass('in');
+                                    
+                                    ecojob = true;
+                                }
+                                else{
+                                    $('#collapseOne').removeClass('in');                                    
+                                    ecojob = false;
+                                }
+                                $('#enableEcoV').val(ecojob);
+                            }   
+                            function enableCVPJ() {
+                                if($("#enableCVPJ").is(':checked')){
+                                    $('#collapseTwo').addClass('in');
+                                    $('#collapseOne').removeClass('in');
+                                    $('#collapseThree').removeClass('in');                                    
+                                     cv_pj = true;
+                                }
+                                else{
+                                    $('#collapseTwo').removeClass('in');                                    
+                                    cv_pj = false;
+                                }
+                                $('#enableCVPJV').val(cv_pj);
 
-                    }
-                </script>        
+                            }
+                            function enableLMPJ() {
+                                $('#collapseThree').addClass('in');
+                                if($("#enableLMPJ").is(':checked')){
+                                    $('#collapseTwo').removeClass('in');
+                                    $('#collapseOne').removeClass('in');                                    
+                                     lm_pj = true;
+                                }
+                                else{
+                                     $('#collapseThree').removeClass('in');                                    
+                                    lm_pj = false;
+                                }
+                                $('#enableLMPJ').val(lm_pj);
+
+                            }
+                            function isOneChecked(){
+                                if($("#enableEco").is(':checked'))
+                                    return true;
+                                else{
+                                    if($("#enableCVPJ").is(':checked'))
+                                        return true
+                                     else if($("#enableLMPJ").is(':checked'))
+                                         return true;
+                                     else
+                                         return false;
+                                 }
+                            }
+                            function isValid(){
+                                if(ecojob){
+                                    if($("#collapseOne .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 1 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                }
+                                if(cv_pj){
+                                    if($("#collapseTwo .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 2 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                }
+                                if(lm_pj){
+                                    if($("#collapseThree .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 3 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                } 
+                                return true;
+                            }
+                            $(document).on('click', '.postulerC', function () {
+                                offreid = $(this).attr('data-offre-id');
+                                curr_post = $(this);
+                            });
+
+                        </script>       
                 <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
                 <!-- Froala Editor -->
                 <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>

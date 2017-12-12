@@ -46,11 +46,6 @@ class User extends BaseUser implements ParticipantInterface {
      */
     private $curriculum;
 
-    /**
-     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
-     * @Exclude     
-     */
-    private $cvFile;
 
     /**
      * @ORM\OneToMany(targetEntity="EcoJob\RecruteurBundle\Entity\Offre",mappedBy="recruteur",orphanRemoval=true)
@@ -290,28 +285,6 @@ class User extends BaseUser implements ParticipantInterface {
         return $this->candidatures;
     }
 
-    /**
-     * Set cvFile
-     *
-     * @param \EcoJob\CandidatBundle\Entity\CVFile $cvFile
-     *
-     * @return User
-     */
-    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null) {
-        $this->cvFile = $cvFile;
-
-        return $this;
-    }
-
-    /**
-     * Get cvFile
-     *
-     * @return \EcoJob\CandidatBundle\Entity\CVFile
-     */
-    public function getCvFile() {
-        return $this->cvFile;
-    }
-
 
     /**
      * Add cdturesRec
@@ -438,4 +411,27 @@ class User extends BaseUser implements ParticipantInterface {
     {
         return $this->lettres;
     }
+    
+    public function getPercent(){
+        $percent = 0;
+        if($this->curriculum != NULL){  
+            if($this->curriculum->getEtatCivil()!= NULL)
+                $percent += 20;
+            if($this->curriculum->getImage() != NULL)
+                $percent += 10;
+            if(count($this->curriculum->getFormations()) > 0)
+                $percent += 20;
+            if(count($this->curriculum->getExperiences()) > 0)
+                $percent += 20;
+            if(count($this->curriculum->getCompetences()) > 0)
+                $percent += 20;  
+            if(count($this->curriculum->getLangues()) > 0)
+                $percent += 10;            
+        }
+        if($percent == 0){
+            return 10;
+        }
+        return $percent;
+    }
 }
+

@@ -3,6 +3,7 @@
 namespace EcoJob\CandidatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Candidature
@@ -50,18 +51,43 @@ class Candidature
      */
     private $date_candidature;
 
+
+
+    /**
+     * @ORM\Column(name="joinMyCv", type="boolean", nullable=true)
+     */
+    private $joinMyCv;
+
+    /**
+     * @ORM\Column(name="enablecv_pj", type="boolean", nullable=true)
+     */
+    private $enablecv_pj;    
+
+    /**
+     * @ORM\Column(name="enablelm_pj", type="boolean", nullable=true)
+     */
+    private $enablelm_pj;    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidatures")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+     */
+    private $cvfichier;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", inversedBy="candidatures")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+     */
+    private $lettre;    
     /**
      * Candidature constructor.
      * @param $offre
      * @param $candidat
      * @param string $description
      */
-    public function __construct(\EcoJob\RecruteurBundle\Entity\Offre $offre,
-                                \EcoJob\UserBundle\Entity\User $candidat, $description)
+    public function __construct()
     {
-        $this->offre = $offre;
-        $this->candidat = $candidat;
-        $this->description = $description;
+        $this->cvFile = null;
         $this->date_candidature = new \DateTime();
     }
 
@@ -170,5 +196,100 @@ class Candidature
     public function getCandidat()
     {
         return $this->candidat;
+    }
+
+    /**
+     * Set recruteur
+     *
+     * @param \EcoJob\UserBundle\Entity\User $recruteur
+     *
+     * @return Candidature
+     */
+    public function setRecruteur(\EcoJob\UserBundle\Entity\User $recruteur)
+    {
+        $this->recruteur = $recruteur;
+    
+        return $this;
+    }
+
+    /**
+     * Get recruteur
+     *
+     * @return \EcoJob\UserBundle\Entity\User
+     */
+    public function getRecruteur()
+    {
+        return $this->recruteur;
+    }
+
+    /**
+     * Set joinMyCv
+     *
+     * @param boolean $joinMyCv
+     *
+     * @return Candidature
+     */
+    public function setJoinMyCv($joinMyCv = false)
+    {
+        $this->joinMyCv = $joinMyCv;
+        return $this;
+    }
+
+    /**
+     * Get joinMyCv
+     *
+     * @return boolean
+     */
+    public function getJoinMyCv()
+    {
+        return $this->joinMyCv;
+    }
+
+    /**
+     * Set enablecvPj
+     *
+     * @param boolean $enablecvPj
+     *
+     * @return Candidature
+     */
+    public function setEnablecvPj($enablecvPj)
+    {
+        $this->enablecv_pj = $enablecvPj;
+    
+        return $this;
+    }
+
+    /**
+     * Get enablecvPj
+     *
+     * @return boolean
+     */
+    public function getEnablecvPj()
+    {
+        return $this->enablecv_pj;
+    }
+
+    /**
+     * Set enablelmPj
+     *
+     * @param boolean $enablelmPj
+     *
+     * @return Candidature
+     */
+    public function setEnablelmPj($enablelmPj)
+    {
+        $this->enablelm_pj = $enablelmPj;
+    
+        return $this;
+    }
+
+    /**
+     * Get enablelmPj
+     *
+     * @return boolean
+     */
+    public function getEnablelmPj()
+    {
+        return $this->enablelm_pj;
     }
 }

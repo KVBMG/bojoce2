@@ -22,7 +22,6 @@ class OffreType extends AbstractType {
                     'label' => 'Contrat de travail',
                         )
                 )
-                ->add('duree','text',array('label' => "Durée, le cas échéant "))
                 
                 ->add('localisation')
                 ->add('latitude', HiddenType::class)

@@ -26,18 +26,11 @@ class Competence
     /**
      * @var string
      *
-     * @ORM\Column(name="informatique", type="string", length=1000, nullable=false)
+     * @ORM\Column(name="competence", type="string", length=1000, nullable=false)
      * @Assert\NotBlank()
      */
-    private $informatique;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="autres", type="string", length=1000, nullable=true)
-     *
-     */
-    private $autres;
+    private $competence;
 
     /**
     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CuVi",inversedBy="competences")
@@ -126,5 +119,29 @@ class Competence
     public function getCuvi()
     {
         return $this->cuvi;
+    }
+
+    /**
+     * Set competence
+     *
+     * @param string $competence
+     *
+     * @return Competence
+     */
+    public function setCompetence($competence)
+    {
+        $this->competence = $competence;
+    
+        return $this;
+    }
+
+    /**
+     * Get competence
+     *
+     * @return string
+     */
+    public function getCompetence()
+    {
+        return $this->competence;
     }
 }

@@ -18,7 +18,9 @@
                 </p>
 
                 <ul class="ul1">
-                    <li>Ajouté le {{offre.createdAt | date('d-m-y')}}</li> 
+                    <li>Ajouté le {{offre.createdAt | date('d-m-y')}}</li>
+                    <li >Validée par l'administrateur le {{offre.validAt | date('d-m-y')}}</li>
+                    
                     <li>Lieu: {{offre.localisation}}</li>  
                     <li>Secteur d'activité: {{offre.categorie.designation}}</li>                         
                     <li>Société qui recrute: {{offre.societe}}</li>

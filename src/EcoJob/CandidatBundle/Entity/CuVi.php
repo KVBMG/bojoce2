@@ -31,11 +31,6 @@ class CuVi {
      */
     private $etatCivil;
 
-    /**
-     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove"},orphanRemoval=true)
-     * @Exclude     
-     */
-    private $cvFile;
 
     /**
      * @ORM\OneToOne(targetEntity="EcoJob\UserBundle\Entity\Image",cascade={"remove"},orphanRemoval=true)
@@ -181,27 +176,6 @@ class CuVi {
         return $this->etatCivil;
     }
 
-    /**
-     * Set cvFile
-     *
-     * @param \EcoJob\CandidatBundle\Entity\CVFile $cvFile
-     *
-     * @return CuVi
-     */
-    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null) {
-        $this->cvFile = $cvFile;
-
-        return $this;
-    }
-
-    /**
-     * Get cvFile
-     *
-     * @return \EcoJob\CandidatBundle\Entity\CVFile
-     */
-    public function getCvFile() {
-        return $this->cvFile;
-    }
 
     /**
      * Set image

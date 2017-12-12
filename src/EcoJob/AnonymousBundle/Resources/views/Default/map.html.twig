@@ -20,7 +20,7 @@
             <div class="title6 text-uppercase">Map</div>
             <a href="{{path('eco_job_anonymous__offre_searchpage')}}">Sans carte de France</a>
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-3">
                     <form id="searchForm">
                         <div class="form-group">
                             <label class="control-label required" for="searchBar">Mots clés</label>
@@ -62,9 +62,9 @@
                         <div class="form-group">
                             <label for="limit" class="control-label required">Nombre d'offre à afficher :</label>
                             <select name="limit" id="limit" class="form-control">
-                                <option value="10">10</option>
-                                <option value="15">15</option>
                                 <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
                             </select>
                         </div>
                         <input type="hidden" id="offset" name="offset" value="0"/>
@@ -126,6 +126,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>                 
                     {% endfor %}
                 </div>
                 <div class="cd-cart-container empty">
@@ -152,7 +153,7 @@
                         </div>
                     </div> <!-- .cd-cart -->
                 </div>
-                <div class="col-sm-3" id="details">
+                <div class="col-sm-5" id="details">
 
                 </div>
             </div>
@@ -232,24 +233,91 @@
 'js/sendToFriend.js' filter='uglifyjs2'%}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-                <script type="text/javascript">
-                    var type_post = "eco";
-                    var offreid = 0;
+<script type="text/javascript">
+                            var ecojob = false;
+                            var cv_pj = false;
+                            var lm_pj = false;
                             function enableEco() {
-                                $('#collapseTwo').removeClass('in');
-                                $('#collapseOne').addClass('in');
-                                type_post = "eco";
-                            }
-                    function disableEco() {
-                        $('#collapseOne').removeClass('in');
-                        $('#collapseTwo').addClass('in');
-                        type_post = "trad";
+                                if($("#enableEco").is(':checked')){                               
+                                    $('#collapseOne').addClass('in');
+                                    $('#collapseTwo').removeClass('in');
+                                    $('#collapseThree').removeClass('in');
+                                    
+                                    ecojob = true;
+                                }
+                                else{
+                                    $('#collapseOne').removeClass('in');                                    
+                                    ecojob = false;
+                                }
+                                $('#enableEcoV').val(ecojob);
+                            }   
+                            function enableCVPJ() {
+                                if($("#enableCVPJ").is(':checked')){
+                                    $('#collapseTwo').addClass('in');
+                                    $('#collapseOne').removeClass('in');
+                                    $('#collapseThree').removeClass('in');                                    
+                                     cv_pj = true;
+                                }
+                                else{
+                                    $('#collapseTwo').removeClass('in');                                    
+                                    cv_pj = false;
+                                }
+                                $('#enableCVPJV').val(cv_pj);
 
-                    }
-                    $(document).on('click','.postulerC',function(){
-                       offreid = $(this).attr('data-offre-id');
-                    });
-                </script> 
+                            }
+                            function enableLMPJ() {
+                                $('#collapseThree').addClass('in');
+                                if($("#enableLMPJ").is(':checked')){
+                                    $('#collapseTwo').removeClass('in');
+                                    $('#collapseOne').removeClass('in');                                    
+                                     lm_pj = true;
+                                }
+                                else{
+                                     $('#collapseThree').removeClass('in');                                    
+                                    lm_pj = false;
+                                }
+                                $('#enableLMPJ').val(lm_pj);
+
+                            }
+                            function isOneChecked(){
+                                if($("#enableEco").is(':checked'))
+                                    return true;
+                                else{
+                                    if($("#enableCVPJ").is(':checked'))
+                                        return true
+                                     else if($("#enableLMPJ").is(':checked'))
+                                         return true;
+                                     else
+                                         return false;
+                                 }
+                            }
+                            function isValid(){
+                                if(ecojob){
+                                    if($("#collapseOne .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 1 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                }
+                                if(cv_pj){
+                                    if($("#collapseTwo .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 2 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                }
+                                if(lm_pj){
+                                    if($("#collapseThree .alert-warning").length > 0){
+                                        alert("Veuillez corriger l'option numero 3 ou modifier votre de demande");
+                                        return false;
+                                    }
+                                } 
+                                return true;
+                            }
+                            $(document).on('click', '.postulerC', function () {
+                                offreid = $(this).attr('data-offre-id');
+                                curr_post = $(this);
+                            });
+
+                        </script>
     <script>
         var assetsBaseDir = "{{ asset('images/') }}"
     </script>

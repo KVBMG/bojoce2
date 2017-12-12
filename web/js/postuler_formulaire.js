@@ -68,6 +68,13 @@ $(function () {
     });
     $(document).on('submit', '#candidatureFormT', function (event) {
         event.preventDefault();
+        if (!isOneChecked()) {
+            alert("Veuillez choisir votre de méthode de candidature");
+            return;
+        }
+        if(!isValid()){
+            return;
+        }
         var options = {
             target: '#candidatureFormT', // target element(s) to be updated with server response 
             beforeSubmit: showRequest, // pre-submit callback 
@@ -92,10 +99,10 @@ $(function () {
         function showResponse(responseText, statusText, xhr, $form) {
             if (xhr.status == 200) {
                 if (typeof curr_post !== 'undefined') {
-                curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
+                    curr_post.replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
                 }
                 $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
-                
+
                 $('.modal').modal('hide');
             } else {
                 alert("Une erreur s'est produite. Connexion au serveur impossible.");

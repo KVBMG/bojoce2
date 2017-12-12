@@ -32,6 +32,9 @@ eco_job_admin_recruteur_offre:
     path:     /users/offre/{id}
     defaults: { _controller: "EcoJobAdminBundle:Admin:showOffre" }
     methods:  GET     
+    options:
+        expose:
+            true
 eco_job_admin_user_delete:
     path:     /users/delete/{id}
     defaults: { _controller: "EcoJobAdminBundle:Admin:delete" }

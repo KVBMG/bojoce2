@@ -1,7 +1,4 @@
-    <div id="page-wrap">
-        {% if cv.cvFile is defined and cv.cvFile is not null %}
-        <a href="{{asset('cv/'~cv.cvFile.cvName)}}" target="_blank">Télécharger CV</a>
-        {% endif %}            
+    <div id="page-wrap">          
         {% if cv.image is not null %}           
            <img class='img-responsive' height='400px' id="pic" width='400px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
         {% else %}

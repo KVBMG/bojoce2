@@ -39,7 +39,8 @@ $(function () {
             "targets": -1,
             "data": null,
             "width": "20%",
-            "defaultContent": " <button class='btn btn-danger btn-delete'><span class='glyphicon glyphicon-remove'></span></button>\n\
+            "defaultContent": " <button class='btn btn-view'><span class='glyphicon glyphicon-eye-open'></span> </button>\n\
+            <button class='btn btn-danger btn-delete'><span class='glyphicon glyphicon-remove'></span></button>\n\
 "
 
         }]         
@@ -56,12 +57,12 @@ $(function () {
             } else {
                 $.ajax({
                     type: 'GET',
-                    url: Routing.generate('eco_job_admin_showuser', {id: current_id}),
+                    url: Routing.generate('eco_job_admin_recruteur_offre', {id: current_id}),
                     timeout: 3000,
                     success: function (response) {
                         $('#profilModal .modal-body').children().remove();
-                        $('#profilModal .modal-body').append(response);
-                        $('#profilModal.modal-header h4').text("Utilisateur n° " + current_id)
+                        $('#profilModal .modal-body').append(response.html);
+                        $('#profilModal.modal-header h4').text("Offre n° " + current_id)
                         $('#profilModal').modal('show');
                     },
                     error: function () {

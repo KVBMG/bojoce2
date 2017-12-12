@@ -51,18 +51,34 @@ class Candidature
      */
     private $date_candidature;
 
-    /**
-     * @ORM\OneToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFile",cascade={"remove","persist"},orphanRemoval=true)
-     * @Exclude
-     */
-    private $cvFile;
+
 
     /**
      * @ORM\Column(name="joinMyCv", type="boolean", nullable=true)
      */
     private $joinMyCv;
 
+    /**
+     * @ORM\Column(name="enablecv_pj", type="boolean", nullable=true)
+     */
+    private $enablecv_pj;    
 
+    /**
+     * @ORM\Column(name="enablelm_pj", type="boolean", nullable=true)
+     */
+    private $enablelm_pj;    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidatures")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+     */
+    private $cvfichier;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", inversedBy="candidatures")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+     */
+    private $lettre;    
     /**
      * Candidature constructor.
      * @param $offre
@@ -207,29 +223,6 @@ class Candidature
     }
 
     /**
-     * Set cvFile
-     *
-     * @param \EcoJob\CandidatBundle\Entity\CVFile $cvFile
-     *
-     * @return Candidature
-     */
-    public function setCvFile(\EcoJob\CandidatBundle\Entity\CVFile $cvFile = null)
-    {
-        $this->cvFile = $cvFile;
-        return $this;
-    }
-
-    /**
-     * Get cvFile
-     *
-     * @return \EcoJob\CandidatBundle\Entity\CVFile
-     */
-    public function getCvFile()
-    {
-        return $this->cvFile;
-    }
-
-    /**
      * Set joinMyCv
      *
      * @param boolean $joinMyCv
@@ -250,5 +243,101 @@ class Candidature
     public function getJoinMyCv()
     {
         return $this->joinMyCv;
+    }
+
+    /**
+     * Set enablecvPj
+     *
+     * @param boolean $enablecvPj
+     *
+     * @return Candidature
+     */
+    public function setEnablecvPj($enablecvPj)
+    {
+        $this->enablecv_pj = $enablecvPj;
+    
+        return $this;
+    }
+
+    /**
+     * Get enablecvPj
+     *
+     * @return boolean
+     */
+    public function getEnablecvPj()
+    {
+        return $this->enablecv_pj;
+    }
+
+    /**
+     * Set enablelmPj
+     *
+     * @param boolean $enablelmPj
+     *
+     * @return Candidature
+     */
+    public function setEnablelmPj($enablelmPj)
+    {
+        $this->enablelm_pj = $enablelmPj;
+    
+        return $this;
+    }
+
+    /**
+     * Get enablelmPj
+     *
+     * @return boolean
+     */
+    public function getEnablelmPj()
+    {
+        return $this->enablelm_pj;
+    }
+
+    /**
+     * Set cvfichier
+     *
+     * @param \EcoJob\CandidatBundle\Entity\CVFichier $cvfichier
+     *
+     * @return Candidature
+     */
+    public function setCvfichier(\EcoJob\CandidatBundle\Entity\CVFichier $cvfichier)
+    {
+        $this->cvfichier = $cvfichier;
+    
+        return $this;
+    }
+
+    /**
+     * Get cvfichier
+     *
+     * @return \EcoJob\CandidatBundle\Entity\CVFichier
+     */
+    public function getCvfichier()
+    {
+        return $this->cvfichier;
+    }
+
+    /**
+     * Set lettre
+     *
+     * @param \EcoJob\CandidatBundle\Entity\Lettre $lettre
+     *
+     * @return Candidature
+     */
+    public function setLettre(\EcoJob\CandidatBundle\Entity\Lettre $lettre)
+    {
+        $this->lettre = $lettre;
+    
+        return $this;
+    }
+
+    /**
+     * Get lettre
+     *
+     * @return \EcoJob\CandidatBundle\Entity\Lettre
+     */
+    public function getLettre()
+    {
+        return $this->lettre;
     }
 }

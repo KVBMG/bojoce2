@@ -29,11 +29,7 @@ class TypeRemuneration
      */
     private $libelle;
 
-    /**
-     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Experience",mappedBy="remuneration",orphanRemoval=true)
-     * @ORM\JoinColumn(onDelete="CASCADE")     
-     * @Exclude     
-     */
+
     private $experiences;    
     
     /**

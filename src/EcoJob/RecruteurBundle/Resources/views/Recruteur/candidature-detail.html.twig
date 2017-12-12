@@ -20,9 +20,12 @@
 
             {% if cv is not null %}
                 <div id="page-wrap">
-                    {% if cv.cvFile is defined and cv.cvFile is not null %}
-                        <a href="{{ asset('cv/'~cv.cvFile.cvName) }}" target="_blank">Télécharger CV</a>
+                    {% if candidature.enablelm_pj %}
+                        <a href="{{ asset('cv/'~candidature.lettre.nom) }}" target="_blank">Télécharger lettre de motivation</a>
                     {% endif %}
+                    {% if candidature.enablecv_pj %}
+                        <a href="{{ asset('cv/'~candidature.cvfichier.nom) }}" target="_blank">Télécharger CV</a>
+                    {% endif %}                    
                     {% if cv.image is not null %}
                         <img class='img-responsive' height='400px' id="pic" width='400px'
                              src='{{ asset('images/users/'~cv.image.imageName~'') }}'/>

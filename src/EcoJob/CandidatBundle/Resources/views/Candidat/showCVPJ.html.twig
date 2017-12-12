@@ -8,7 +8,7 @@
 {% block scontent %}   
     {{parent()}} 
 
-    <div class="col-sm-6" id="cv">
+    <div class="col-sm-12" id="cv">
         <div class="title6">CV</div>
         
         {% for file in app.user.cvs %}
@@ -29,27 +29,6 @@
             {{ form_end(cvform) }} 
         </div>         
     </div> 
-    <div class="col-sm-6" id="lettre">
-        <div class="title6">Lettre</div>        
-        
-        {% for file in app.user.lettres %}
-            <div id="lettre{{file.id}}">
-                {{file.titre}}
-                <a href="#lettreC" class="btn btn1 btn editLettre" lettreId="{{file.id}}">Changer la lettre</a>
-                <a href="#lettreC" class="btn btn1 btn deleteLettre" lettreId="{{file.id}}">Supprimer</a>                    
-            </div>            
-        {% endfor %}
-        <a class="btn btn-default" data-toggle="collapse" href="#addLettre"
-           aria-expanded="false" aria-controls="collapseExample">
-            Ajouter une lettre
-        </a>        
-        <div class="collapse" id="addLettre">
-            {{ form_start(lform, { 'attr': {'id': 'addLettreForm'} }) }}        
-            {{ form_widget(lform) }}
-            <button type="submit" id="cvForm" class="btn-default btn-cf-submit">Valider </button>
-            {{ form_end(lform) }} 
-        </div>         
-    </div>
 </div> 
     <div style="z-index:2016;" class="modal fade " id="supCVModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">

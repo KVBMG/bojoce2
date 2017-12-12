@@ -311,7 +311,7 @@ $(function () {
         $("#contrat").val("0");
         $("#secteur").val("0");        
         $("#searchBar").val("");
-        $("#limit").val("10");
+        $("#limit").val("20");
         currentRequest = performSearch();
     }
     function performSearch() {

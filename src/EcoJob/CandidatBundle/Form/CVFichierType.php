@@ -16,11 +16,8 @@ class CVFichierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre','text',array('label'=>"Titre CV"))
-                ->add('poste','text',array('label'=>"Poste souhaité"))
                 ->add('fichier', FileType::class, array('attr'=> array('accept'=>'application/*') ,'label'=> "CV"))
-                ->add('remuneration','entity', array(
-                    'class' => 'EcoJobCandidatBundle:TypeRemuneration',
-                        'label' => 'Rémunération'));
+;
     }
     
     /**

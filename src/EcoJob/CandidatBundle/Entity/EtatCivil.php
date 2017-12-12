@@ -60,10 +60,6 @@ class EtatCivil
      *
      * @ORM\Column(name="nationalite", type="string", length=10,nullable=true)
      *
-     * @Assert\Regex("/^[a-zA-Z0-9éèếûùô ]+$/",
-     *     pattern=true,
-     *     message="Cette valeur ne doit pas contenir des métacaractères."
-     * )    
      */
     private $nationalite;  
     /**

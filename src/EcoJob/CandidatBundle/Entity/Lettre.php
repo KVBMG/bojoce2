@@ -60,7 +60,13 @@ class Lettre
      * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\CandidatureT",mappedBy="lettre",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      */
-    private $candidatures;    
+    private $candidaturesT;   
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\Candidature",mappedBy="lettre",orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")     
+     */
+    private $candidatures;     
 
     /**
      * @ORM\Column(type="datetime")
