@@ -24,8 +24,7 @@
                         {% if not offre.valid %}                    
                             <div class="label label-warning"> Offre pas encore validée</div>     
                         {% else %}
-                            {% set difference = date("now").diff(date(offre.validAt)) %}
-                            {% set leftDays = difference.days %}
+                            {% set leftDays = date("now").diff( date("now") ).format('%a') %}     
                             {% set rest = offre.expireAt - leftDays %}
                             <div class="label label-success"> Offre déja validée</div>
                             <div class="label label-success"> Il reste {{rest}} jours avant expiration</div>

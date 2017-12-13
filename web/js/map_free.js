@@ -119,6 +119,7 @@ $(function () {
             statusCode: {
                 200: function (response) {
                     resetDiv();
+                    $("#offreList").children().remove();
                     $("#offreList").append(response.list);
                     $('#details').append(response.html);
                     var marker = new google.maps.Marker({

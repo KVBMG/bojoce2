@@ -62,7 +62,7 @@
                 <div class='collapse' id="collapseOne">
                     {% if app.user and app.user.curriculum is not null %}
                         {% set cv = app.user.curriculum %} 
-                        {% if (cv.etatCivil is not null and cv.cvFile is not null and cv.image is not null and 
+                        {% if (cv.etatCivil is not null and cv.image is not null and 
                                     cv.formations | length > 0 and cv.experiences | length > 0 and cv.competences | length > 0
                                             and cv.langues | length > 0) %}
                             <hr>
@@ -97,6 +97,11 @@
                             </div>
                         </div>                         
                     {% else %}
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                {{ form_row(tform.cvfichier, { 'attr': {'class': 'hidable'} }) }} 
+                            </div>
+                        </div>                         
                         <div class="alert alert-warning">
                             Vous n'avez pas encore envoyé un CV.
                         </div>                          
@@ -111,6 +116,11 @@
                             </div>
                         </div>                         
                     {% else %}
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                {{ form_row(tform.lettre, { 'attr': {'class': 'hidable'} }) }} 
+                            </div>
+                        </div> 
                         <div class="alert alert-warning">
                             Vous n'avez pas encore envoyé une lettre.
                         </div>                          

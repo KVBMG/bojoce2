@@ -113,7 +113,6 @@ class CandidatController extends Controller {
         $em->persist($cv);
         $em->flush();
 
-        $cvfile = new CVFile();
         $competence = new Competence();
         $etatcivil = new EtatCivil();
         $experience = new Experience();
@@ -121,7 +120,6 @@ class CandidatController extends Controller {
         $langue = new Langue();
         $image = new Image();
 
-        $cvfileForm = $this->createForm(new CVFileType, $cvfile);
         $competenceForm = $this->createForm(new CompetenceType, $competence);
         $etatcivilForm = $this->createForm(new EtatCivilType, $etatcivil);
         $experienceForm = $this->createForm(new ExperienceType, $experience);
@@ -130,7 +128,6 @@ class CandidatController extends Controller {
         $imageForm = $this->createForm(new ImageType, $image);
 
         $response = $this->render('EcoJobCandidatBundle:Candidat:fill.html.twig', array(
-            'cvfileForm' => $cvfileForm->createView(),
             'competenceForm' => $competenceForm->createView(),
             'etatcivilForm' => $etatcivilForm->createView(),
             'experienceForm' => $experienceForm->createView(),
@@ -180,10 +177,7 @@ class CandidatController extends Controller {
         $cv->setCreatedAt(new \DateTime());
         $em->persist($cv);
         $em->flush();
-        $cvfile = $cv->getCvFile();
-        if ($cvfile == NULL) {
-            $cvfile = new CVFile();
-        }
+
         $etatcivil = $cv->getEtatCivil();
         $image = $cv->getImage();
         if ($image == NULL) {
@@ -200,7 +194,6 @@ class CandidatController extends Controller {
         $langue = new Langue();
         $competence = new Competence();
 
-        $cvfileForm = $this->createForm(new CVFileType, $cvfile);
         $competenceForm = $this->createForm(new CompetenceType, $competence);
         $etatcivilForm = $this->createForm(new EtatCivilType, $etatcivil);
         $experienceForm = $this->createForm(new ExperienceType, $experience);
@@ -209,7 +202,6 @@ class CandidatController extends Controller {
         $imageForm = $this->createForm(new ImageType, $image);
 
         $response = $this->render('EcoJobCandidatBundle:Candidat:edit.html.twig', array(
-            'cvfileForm' => $cvfileForm->createView(),
             'competenceForm' => $competenceForm->createView(),
             'etatcivilForm' => $etatcivilForm->createView(),
             'experienceForm' => $experienceForm->createView(),
@@ -220,8 +212,7 @@ class CandidatController extends Controller {
             'formations' => $formations,
             'experiences' => $experiences,
             'image' => $image,
-            'competences' => $competences,
-            'cvFile' => $cvfile
+            'competences' => $competences
         ));
         $response->setSharedMaxAge(3600);
 
@@ -288,8 +279,8 @@ class CandidatController extends Controller {
 
         $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
         $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
-                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
-        
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post', array('id' => $offre->getId())), 'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $description = $request->request->get('description');
@@ -380,7 +371,7 @@ class CandidatController extends Controller {
         $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
         $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
                 , array('user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
-        
+
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $offre_id = $request->request->get('offre_id');
@@ -424,25 +415,6 @@ class CandidatController extends Controller {
         $this->getNumbers();
 
         return $this->render('EcoJobCandidatBundle:Candidat:details2.html.twig', array('offre' => $offre));
-    }
-
-    public function uploadCVAction(Request $request) {
-        $this->getNumbers();
-
-        $cvfile = new CVFile();
-        $form = $this->createForm(CVFileType::class, $cvfile);
-        $form->handleRequest($request);
-
-        if (($request->getMethod() == 'POST') && ($form->isValid())) {
-            $this->getUser()->setCvFile($cvfile);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cvfile);
-            $em->flush();
-            return $this->redirectToRoute('eco_job_candidat_cv_show');
-        }
-        return $this->render('EcoJobCandidatBundle:Candidat:uploadcv.html.twig', array(
-                    'form' => $form->createView(),
-        ));
     }
 
     public function cancelPosulationAction(Candidature $candidature, Request $request) {
@@ -513,7 +485,7 @@ class CandidatController extends Controller {
                 if ($this->getUser()->getCurriculum()->getImage() != NULL) {
                     $curr_image = $this->getUser()->getCurriculum()->getImage();
                     $this->getUser()->getCurriculum()->setImage($image);
-                    $em->persist($image);                
+                    $em->persist($image);
                     $em->remove($curr_image);
                     $em->flush();
                 }
@@ -553,38 +525,6 @@ class CandidatController extends Controller {
             } else {
                 $error = true;
                 $html = $this->renderView('EcoJobCandidatBundle:Candidat:addEtatCivil.html.twig', array(
-                    'form' => $form->createView()));
-                $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
-        }
-    }
-
-    public function addCVFileAction(Request $request) {
-        if ($request->getMethod() == 'POST') {
-            $cvFile = new CVFile();
-            $form = $this->createForm(new CVFileType(), $cvFile);
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                if ($this->getUser()->getCurriculum()->getCvFile() != NULL) {
-                    $cur_file = $this->getUser()->getCurriculum()->getCvFile();
-                    $this->getUser()->getCurriculum()->setCvFile($cvFile);
-                    $em->persist($cvFile);                
-                    $em->remove($cur_file);
-                    $em->flush();
-                }
-                $this->getUser()->getCurriculum()->setCvFile($cvFile);
-                $em->persist($this->getUser());
-                $em->persist($cvFile);
-                $em->flush();
-                $response = new Response(json_encode(array("url" => $cvFile->getCvName())));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            } else {
-                $error = true;
-                $html = $this->renderView('EcoJobCandidatBundle:Candidat:addCVFile.html.twig', array(
                     'form' => $form->createView()));
                 $response = new Response(json_encode(array("html" => $html, 'error' => $error)));
                 $response->headers->set('Content-Type', 'application/json');
@@ -903,7 +843,8 @@ class CandidatController extends Controller {
 
         return $this->render("EcoJobCandidatBundle:Candidat:showLMPJ.html.twig", array('cvform' => $cvform->createView(),
                     'lform' => $lform->createView()));
-    }    
+    }
+
     public function addCVFichierAction(Request $request) {
         if ($request->getMethod() == 'POST') {
             $cvFile = new \EcoJob\CandidatBundle\Entity\CVFichier();
@@ -1048,29 +989,32 @@ class CandidatController extends Controller {
                 , array('user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
         $tform->bind($request, $candidatureT);
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            
+
             $candidature = new Candidature();
             $candidature->setCandidat($this->getUser());
             $candidature->setOffre($offre);
             $candidature->setRecruteur($offre->getRecruteur());
             $candidature->setDescription($tform["description"]->getData());
-            if(($tform["description"]->getData() == NULL)){
+            if (($tform["description"]->getData() == NULL)) {
                 $candidature->setDescription("Bonjour,je postule à votre offre");
-            } 
-           
+            }
+
             try {
-                if($request->request->get('enableLMPJ')){
+                $message = (new \Swift_Message());
+                if ($request->request->get('enableLMPJ')) {
                     $candidature->setEnablelmPj(true);
                     $candidature->setLettre($candidatureT->getLettre());
                     $lettre = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getLettre()->getNom();
+                    $message->attach(\Swift_Attachment::fromPath($lettre));
                 }
-                if($request->request->get('enableCVPJ')){
+                if ($request->request->get('enableCVPJ')) {
                     $candidature->setEnablecvPj(true);
                     $candidature->setCvfichier($candidatureT->getCvfichier());
-                    
+
                     $cv = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getCvfichier()->getNom();
+                    $message->attach(\Swift_Attachment::fromPath($cv));
                 }
-                $message = (new \Swift_Message())
+                $message
 
                         // Give the message a subject
                         ->setSubject("Candidature à une offre d'emploi sur eco-job.fr")
@@ -1079,25 +1023,18 @@ class CandidatController extends Controller {
                         ->setContentType('text/html')
                         // Set the To addresses with an associative array (setTo/setCc/setBcc)
                         ->setTo($offre->getRecruteur()->getEmail());
-                if ($tform["copie"]->getData()) {
-                    $message->setCc($this->getUser()->getEmail());
-                }
                 // Give it a body
-                
-                $mes = "";
-                $message->setBody($tform["description"]->getData()."\n".$mes)
 
-                        // Optionally add any attachments
-                        ->attach(\Swift_Attachment::fromPath($lettre))
-                        ->attach(\Swift_Attachment::fromPath($cv));
+                $mes = "";
+                $message->setBody($tform["description"]->getData() . "\n" . $mes);
                 $this->get('mailer')->send($message);
-                ;
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($candidature);
+                $em->flush();
             } catch (Exception $e) {
                 return new Response(json_encode(['data' => 'Erreur lors de l\'établissement de la connection']), 500);
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($candidature);
-            $em->flush();            
+
             return new Response(json_encode(['data' => 'Candidature envoyée'], 500));
         } else {
             return new JsonResponse(['data' => 'Candidature non envoyée']);
@@ -1107,8 +1044,7 @@ class CandidatController extends Controller {
     public function returnTradForm() {
         $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
         return $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
-                , array('action' => $this->generateUrl('eco_job_candidat_trad_post',array('id' => $offre->getId())),'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
-        
+                , array('action' => $this->generateUrl('eco_job_candidat_trad_post', array('id' => $offre->getId())), 'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
     }
 
 }

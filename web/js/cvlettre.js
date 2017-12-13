@@ -91,13 +91,13 @@ $(function () {
             //cv = loadCVSubmition();
             $.unblockUI();
         }
-        $(document).on('submit', '#addCVForm', function (e) {
+        $('#editCVForm').submit(function (e) {
             e.preventDefault();
             if ($("#ecojob_candidatbundle_cvfichier_fichier").val() == "") {
                 alert("Veuillez d'abord choisir le fichier.");
                 return false;
             } else {
-                $('#addCVForm').ajaxSubmit(cvOptions);
+                $('#editCVForm').ajaxSubmit(cvOptions);
                 return false;
             }
         });

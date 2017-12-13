@@ -25,7 +25,9 @@ class UserRepository extends \Doctrine\ORM\EntityRepository {
         $dateNow = new \DateTime();
         $dateMin = $dateNow->modify('-7 day');
         $qb = $this->createQueryBuilder('u');
-        $qb->where("u.type = 1 ");
+        $qb->where("u.type = 1 ")
+           ->andWhere('u.username != :identifier')
+           ->setParameter('identifier', "Administrateur");                
         $qb->andWhere('u.createdAt BETWEEN :dateMin AND :dateMax')
                 ->setParameter('dateMin', $dateMin)
                 ->setParameter('dateMax', $dateMax);

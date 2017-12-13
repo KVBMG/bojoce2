@@ -70,13 +70,13 @@ class Candidature
     
     /**
      * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidatures")
-    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
     private $cvfichier;
 
     /**
      * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\Lettre", inversedBy="candidatures")
-    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
     private $lettre;    
     /**

@@ -15,7 +15,7 @@ class CompetenceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('competence', TextareaType::class, array('label' => 'Compétences informatiques'));
+        $builder->add('competence', TextareaType::class, array('label' => 'Compétences'));
     }
     
     /**

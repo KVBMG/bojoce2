@@ -35,7 +35,7 @@ class CandidatureTType extends AbstractType {
                                 ->setParameter('candidat', $user);
                     }))
                 ->add('cvfichier', 'entity', array(
-                    'label' => "Lettre de motivation",
+                    'label' => "CV",
                     'class' => 'EcoJob\CandidatBundle\Entity\CVFichier',
                     'property' => 'titre',
                     'query_builder' => function ($eer) use ($user) {

@@ -22,12 +22,7 @@
                     <button type="submit" class="btn-default btn-cf-submit">Ajouter</button>
                     {{ form_end(imageForm) }}    
             </div>
-            <div id="cv">            
-                <form novalidate class="form-horizontal" id="cvForm" method="post" {{ form_enctype(cvfileForm) }}>
-                    {{ form_widget(cvfileForm) }}
-                    <button type="submit" class="btn-default btn-cf-submit">Télécharger</button>
-                    {{ form_end(cvfileForm) }}  
-            </div>          
+      
             <div id="etat_civil">       
                 <a class="btn btn1" data-toggle="collapse" href="#etatCivil"
                    aria-expanded="false" aria-controls="etatCivil">Etat Civil <span class="fa fa-caret-down"></span></a>                

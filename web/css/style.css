@@ -741,3 +741,8 @@ transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; -webkit-trans
   border-color: #ddd transparent #ddd #ddd;
   *border-right-color: #ffffff;
 }
+
+hidable{
+    display: none;
+    visibility: hidden;    
+}
