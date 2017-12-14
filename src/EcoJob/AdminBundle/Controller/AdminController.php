@@ -113,7 +113,9 @@ class AdminController extends Controller {
     public function showOffresAction(User $user) {
         $this->getNumbers();
         $offres = $user->getOffres();
-        return $this->render('EcoJobAdminBundle:Recruteur:offres.html.twig', array('offres' => $offres));
+        $recruteur = $user->getUsername();
+        return $this->render('EcoJobAdminBundle:Recruteur:offres.html.twig', array('offres' => $offres,
+            'recruteur'=>$recruteur));
     }
 
     public function showOffreAction(Request $request,Offre $offre) {

@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-
+use EcoJob\UserBundle\Form\ImageType; 
 
 class OffreType extends AbstractType {
 
@@ -17,29 +17,37 @@ class OffreType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('titre','text',array('label' => "Titre de l'annonce"))
-                ->add('contrat', 'entity', array(
-                    'class' => 'EcoJobRecruteurBundle:ContratType',
-                    'label' => 'Contrat de travail',
-                        )
-                )
-                
-                ->add('localisation')
-                ->add('latitude', HiddenType::class)
-                ->add('longitude', HiddenType::class)                
-                ->add('experience', 'entity', array(
-                    'class' => 'EcoJobRecruteurBundle:Experience',
-                    'label' => 'Expérience requise',
-                        )
-                )               
+                ->add('societe','text',array('label' => "Société qui recrute"))   
+                ->add('logo',new ImageType())
+                ->add('description', TextareaType::class, array('label' => 'Présentation'))
                 ->add('categorie', 'entity', array(
                     'class' => 'EcoJobRecruteurBundle:ContratCategorie',
                     'label' => 'Secteur d\'activité',
                    )
                 )
-                ->add('description', TextareaType::class, array('label' => 'Description du poste'))
-                ->add('prerequis', TextareaType::class, array('label' => 'Pré-requis'))
-                ->add('societe','text',array('label' => "Société qui recrute"))                                
-                ->add('descSociete',TextareaType::class,array('label' => "Description de l'activité du société"))                
+                ->add('contrat', 'entity', array(
+                    'class' => 'EcoJobRecruteurBundle:ContratType',
+                    'label' => 'Contrat de travail',
+                        )
+                )                  
+                ->add('remuneration', 'entity', array(
+                    'class' => 'EcoJobCandidatBundle:TypeRemuneration',
+                    'label' => 'Rémunération',
+                   )
+                )   
+                ->add('avantages', TextareaType::class, array('label' => 'Avantages éventuels'))                
+                ->add('localisation')
+                ->add('latitude', HiddenType::class)
+                ->add('longitude', HiddenType::class)                   
+                ->add('prerequis', TextareaType::class, array('label' => 'Qualités attendues de la part du candidat'))                             
+                ->add('experience', 'entity', array(
+                    'class' => 'EcoJobRecruteurBundle:Experience',
+                    'label' => 'Expérience requise',
+                        )
+                )               
+                ->add('niveauDiplome','text',array('label' => "Niveau de diplôme"))
+                ->add('langues','text',array('label' => "Langue(s)"))                             
+                ->add('descSociete',TextareaType::class,array('label' => "Description de l'activité de votre société"))                
                 ->add('expireAt', ChoiceType::class, array(  
                         'choices'  => array(
                             2 => '2 jours',
@@ -51,7 +59,7 @@ class OffreType extends AbstractType {
                             90 => '3 mois'
                             
                         ),
-                       'label' => "Validité de l'offre"
+                       'label' => "Durée de parution"
                       
                    )
                     

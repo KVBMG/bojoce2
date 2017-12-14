@@ -8,7 +8,7 @@
 
 {% block scontent %}   
     {{parent()}} 
-    <div class="latest_news">
+    <div class="latest_news" id="corps">
         <div class="title7">Offres d'emploi </div>
         {% for offre in offres %}
             <div class="news1">
@@ -16,14 +16,52 @@
                 <div class="txt1"> Recruteur: {{offre.recruteur.username}}</div>
                 <div class="txt2"><a href="#">{{offre.titre}}</a></div>
                 <div class="txt3">{{offre.description}}</div>
-                <a href="{{ path('eco_job_admin_recruteur_offre',{'id': offre.id})}}" class="btn-default btn3">Afficher</a>
+                <a href="#corps" onclick="showOffre({{offre.id}})" class="btn-default btn3">Afficher</a>
                 <a href="{{ path('eco_job_admin_recruteur_offre_reference',{'id': offre.id})}}" class="btn-default btn3">Ajouter référence/Modifier</a>                    
-                <a href="{{ path('eco_job_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                <a href="{{ path('eco_job_admin_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
                 <a href="{{ path('eco_job_admin_recruteur_offre_valider',{'id': offre.id})}}" class="btn-default btn3">Valider</a>                                   
             </div>
         {% endfor %}       
     </div>
+    <div style="z-index:2016;" class="modal fade " id="profilModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
 {% endblock %}  
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+            function showOffre(id){
+               $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('eco_job_admin_recruteur_offre', {id: id}),
+                    timeout: 30000,
+                    success: function (response) {
+                        $('#profilModal .modal-body').children().remove();
+                        $('#profilModal .modal-body').append(response.html);
+                        $('#profilModal.modal-header h4').text("Offre n° " + id);
+                        $('#profilModal').modal('show');
+                    },
+                    error: function () {
+                        alert('La requête n\'a pas abouti');
+
+                    }
+                });  
+            }        
+    
+    </script>
+{% endblock %}

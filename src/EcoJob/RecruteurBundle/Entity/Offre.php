@@ -44,7 +44,27 @@ class Offre
      * @ORM\Column(name="reference", type="string", length=255,nullable=true)         
      */
     private $reference;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niveauDiplome", type="string", length=255)
+     * @Assert\NotBlank()          
+     */
+    private $niveauDiplome;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="EcoJob\UserBundle\Entity\Image",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
+     */
+    private $logo;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="langues", type="string", length=255,nullable=false)
+     * @Assert\NotBlank()           
+     */
+    private $langues;    
     /**
      * @var string
      *
@@ -77,6 +97,13 @@ class Offre
      */
     private $descSociete;        
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="avantages", type="string", length=1000,nullable=true)
+     * @Assert\NotBlank()          
+     */
+    private $avantages;      
 
     private $duree;        
 
@@ -87,6 +114,13 @@ class Offre
     * @Exclude 
     */      
     private $contrat;  
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\TypeRemuneration",inversedBy="offres",cascade={"persist"})
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude 
+    */      
+    private $remuneration;    
     
     /**
     * @ORM\ManyToOne(targetEntity="EcoJob\UserBundle\Entity\User",inversedBy="offres")
@@ -196,7 +230,8 @@ class Offre
     {
       $this->valid = false;
       $this->createdAt = new \DateTime();
-      $this->suspendu = false; 
+      $this->suspendu = false;
+      $this->validAt = NULL;
     } 
 
     /**
@@ -833,5 +868,125 @@ class Offre
     public function getExperience()
     {
         return $this->experience;
+    }
+
+    /**
+     * Set niveauDiplome
+     *
+     * @param string $niveauDiplome
+     *
+     * @return Offre
+     */
+    public function setNiveauDiplome($niveauDiplome)
+    {
+        $this->niveauDiplome = $niveauDiplome;
+    
+        return $this;
+    }
+
+    /**
+     * Get niveauDiplome
+     *
+     * @return string
+     */
+    public function getNiveauDiplome()
+    {
+        return $this->niveauDiplome;
+    }
+
+    /**
+     * Set langues
+     *
+     * @param string $langues
+     *
+     * @return Offre
+     */
+    public function setLangues($langues)
+    {
+        $this->langues = $langues;
+    
+        return $this;
+    }
+
+    /**
+     * Get langues
+     *
+     * @return string
+     */
+    public function getLangues()
+    {
+        return $this->langues;
+    }
+
+    /**
+     * Set avantages
+     *
+     * @param string $avantages
+     *
+     * @return Offre
+     */
+    public function setAvantages($avantages)
+    {
+        $this->avantages = $avantages;
+    
+        return $this;
+    }
+
+    /**
+     * Get avantages
+     *
+     * @return string
+     */
+    public function getAvantages()
+    {
+        return $this->avantages;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param \EcoJob\UserBundle\Entity\Image $logo
+     *
+     * @return Offre
+     */
+    public function setLogo(\EcoJob\UserBundle\Entity\Image $logo = null)
+    {
+        $this->logo = $logo;
+    
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return \EcoJob\UserBundle\Entity\Image
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * Set remuneration
+     *
+     * @param \EcoJob\CandidatBundle\Entity\TypeRemuneration $remuneration
+     *
+     * @return Offre
+     */
+    public function setRemuneration(\EcoJob\CandidatBundle\Entity\TypeRemuneration $remuneration)
+    {
+        $this->remuneration = $remuneration;
+    
+        return $this;
+    }
+
+    /**
+     * Get remuneration
+     *
+     * @return \EcoJob\CandidatBundle\Entity\TypeRemuneration
+     */
+    public function getRemuneration()
+    {
+        return $this->remuneration;
     }
 }

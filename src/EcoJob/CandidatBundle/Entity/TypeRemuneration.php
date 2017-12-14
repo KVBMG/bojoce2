@@ -25,20 +25,21 @@ class TypeRemuneration
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=15)
+     * @ORM\Column(name="libelle", type="string", length=255)
      */
     private $libelle;
 
 
     private $experiences;    
+
+    private $cvfichiers;      
     
     /**
-     * @ORM\OneToMany(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier",mappedBy="remuneration",orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EcoJob\RecruteurBundle\Entity\Offre",mappedBy="remuneration",orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")     
      * @Exclude     
      */
-    private $cvfichiers;      
-    
+    private $offres;     
     /**
      * Get id
      *

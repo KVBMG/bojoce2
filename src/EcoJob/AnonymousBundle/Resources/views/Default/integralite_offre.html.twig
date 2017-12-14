@@ -20,21 +20,33 @@
             <blockquote class="blockquote1">
 
                 <div class="title8">{{ offre.titre }}</div>
-
+                {% if offre.logo is not null %}           
+                   <img class='img-responsive pull-left' height='300px' id="pic" width='300px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+                {% else %}
+                       Pas de logo
+               {% endif %}
                 <p>
+                    Ajouté le {{ offre.createdAt | date('d-m-y') }}
                     {{ offre.description }}
                 </p>
 
                 <ul class="ul1">
-                    <li>Ajouté le {{ offre.createdAt | date('d-m-y') }}</li>
-                    <li>Lieu: {{ offre.localisation }}</li>
                     <li>Secteur d'activité: {{ offre.categorie.designation }}</li>
-                    <li>Société qui recrute: {{ offre.societe }}</li>
-                    <li>Description du société:<br/> {{ offre.descSociete }}</li>
-                    <li>Durée: {{ offre.duree }}</li>
-                    <li>Pré-requis: <br/> {{ offre.prerequis }}</li>
                     <li>Contrat: {{ offre.contrat.libelle }}</li>
+                    <li>Rémunération: {{ offre.remuneration.libelle }}</li>
+                    <li>Avantages éventuels: {{ offre.avantages }}</li>                    
+                    <li>Localisation: {{ offre.localisation }}</li>
+                    <li>Qualités attendues de la part du candidat: <br/> {{ offre.prerequis }}</li>
+                    <li>Expérience requise: <br/> {{ offre.experience.libelle }}</li>
+                    <li>Niveau de diplôme: <br/> {{ offre.niveauDiplome }}</li>
+                    <li>Langue(s): <br/> {{ offre.langues }}</li>
+                    
+                    <li>Société qui recrute: {{ offre.societe }}</li>
+                    <li>Description de l'activité du société:<br/> {{ offre.descSociete }}</li>
+                    <li>Durée: {{ offre.duree }}</li>
                 </ul>
+                
+                
                 <br>
 
             </blockquote>

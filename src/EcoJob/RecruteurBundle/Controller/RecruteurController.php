@@ -43,7 +43,12 @@ class RecruteurController extends Controller {
         if ($request->getMethod() == 'POST') {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
-                $offre->setModificationValided(false);
+                if($offre->getValidAt() != NULL){
+                    $offre->setModificationValided(false);
+                }
+                else{
+                    $offre->setModificationValided(true);                   
+                }                  
                 $offre->setSuspenduAt(new \DateTime);
                 $em->flush();
                 return $this->redirect($this->generateUrl('eco_job_recruteur_offre_list')
@@ -70,7 +75,7 @@ class RecruteurController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $offre->setModificationValided(true);
-
+                $em->persist($offre->getLogo());
                 $em->persist($offre);
                 $this->getUser()->addOffre($offre);
                 $em->flush();
@@ -249,4 +254,13 @@ class RecruteurController extends Controller {
         $em->flush();
         return new JsonResponse(['message' => 'deleted']);
     }
+    
+    public function showOffreAction(Request $request,Offre $offre) {
+        if($request->isXmlHttpRequest()){
+            $html = $this->renderView('EcoJobAdminBundle:Recruteur:offre_xhr.html.twig', array('offre' => $offre));
+            $response = new Response(json_encode(array("html" => $html)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;            
+        }
+    }    
 }

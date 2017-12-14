@@ -6,11 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\ElasticaBundle\Configuration\Search;
 use JMS\Serializer\Annotation\Exclude;
-
+use Doctrine\ORM\Mapping\Index;
 /**
  * Offre
  * @Search(repositoryClass="EcoJob\RecruteurBundle\Entity\SearchRepository\OffreRepository")
- * @ORM\Table(name="offre")
+ * @ORM\Table(name="offre",indexes={
+ *     @Index(name="titre_idx", columns={"titre"}),
+ *     @Index(name="description_idx", columns={"description"}),
+ *     @Index(name="prerequis_idx", columns={"prerequis"}),
+ *     @Index(name="societe_idx", columns={"societe"}),
+ *     @Index(name="descsociete_idx", columns={"descSociete"})
+ * })
  * @ORM\Entity(repositoryClass="EcoJob\RecruteurBundle\Repository\OffreRepository")
  */
 class Offre
@@ -27,7 +33,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @ORM\Column(name="titre", type="string", length=500)
      * @Assert\NotBlank()          
      */
     private $titre;
@@ -35,15 +41,34 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="reference", type="string", length=255)
-     * @Assert\NotBlank()          
+     * @ORM\Column(name="reference", type="string", length=255,nullable=true)         
      */
     private $reference;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niveauDiplome", type="string", length=255)
+     * @Assert\NotBlank()          
+     */
+    private $niveauDiplome;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="EcoJob\UserBundle\Entity\Image",cascade={"remove"},orphanRemoval=true)
+     * @Exclude     
+     */
+    private $logo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=500)
+     * @ORM\Column(name="langues", type="string", length=255,nullable=false)
+     * @Assert\NotBlank()           
+     */
+    private $langues;    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $description;
@@ -51,7 +76,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="prerequis", type="string", length=500)
+     * @ORM\Column(name="prerequis", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $prerequis;  
@@ -67,7 +92,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="descSociete", type="string", length=500)
+     * @ORM\Column(name="descSociete", type="string", length=1000)
      * @Assert\NotBlank()          
      */
     private $descSociete;        
@@ -75,9 +100,11 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="duree", type="string", length=255)
+     * @ORM\Column(name="avantages", type="string", length=1000,nullable=true)
      * @Assert\NotBlank()          
      */
+    private $avantages;      
+
     private $duree;        
 
 
@@ -87,6 +114,13 @@ class Offre
     * @Exclude 
     */      
     private $contrat;  
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\TypeRemuneration",inversedBy="offres")
+    * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+    * @Exclude 
+    */      
+    private $remuneration;    
     
     /**
     * @ORM\ManyToOne(targetEntity="EcoJob\UserBundle\Entity\User",inversedBy="offres")
@@ -134,7 +168,6 @@ class Offre
      * @var int
      *
      * @ORM\Column(name="latitude", type="float")
-     * @Assert\NotNull(message = "Veuillez choisir la localisation parmi les propositions fournies par Google")
      */    
     private $latitude;
     /**
@@ -147,7 +180,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="localisation", type="string", length=20)
+     * @ORM\Column(name="localisation", type="string", length=255)
      * @Assert\NotBlank()          
      */    
     private $localisation;
@@ -184,12 +217,7 @@ class Offre
      */
     private $validAt;
     
-      /**
-     * @ORM\Column(type="datetime",nullable=true)
-     *
-     * @var \DateTime
-     */
-    private $limit;
+
     
       /**
      * @ORM\Column(type="datetime",nullable=true)
@@ -202,7 +230,8 @@ class Offre
     {
       $this->valid = false;
       $this->createdAt = new \DateTime();
-      $this->suspendu = false; 
+      $this->suspendu = false;
+      $this->validAt = NULL;
     } 
 
     /**
