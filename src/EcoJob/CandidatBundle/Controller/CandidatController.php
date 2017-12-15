@@ -1028,6 +1028,7 @@ class CandidatController extends Controller {
                 $mes = "";
                 $message->setBody($tform["description"]->getData() . "\n" . $mes);
                 $this->get('mailer')->send($message);
+                $this->notifyByMail($candidature);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($candidature);
                 $em->flush();

@@ -20,33 +20,39 @@
 
             {% if cv is not null %}
                 <div id="page-wrap">
-                    {% if candidature.enablelm_pj %}
+                    {% if candidature.getEnablelmPj %}
                         <a href="{{ asset('cv/'~candidature.lettre.nom) }}" target="_blank">Télécharger lettre de motivation</a>
                     {% endif %}
-                    {% if candidature.enablecv_pj %}
+                    {% if candidature.getEnablecvPj %}
                         <a href="{{ asset('cv/'~candidature.cvfichier.nom) }}" target="_blank">Télécharger CV</a>
-                    {% endif %}                    
-                    {% if cv.image is not null %}
-                        <img class='img-responsive' height='400px' id="pic" width='400px'
-                             src='{{ asset('images/users/'~cv.image.imageName~'') }}'/>
+                    {% endif %}     
+                    {% if cv.image is not null %}           
+                        <img class='img-responsive pull-left' height='300px' id="pic" width='300px' src='{{asset('images/users/'~cv.image.imageName~'')}}'/>                        
                     {% else %}
                         Aucune photo
                     {% endif %}
 
                     <div id="contact-info" class="vcard">
                         {% if cv.etatCivil is not null %}
-                        <!-- Microformats! -->
+                            <!-- Microformats! -->
 
-                        <h1 class="fn">{{ cv.etatCivil.nom }} {{ cv.etatCivil.prenom }}</h1>
+                            <h1 class="fn">{{cv.etatCivil.nom}} {{cv.etatCivil.prenom}}</h1>
 
-                        <p>
-                            Téléphone mobile: <span class="tel">{{ cv.etatCivil.telephone }}</span><br>
-                            Téléphone fix: <span class="tel">{{ cv.etatCivil.telephoneFixe }}</span><br>
+                            <p>
+                                Nom: <span class="tel">{{cv.etatCivil.nom}}</span><br>
+                                Prénom: <span class="tel">{{cv.etatCivil.prenom}}</span><br>
+                                Téléphone mobile: <span class="tel">{{cv.etatCivil.telephone}}</span><br>
+                                Téléphone fix: <span class="tel">{{cv.etatCivil.telephoneFixe}}</span><br>
 
-                            Email: <a class="email" href="{{ cv.etatCivil.email }}">{{ cv.etatCivil.email }}</a>
-                        </p>
-                    </div>
+                                Email: <a class="email" href="{{cv.etatCivil.email}}">{{cv.etatCivil.email}}</a>
+                            </p>
+                        </div>
 
+                        <div id="objective">
+                            <p>
+                                A propos
+                            </p>
+                        </div>
                     {% endif %}
                     <div class="clear"></div>
 
@@ -55,14 +61,15 @@
                         {% if cv.formations is not null %}
                             <dt>Formations</dt>
                             {% for form in cv.formations %}
+
                                 <dd>
-                                    <h2>{{ form.anneeObtention }}: {{ form.intituleDiplome }}</h2>
-                                    <p><strong>Spécialisation:</strong> {{ form.specialisation }}<br>
-                                        <strong>Lieu:</strong> {{ form.lieu }}
-                                        <strong>Etablissement:</strong> {{ form.etablissement }}
-                                        <strong>Niveau:</strong> {{ form.niveau }}
+                                    <h2>{{form.anneeObtention}}: {{form.intituleDiplome}}</h2>
+                                    <p><strong>Spécialisation:</strong> {{form.specialisation}}<br>
+                                        <strong>Lieu:</strong> {{form.lieu}}
+                                        <strong>Etablissement:</strong> {{form.etablissement}}                
+                                        <strong>Niveau:</strong> {{form.niveau}}
                                         {% if form.formationEtranger %}
-                                            <strong>Formation effectuée à l'étranger</strong>
+                                            <strong>Formation effectuée à l'étranger</strong> 
                                         {% endif %}
                                     </p>
                                 </dd>
@@ -72,17 +79,11 @@
                         {% if cv.competences is not null %}
                             <dt>Compétences</dt>
                             <dd>
-                                <h2>Compétences en informatique</h2>
+                                <h2>Compétences: </h2>
                                 <ul>
                                     {% for competence in cv.competences %}
-                                        <li>{{ competence.informatique }}</li>
-                                    {% endfor %}
-                                </ul>
-                                <h2>Autres compétences</h2>
-                                <ul>
-                                    {% for competence in cv.competences %}
-                                        <li>{{ competence.autres }}</li>
-                                    {% endfor %}
+                                        <li>{{competence.competence}}</li>
+                                        {% endfor %}
                                 </ul>
                             </dd>
                         {% endif %}
@@ -92,16 +93,13 @@
                             <dd>
                                 {% for exp in cv.experiences %}
 
-                                    <h2>{{ exp.poste }} <span> {{ exp.societe }}- {{ exp.localisation }}
-                                            , {{ exp.dateDebut|date('d-m-y') }}-{{ exp.dateFin|date('d-m-y') }}</span>
-                                    </h2>
-                                    <ul>dateDe
-                                        <li><strong>Zone de prospéction:</strong>{{ exp.zoneProspection }}</li>
-                                        <li><strong>Rémunération: </strong>{{ exp.remuneration }}</li>
-                                        <li><strong>Type de la clientèle:</strong>{{ exp.typeClientele }}</li>
-                                        <li><strong>Secteur d'activité:</strong> {{ exp.secteurActivite }}</li>
-                                        <li><strong>Fonction: </strong>{{ exp.fonction }}</li>
-                                        <li><strong>Détails de la mission: </strong> {{ exp.detailsMission }}</li>
+                                    <h2>{{exp.poste}} <span> {{exp.societe}}- {{exp.localisation}}, {{exp.dateDebut|date('d-m-y')}}-{{exp.dateFin|date('d-m-y')}}</span></h2>
+                                    <ul>
+                                        <li><strong>Rémunération: </strong>{{exp.remuneration}}</li>
+                                        <li><strong>Type de la clientèle:</strong>{{exp.typeClientele}}</li>
+                                        <li><strong>Secteur d'activité:</strong> {{exp.secteurActivite}}</li>
+                                        <li><strong>Fonction: </strong>{{exp.fonction}}</li>
+                                        <li><strong>Détails de la mission: </strong> {{exp.detailsMission}}</li>
 
                                     </ul>
                                 {% endfor %}
@@ -114,7 +112,7 @@
                             <dd>
                                 {% for l in cv.langues %}
 
-                                    <h2>{{ l.langue }}<span> {{ l.niveau }}</span></h2>
+                                    <h2>Langue: {{l.langue }} <span>Niveau: {{l.niveau}}</span></h2><br/>
 
                                 {% endfor %}
                             </dd>
@@ -123,7 +121,7 @@
 
                     <div class="clear"></div>
 
-                </div>
+                </div> 
             {% else %}
                 Le candidat n'a pas rempli son cv numérique eco-job. Il vous a envoyé sa lettre de motivation et son CV.
                 Veuillez consulter votre mail.
