@@ -21,11 +21,13 @@ eco_job_recruteur_offre_edit:
    
     
 eco_job_recruteur_offre_delete:
-    path:     /supprimer-offre.php/{id}
+    path:     /supprimer/offre/{id}
     defaults: { _controller: "EcoJobRecruteurBundle:Recruteur:delete" }
     methods:  [GET,POST]
     requirements:
-        format: php|html|xml     
+        format: php|html|xml 
+    options:
+        expose: true
     
 eco_job_recruteur_offre_searchpage:
     path:     /offre/search

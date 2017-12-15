@@ -43,6 +43,8 @@ eco_job_admin_recruteur_offre_delete:
     path:     /users/offre/{id}/delete
     defaults: { _controller: "EcoJobAdminBundle:Admin:deleteOffre" }
     methods:  GET
+    options:
+        expose: true
 eco_job_admin_recruteur_offre_valider:
     path:     /users/offre/{id}/valider
     defaults: { _controller: "EcoJobAdminBundle:Admin:valideOffre" }

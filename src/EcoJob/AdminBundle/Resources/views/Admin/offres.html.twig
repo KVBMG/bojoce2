@@ -18,7 +18,7 @@
                 <div class="txt3">{{offre.description}}</div>
                 <a href="#corps" onclick="showOffre({{offre.id}})" class="btn-default btn3">Afficher</a>
                 <a href="{{ path('eco_job_admin_recruteur_offre_reference',{'id': offre.id})}}" class="btn-default btn3">Ajouter référence/Modifier</a>                    
-                <a href="{{ path('eco_job_admin_recruteur_offre_delete',{'id': offre.id})}}" class="btn-default btn3">Supprimer</a>    
+                <a href="#" class="btn-default btn3 supprimer" offreid="{{offre.id}}">Supprimer</a>    
                 <a href="{{ path('eco_job_admin_recruteur_offre_valider',{'id': offre.id})}}" class="btn-default btn3">Valider</a>                                   
             </div>
         {% endfor %}       
@@ -39,12 +39,37 @@
             </div>
         </div>
     </div>
+    <div style="z-index:2016;" class="modal fade " id="supModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Alerte</h4>
+                </div>
+                <div class="modal-body">
+                    Valider la suppression?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger validSupprimer" >Supprimer</button>                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>      
     
 
 {% endblock %}  
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
+        var current_offre = null;
+            $(document).on('click', '.supprimer', function () {
+                current_offre = $(this).attr('offreid');
+                $("#supModal").modal('show');
+            });  
+            $(document).on('click', '.validSupprimer', function () {
+                window.location.href = Routing.generate('eco_job_admin_recruteur_offre_delete', {id: current_offre});
+            });              
             function showOffre(id){
                $.ajax({
                     type: 'GET',
