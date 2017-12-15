@@ -3,17 +3,17 @@
     <div class="title7">Offre numero {{ offre.id }}</div>
     <div class="">
         <div class="txt2"><a href="#">{{ offre.titre }}</a></div>
+            {% if offre.logo is not null %}           
+               <img class='img-responsive' height='150px' id="pic" width='150px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+            {% else %}
+                   Pas de logo
+           {% endif %}        
     <table>
         <tbody>
             <tr>
                 <th>Societe qui recrute: </th>
                 <td>{{ offre.societe }}</td>
             </tr>
-            {% if offre.logo is not null %}           
-               <img class='img-responsive pull-left' height='300px' id="pic" width='300px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
-            {% else %}
-                   Pas de logo
-           {% endif %}
             <tr>
                 <th>Description de l'activité du société: </th>
                 <td>{{ offre.descSociete }}</td>
@@ -137,7 +137,7 @@
                     {% endif %}
                 </div>
                 <div id='collapseTwo' class="collapse">
-                    {% if app.user.cvs | length > 0 %}
+                    {% if app.user and app.user.cvs is not null and app.user.cvs | length > 0 %}
                         <div class="form-group row">
                             <div class="col-lg-10">
                                 {{ form_row(tform.cvfichier) }}
@@ -156,7 +156,7 @@
 
                 </div>
                 <div id='collapseThree' class="collapse">
-                    {% if app.user.lettres | length > 0 %}
+                    {% if app.user and app.user.lettres is not null and app.user.lettres | length > 0 %}
                         <div class="form-group row">
                             <div class="col-lg-10">
                                 {{ form_row(tform.lettre) }}

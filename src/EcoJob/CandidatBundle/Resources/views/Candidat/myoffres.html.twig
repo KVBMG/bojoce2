@@ -103,7 +103,7 @@
                     {% endif %}
                 </div>
                 <div id='collapseTwo' class="collapse">
-                    {% if app.user.cvs | length > 0 %}
+                    {% if app.user and app.user.cvs is not null and app.user.cvs | length > 0 %}
                         <div class="form-group row">
                             <div class="col-lg-10">
                                 {{ form_row(tform.cvfichier) }}
@@ -122,7 +122,7 @@
 
                 </div>
                 <div id='collapseThree' class="collapse">
-                    {% if app.user.lettres | length > 0 %}
+                    {% if app.user and app.user.lettres is not null and app.user.lettres | length > 0 %}
                         <div class="form-group row">
                             <div class="col-lg-10">
                                 {{ form_row(tform.lettre) }}
