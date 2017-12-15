@@ -28,13 +28,37 @@
                                    placeholder="Mots clés: lieu ou nom d'une société">
                             <p class="help-block">Ex:"gestion,médecine,lyon,paris,..."</p>
                         </div>
-                        <br/>
+                            <div class="form-group">
+                                <label class="control-label required" for="avantages">Avantages éventuels</label>
+                                <input size="65" type="text" id="avantages" class="form-control" name="avantages"
+                                       placeholder="Avantages éventuels">  
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label required" for="localisation">Localisation</label>
+                                <input size="65" type="text" id="localisation" class="form-control" name="localisation"
+                                       placeholder="Localisation">  
+                            </div>                            
+                            <div class="form-group">
+                                <label class="control-label required" for="langues">Langues</label>
+                                <input size="65" type="text" id="langues" class="form-control" name="langues"
+                                       placeholder="Langues">  
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label required" for="niveauDiplome">Niveau de diplôme</label>
+                                <input size="65" type="text" id="niveauDiplome" class="form-control" name="niveauDiplome"
+                                       placeholder="Localisation">  
+                            </div>                            
+                        <div class="form-group">
+                                <label class="control-label required" for="prerequis">Qualités attendues de la part du candidat</label>
+                                <input size="65" type="text" id="prerequis" class="form-control" name="prerequis"
+                                       placeholder="Qualités attendues de la part du candidat">  
+                        </div>                        
                         <div class="form-group">
                             <label for="contrat" class="control-label required">Type de contrat:</label>
                             <select name="contrat" id="contrat" class="form-control">
                                 <option value="0">Tous</option>
                                 {% for c in contrats %}
-                                    <option value="{{c.id}}">{{c.libelle}}</option>
+                                <option value="{{c.id}}">{{c.libelle}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -43,12 +67,12 @@
                             <select name="secteur" id="secteur" class="form-control">
                                 <option value="0">Tous</option>
                                 {% for s in secteurs %}
-                                    <option value="{{s.id}}">{{s.designation}}</option>
+                                <option value="{{s.id}}">{{s.designation}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="limit" class="control-label required">Date de publication :</label>
+                            <label for="limit" class="control-label required">Date de publication :</label>                            
                             <select name="datePublication" id="datePublication" class="form-control">
                                 <option value="-1">N’importe quelle date</option>
                                 <option value="0">Aujourd'hui</option>
@@ -57,7 +81,7 @@
                                 <option value="7">Les 7 derniers jours</option>
                                 <option value="14">Les 14 derniers jours</option>
                                 <option value="30">30 derniers jours</option>                               
-                            </select>
+                           </select>
                         </div>
                         <div class="form-group">
                             <label for="limit" class="control-label required">Nombre d'offre à afficher :</label>

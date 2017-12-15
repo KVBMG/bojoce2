@@ -203,7 +203,11 @@ $(function () {
         return false;
     })
     $("#searchBar").keyup($.debounce(flushSearch, 500));
-
+    $("#localisation").keyup($.debounce(flushSearch, 500));
+    $("#langues").keyup($.debounce(flushSearch, 500));
+    $("#niveauDiplome").keyup($.debounce(flushSearch, 500));
+    $("#prerequis").keyup($.debounce(flushSearch, 500));
+    $("#avantages").keyup($.debounce(flushSearch, 500));
     function flushSearch() {
         var val = $("#searchBar").val();
         if ((val.length >= 3) || (val.length == 0) && (last_phrases != val)) {

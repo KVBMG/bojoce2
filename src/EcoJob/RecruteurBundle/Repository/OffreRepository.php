@@ -10,7 +10,7 @@ namespace EcoJob\RecruteurBundle\Repository;
  */
 class OffreRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function search($keyswords, $contrat, $datepubl, $secteur, $offset, $limit) {
+    public function search($keyswords, $contrat, $datepubl, $secteur, $offset, $limit,$others) {
 
         $qb = $this->createQueryBuilder('o');
         $qb->where('o.valid = true')
@@ -53,6 +53,26 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
             $qb->andWhere('o.categorie = :secteur')
                     ->setParameter('secteur', $secteur);
         }
+        if ($others['avantages'] != "") {
+            $qb->andWhere('REGEXP(LOWER(o.avantages), :avantages) = true')
+                    ->setParameter('avantages', $others['avantages']);
+        }
+        if ($others['localisation'] != "") {
+            $qb->andWhere('REGEXP(LOWER(o.localisation), :localisation) = true')
+                    ->setParameter('localisation', $others['localisation']);
+        }
+        if ($others['langues'] != "") {
+            $qb->andWhere('REGEXP(LOWER(o.langues), :langues) = true')
+                    ->setParameter('langues', $others['langues']);
+        }
+        if ($others['niveauDiplome'] != "") {
+            $qb->andWhere('REGEXP(LOWER(o.niveauDiplome), :niveauDiplome) = true')
+                    ->setParameter('niveauDiplome', $others['niveauDiplome']);
+        }
+        if ($others['avantages'] != "") {
+            $qb->andWhere('REGEXP(LOWER(o.prerequis), :prerequis) = true')
+                    ->setParameter('prerequis', $others['prerequis']);
+        }        
         return $qb->getQuery()
                         ->useQueryCache(true)    // here
                         ->useResultCache(true)

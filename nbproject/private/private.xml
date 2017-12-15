@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AdminBundle/Controller/AdminController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/web/js/admin_offre.js</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Controller/RecruteurController.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Resources/views/Recruteur/list.html.twig</file>
+            <file>file:/opt/lampp/htdocs/ecojob/web/js/search_free.js</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Controller/DefaultController.php</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Repository/OffreRepository.php</file>
             <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Entity/Offre.php</file>
-            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/RecruteurBundle/Resources/config/routing.yml</file>
+            <file>file:/opt/lampp/htdocs/ecojob/src/EcoJob/AnonymousBundle/Resources/views/Default/search.html.twig</file>
         </group>
     </open-files>
 </project-private>

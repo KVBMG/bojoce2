@@ -27,9 +27,15 @@ $(function () {
         return false;
     })
     $("#searchBar").keyup($.debounce(flushSearch, 500));
-
+    $("#localisation").keyup($.debounce(flushSearch, 500));
+    $("#langues").keyup($.debounce(flushSearch, 500));
+    $("#niveauDiplome").keyup($.debounce(flushSearch, 500));
+    $("#prerequis").keyup($.debounce(flushSearch, 500));
+    $("#avantages").keyup($.debounce(flushSearch, 500));
+    
     function flushSearch() {
-        var val = $("#searchBar").val();
+
+        var val = $(this).val();
         if ((val.length >= 3) || (val.length == 0) && (last_phrases != val)) {
             //if((val.slice(-1) != " ")){
             console.log((val.slice(-1) != " "));
@@ -37,8 +43,9 @@ $(function () {
             last_phrases = this.value;
             //}
         }
-
     }
+       
+    
     $("#datePublication").on('change', function () {
         xhr = performSearch();
     });
