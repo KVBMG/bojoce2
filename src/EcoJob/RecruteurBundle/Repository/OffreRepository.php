@@ -69,7 +69,7 @@ class OffreRepository extends \Doctrine\ORM\EntityRepository {
             $qb->andWhere('REGEXP(LOWER(o.niveauDiplome), :niveauDiplome) = true')
                     ->setParameter('niveauDiplome', $others['niveauDiplome']);
         }
-        if ($others['avantages'] != "") {
+        if ($others['prerequis'] != "") {
             $qb->andWhere('REGEXP(LOWER(o.prerequis), :prerequis) = true')
                     ->setParameter('prerequis', $others['prerequis']);
         }        

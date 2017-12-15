@@ -316,6 +316,11 @@ $(function () {
         $("#contrat").val("0");
         $("#secteur").val("0");        
         $("#searchBar").val("");
+        $("#localisation").val("");
+        $("#langues").val("");
+        $("#niveauDiplome").val("");
+        $("#prerequis").val("");
+        $("#avantages").val("");          
         $("#limit").val("20");
         currentRequest = performSearch();
     }
