@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Une erreur s'est produite: {{ status_text }}{% endblock %}
+
+{% block content %} 
+    {{parent()}}
+    {% if status_code >= 500 %}
+        Problème interne du serveur. Veuillez contacter l'administrateur du site.
+    {% elseif status_code == 403 %}
+        Vous n'êtes pas autorisé à accéder à cette page.
+    {% elseif status_code == 404 %}
+        Page non trouvé.       
+    {% else %}
+        {{ status_text }}  
+    {% endif %}
+
+{% endblock %}

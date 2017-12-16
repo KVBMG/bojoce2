@@ -204,10 +204,7 @@ $(function () {
     })
     $("#searchBar").keyup($.debounce(flushSearch, 500));
     $("#localisation").keyup($.debounce(flushSearch, 500));
-    $("#langues").keyup($.debounce(flushSearch, 500));
-    $("#niveauDiplome").keyup($.debounce(flushSearch, 500));
-    $("#prerequis").keyup($.debounce(flushSearch, 500));
-    $("#avantages").keyup($.debounce(flushSearch, 500));
+
     function flushSearch() {
         var val = $("#searchBar").val();
         if ((val.length >= 3) || (val.length == 0) && (last_phrases != val)) {
@@ -316,11 +313,7 @@ $(function () {
         $("#contrat").val("0");
         $("#secteur").val("0");        
         $("#searchBar").val("");
-        $("#localisation").val("");
-        $("#langues").val("");
-        $("#niveauDiplome").val("");
-        $("#prerequis").val("");
-        $("#avantages").val("");          
+        $("#localisation").val("");         
         $("#limit").val("20");
         currentRequest = performSearch();
     }

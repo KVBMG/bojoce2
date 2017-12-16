@@ -89,7 +89,8 @@
             <img src="{{ asset('images/logo.png') }}" alt="" class="img-responsive">
         </a>
     </div>
-    <div id="slogan">
+        {% if user is not null %}
+            <div id="slogan">
         <div class="title">Bonjour {{ user.username }} ,</div>
         <div class="content">
             <p>
@@ -110,6 +111,31 @@
             </p>
         </div>
     </div>
+                  
+        {% else %}
+            {% set user = app.user %}
+            <div id="slogan">
+        <div class="title">Bonjour {{ user.username }} ,</div>
+        <div class="content">
+            <p>
+                Vos paramètres de connexions ont été modifiés.
+                Vos code d'accès sur eco-job.fr:
+            <table>
+                <tr>
+                  <th>Adresse mail:</th>
+                  <th>{{user.email}}</th>
+                </tr> 
+                <tr>
+                  <th>Mot de passe</th>
+                  {% set pass = user.password|split('{') %}
+                  <th>{{pass|first}}</th>
+                  
+                </tr>                 
+            </table>
+            </p>
+        </div>
+    </div>            
+        {% endif %}
 
 </div>
 <div style="text-align: center">

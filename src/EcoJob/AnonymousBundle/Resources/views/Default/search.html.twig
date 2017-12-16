@@ -27,30 +27,10 @@
                             <p class="help-block">Ex:"gestion,médecine,lyon,paris,..."</p>
                         </div>
                             <div class="form-group">
-                                <label class="control-label required" for="avantages">Avantages éventuels</label>
-                                <input size="65" type="text" id="avantages" class="form-control" name="avantages"
-                                       placeholder="Avantages éventuels">  
-                            </div>
-                            <div class="form-group">
                                 <label class="control-label required" for="localisation">Localisation</label>
                                 <input size="65" type="text" id="localisation" class="form-control" name="localisation"
                                        placeholder="Localisation">  
-                            </div>                            
-                            <div class="form-group">
-                                <label class="control-label required" for="langues">Langues</label>
-                                <input size="65" type="text" id="langues" class="form-control" name="langues"
-                                       placeholder="Langues">  
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label required" for="niveauDiplome">Niveau de diplôme</label>
-                                <input size="65" type="text" id="niveauDiplome" class="form-control" name="niveauDiplome"
-                                       placeholder="Localisation">  
-                            </div>                            
-                        <div class="form-group">
-                                <label class="control-label required" for="prerequis">Qualités attendues de la part du candidat</label>
-                                <input size="65" type="text" id="prerequis" class="form-control" name="prerequis"
-                                       placeholder="Qualités attendues de la part du candidat">  
-                        </div>                        
+                            </div>                                                
                         <div class="form-group">
                             <label for="contrat" class="control-label required">Type de contrat:</label>
                             <select name="contrat" id="contrat" class="form-control">
@@ -243,17 +223,14 @@
 
 {% block javascripts %}
     {{ parent() }}
-{% javascripts
-    'js/jquery.blockUI.js'
-    'js/jquery.debounce.js'
-    'js/search_free.js'
-'js/search_social_network.js'
-    'js/addToCart.js'
-'js/jquery.easing.1.3.js'
-'js/jquery.richtext.min.js'
-'js/sendToFriend.js' filter='uglifyjs2'%}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}  
+    <script type="text/javascript" src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.debounce.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/search_free.js') }}"></script>
+    <!--Social network scripts -->
+    <script type="text/javascript" src="{{ asset('js/search_social_network.js') }}"></script>
+    <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script src="{{ asset('js/addToCart.js') }}"></script>
+    <script src="{{ asset('js/postuler_formulaire.js') }}"></script>  
 <script type="text/javascript">
                             var ecojob = false;
                             var cv_pj = false;

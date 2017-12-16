@@ -28,12 +28,12 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
         #- { path: ^/candidat/alert_mail$, role: IS_AUTHENTICATED_ANONYMOUSLY }
        # - { path: ^/admin/offre/suspendre$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/candidat/, role: [ROLE_CANDIDAT,ROLE_SUPER_ADMIN] }
-        - { path: ^/recruteur/, role: [ROLE_RECRUTEUR,ROLE_SUPER_ADMIN] }
-        - { path: ^/candidat.php, role: [ROLE_CANDIDAT,ROLE_SUPER_ADMIN] }
-        - { path: ^/recruteur.php, role: [ROLE_RECRUTEUR,ROLE_SUPER_ADMIN] }        
+        - { path: ^/candidat/, role: [ROLE_CANDIDAT] }
+        - { path: ^/recruteur/, role: [ROLE_RECRUTEUR] }
+        - { path: ^/candidat.php, role: [ROLE_CANDIDAT] }
+        - { path: ^/recruteur.php, role: [ROLE_RECRUTEUR] }        
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
     

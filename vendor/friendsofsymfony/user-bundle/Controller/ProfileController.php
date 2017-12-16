@@ -113,9 +113,14 @@ class ProfileController extends Controller {
                         $url = $this->generateUrl('eco_job_candidat_index');
                             return $this->redirectToRoute('eco_job_candidat_index');
                         }
-                        else{
+                        elseif(in_array('ROLE_RECRUTEUR',$user->getRoles())){
                         $url = $this->generateUrl('eco_job_recruteur_index');
                             return $this->redirectToRoute('eco_job_recruteur_index');
+                            
+                        }
+                        else{
+                        $url = $this->generateUrl('eco_job_admin_index');
+                            return $this->redirectToRoute('eco_job_admin_index');
                             
                         }
                         $response = new RedirectResponse($url);
