@@ -283,6 +283,10 @@ class AdminController extends Controller {
         $expired = count($em->getRepository('EcoJobRecruteurBundle:Offre')->getExpiredNow());
         $modified = count($em->getRepository('EcoJobRecruteurBundle:Offre')->findByModificationValided(false));
         $notvalided = count($em->getRepository('EcoJobRecruteurBundle:Offre')->findByValid(false));
+        $provider = $this->get('fos_message.provider');
+        $unreadMsg = $provider->getNbUnreadMessages();
+
+        $this->get('session')->set('unread', $unreadMsg);        
         $this->get('session')->set('newUsers', $newUsers);
         $this->get('session')->set('users', $count_users);
         $this->get('session')->set('offres', $count_offres);

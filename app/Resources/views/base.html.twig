@@ -10,11 +10,10 @@
     <meta name="author" content="Your name">
 
     {% block stylesheets %}
-        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
-        <link href="{{asset('css/font-awesome.css')}}" rel="stylesheet">
-        <link href="{{asset('css/flexslider.css')}}" rel="stylesheet">
-        <link href="{{asset('css/animate.css')}}" rel="stylesheet">
-        <link href="{{asset('css/style.css')}}" rel="stylesheet">
+            {% stylesheets 'css/*'
+                filter='uglifycss' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}  
     {% endblock %}
 
     {% block javascripts %}
@@ -113,7 +112,9 @@
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 <li class="sub-menu sub-menu-1"><a href="#">Mon compte<em></em></a>
                                     <ul>
+                                        {% if not is_granted("ROLE_SUPER_ADMIN") %}
                                         <li><a href="{{path('fos_user_profile_show')}}">Profile</a></li>
+                                        {% endif %}
                                         <li><a href="{{path('fos_user_security_logout')}}">Se déconnecter</a></li>
                                     </ul>
                                 </li>

@@ -8,15 +8,18 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="latest_news">
-                        <div class="title7">Administration side bar</div>
-                        <a href="{{path('eco_job_admin_users')}}"> Liste des nouveaux utilisateurs ({{app.session.get('newUsers')}}) </a>                        
-                        <br><a href="{{path('eco_job_admin_offres')}}"> Offres en attentes de validation ({{app.session.get('notvalided')}})</a> 
-                         <br><a href="{{path('eco_job_admin_offres_expirer')}}"> Offres exprirés ({{app.session.get('expired')}})</a>
-                         <br><a href="{{path('eco_job_admin_offres_edited')}}"> Offres modifiées et en attente de validation ({{app.session.get('modified')}})</a>
-                        <br><a href="{{path('eco_job_admin_offres_categorie')}}"> Secteur d'activité</a> 
-                        <br><a href="{{path('eco_job_admin_users_dashoard')}}"> Utilisateurs ({{app.session.get('users')}}) </a>
-                        <br><a href="{{path('eco_job_admin_offres_all')}}"> Toutes les Offres ({{app.session.get('offres')}}) </a>
-                        <br><a href="{{path('eco_job_admin_recruteur_dashoard')}}"> Recruteurs et banque de CV </a>                        
+                        <div class="title7">Administration side bar</div>                        
+                        {% set route = app.request.attributes.get('_route') %}
+                        <ul class="nav nav-pills nav-stacked">
+                            <li {{ route ==  'eco_job_admin_users' ? 'class="active"' }}><a href="{{path('eco_job_admin_users')}}"> Liste des nouveaux utilisateurs ({{app.session.get('newUsers')}}) </a></li>                        
+                            <li {{ route ==  'eco_job_admin_offres' ? 'class="active"' }}><a href="{{path('eco_job_admin_offres')}}"> Offres en attentes de validation ({{app.session.get('notvalided')}})</a></li>
+                            <li {{ route ==  'eco_job_admin_offres_expirer' ? 'class="active"' }}><a href="{{path('eco_job_admin_offres_expirer')}}"> Offres exprirés ({{app.session.get('expired')}})</a></li>
+                            <li {{ route ==  'eco_job_admin_offres_edited' ? 'class="active"' }}><a href="{{path('eco_job_admin_offres_edited')}}"> Offres modifiées et en attente de validation ({{app.session.get('modified')}})</a></li>
+                            <li {{ route ==  'eco_job_admin_offres_categorie' ? 'class="active"' }}><a href="{{path('eco_job_admin_offres_categorie')}}"> Secteur d'activité</a></li> 
+                            <li {{ route ==  'eco_job_admin_users_dashoard' ? 'class="active"' }}><a href="{{path('eco_job_admin_users_dashoard')}}"> Utilisateurs ({{app.session.get('users')}}) </a></li>
+                            <li {{ route ==  'eco_job_admin_offres_all' ? 'class="active"' }}><a href="{{path('eco_job_admin_offres_all')}}"> Toutes les Offres ({{app.session.get('offres')}}) </a></li>
+                            <li {{ route ==  'eco_job_admin_recruteur_dashoard' ? 'class="active"' }}><a href="{{path('eco_job_admin_recruteur_dashoard')}}"> Recruteurs et banque de CV </a></li>
+                        </ul>
                     </div>
                 </div>                
                 <div class="col-sm-8">
