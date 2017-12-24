@@ -69,6 +69,10 @@ class Candidature
     private $enablelm_pj;    
     
     /**
+     * @ORM\Column(name="enablecv_eco", type="boolean", nullable=true)
+     */
+    private $enablecv_eco;    
+    /**
      * @ORM\ManyToOne(targetEntity="EcoJob\CandidatBundle\Entity\CVFichier", inversedBy="candidatures")
     * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
@@ -339,5 +343,29 @@ class Candidature
     public function getLettre()
     {
         return $this->lettre;
+    }
+
+    /**
+     * Set enablecvEco
+     *
+     * @param boolean $enablecvEco
+     *
+     * @return Candidature
+     */
+    public function setEnablecvEco($enablecvEco)
+    {
+        $this->enablecv_eco = $enablecvEco;
+    
+        return $this;
+    }
+
+    /**
+     * Get enablecvEco
+     *
+     * @return boolean
+     */
+    public function getEnablecvEco()
+    {
+        return $this->enablecv_eco;
     }
 }

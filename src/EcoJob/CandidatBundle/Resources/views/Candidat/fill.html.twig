@@ -14,7 +14,13 @@
         <br>
         <div id="note"></div>
         <div class="col-sm-9">
-                <div class="quote_wrapper">
+          <div class="quote_wrapper">
+            <div class="progress">
+             <div id="progression" class="progress-bar progress-bar-striped active" role="progressbar"
+             aria-valuenow="{{app.user.getPercent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{app.user.getPercent}}%">
+               {{app.user.getPercent}}%
+             </div>
+           </div>                    
             <div id="fields">        
             <div id="photo">
                 <form novalidate class="form-horizontal" id="photoForm" method="post" {{ form_enctype(imageForm) }}>
@@ -83,6 +89,16 @@
                     {{ form_end(langueForm) }}    
                 </div>     
             </div>
+                {% if (cv.etatCivil is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
+                        or cv.langues is null) %}
+                <a href="#" data-toggle="modal" data-target="#globModal">Activer la publication de mon CV </a>
+                {% else %}                
+                    {% if cv.showable %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
+                    {% else %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>
+                    {% endif %}
+                {% endif %}                
         </div>  
                 </div>
         </div>            
@@ -234,6 +250,8 @@
         var langue_id = 0;
         var exp_id = 0;
         var form_id = 0;
+        var recall = true;
+        
     $(document).on('click', '.deletelangue', function () {
         langue_id = $(this).attr('langueId');
         $("#supModal").modal('show');
@@ -342,6 +360,33 @@
             }
         });
     });     
+    $(document).ajaxStop(function() {
+        if(recall){
+            $.ajax({
+                type: 'POST',
+                url: Routing.generate('eco_job_candidat_get_progress'),
+                timeout: 30000,
+                beforeSend: function () {
+                    $.blockUI({
+                        message: '<p class="loader"></p>',
+                        css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                    });
+                },
+                success: function (response) {                  
+                    $('#progression').attr('aria-valuenow', response.progress).css('width',response.progress+"%");
+                    $("#progression").text(response.progress+"%");
+                    recall = false;
+                    setTimeout(function(){ recall = true; }, 3000);                    
+                },
+                error: function () {
+                    alert('La requête n\'a pas abouti');
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            });
+        }
+    });    
     </script>    
 {% endblock %}
 {% block stylesheets %}

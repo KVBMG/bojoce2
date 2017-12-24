@@ -4,21 +4,31 @@
     <div class="collapse" id="formationC">
         {% if formations is defined  %}
         Mes formations:            
+            <ul>
             {% for formation in formations %}
                 <div id="formation{{formation.id}}">
-                {{formation.intituleDiplome}} {{formation.anneeObtention}}
+                    <li>{{formation.anneeObtention}}: {{formation.intituleDiplome}}</li>
+                    {{formation.detailsFormation}} <br>
+                    {{formation.specialisation}} <br>
+                    {{formation.lieu }} <br>
+                    {{formation.etablissement }} <br>
+                    {{formation.niveau.libelle}} <br>
+                    {% if formation.formationEtranger %}
+                        Formation à l'étranger.
+                    {% endif %}
                 <a href="#formationC" class="btn btn1 btn editFormation" formationId="{{formation.id}}">Modifier</a>
                 <a href="#formationC" class="btn btn1 btn deleteFormation" formationId="{{formation.id}}">Supprimer</a>                    
                 </div>
             {% endfor %}
+            </ul>
             {{ form_widget(form) }}
             <button type="submit" class="btn-default btn-cf-submit">Ajouter cette formation</button>
-            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#formationC">Annuler</button>
             {{ form_end(form) }}             
         {% else %}        
             {{ form_widget(form) }}
             <button type="submit" class="btn-default btn-cf-submit">Valider cette formation</button>
-            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#formationC">Annuler</button>
             {{ form_end(form) }}    
         {% endif %}
     </div>

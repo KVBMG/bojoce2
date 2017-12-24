@@ -296,3 +296,10 @@ eco_job_candidat_trad_post:
     methods:  [GET,POST]
     options:
         expose: true         
+        
+eco_job_candidat_get_progress:
+    path:     /cv/get/progress
+    defaults: { _controller: "EcoJobCandidatBundle:Candidat:getProgress" }
+    methods:  [GET,POST]
+    options:
+        expose: true            

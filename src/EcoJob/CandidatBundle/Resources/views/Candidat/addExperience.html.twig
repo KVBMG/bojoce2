@@ -4,22 +4,30 @@
     <div class="collapse" id="experienceC">
         {% if experiences is defined  %}
         Mes expériences:            
+        <ul>
             {% for experience in experiences %}
                 <div id="experience{{experience.id}}">
-                
-                {{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
+                    <li>{{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
+                    </li>
+                    {{experience.poste}}<br>
+                    {{experience.societe}}<br>
+                    {{experience.localisation}}<br>
+                    {{experience.detailsMission}}<br>
+                    {{experience.fonction}}<br>
+                    {{experience.secteurActivite.designation}}
                 <a href="#experienceC" class="btn btn1 btn editExperience" experienceId="{{experience.id}}">Modifier</a>
                 <a href="#experienceC" class="btn btn1 btn deleteExperience" experienceId="{{experience.id}}">Supprimer</a>                
                 </div>
             {% endfor %}
+        </ul>    
             {{ form_widget(form) }}
             <button type="submit" class="btn-default btn-cf-submit">Ajouter cette experience</button>
-            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#experienceC">Annuler</button>
             {{ form_end(form) }}             
         {% else %}        
             {{ form_widget(form) }}
             <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
-            <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+            <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#experienceC">Annuler</button>
             {{ form_end(form) }}    
         {% endif %}
     </div>

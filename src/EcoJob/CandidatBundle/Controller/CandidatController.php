@@ -1004,16 +1004,20 @@ class CandidatController extends Controller {
                 if ($request->request->get('enableLMPJ')) {
                     $candidature->setEnablelmPj(true);
                     $candidature->setLettre($candidatureT->getLettre());
-                    $lettre = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getLettre()->getNom();
+                    $lettre = $this->get('kernel')->getRootDir() . '/../cv/' . $candidatureT->getLettre()->getNom();
                     $message->attach(\Swift_Attachment::fromPath($lettre));
                 }
                 if ($request->request->get('enableCVPJ')) {
                     $candidature->setEnablecvPj(true);
                     $candidature->setCvfichier($candidatureT->getCvfichier());
 
-                    $cv = $this->get('kernel')->getRootDir() . '/../web/cv/' . $candidatureT->getCvfichier()->getNom();
+                    $cv = $this->get('kernel')->getRootDir() . '/../cv/' . $candidatureT->getCvfichier()->getNom();
                     $message->attach(\Swift_Attachment::fromPath($cv));
                 }
+                if ($request->request->get('enableEco')) {
+                    $candidature->setEnablecvEco(true);
+                    $candidature->setCvfichier($candidatureT->getCvfichier());
+                }                
                 $message
 
                         // Give the message a subject
@@ -1046,6 +1050,12 @@ class CandidatController extends Controller {
         $candidatureT = new \EcoJob\CandidatBundle\Entity\CandidatureT();
         return $tform = $this->createForm(new \EcoJob\CandidatBundle\Form\CandidatureTType(), $candidatureT
                 , array('action' => $this->generateUrl('eco_job_candidat_trad_post', array('id' => $offre->getId())), 'user' => $this->getUser(), 'attr' => array('id' => 'candidatureFormT')));
+    }
+
+    public function getProgressAction() {
+        $response = new Response(json_encode(array("progress" => $this->getUser()->getPercent())));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
 }

@@ -34,7 +34,6 @@ $(function () {
         var val = $(this).val();
         if ((val.length >= 3) || (val.length == 0) && (last_phrases != val)) {
             //if((val.slice(-1) != " ")){
-            console.log((val.slice(-1) != " "));
             xhr = performSearch();
             last_phrases = this.value;
             //}
@@ -69,8 +68,6 @@ $(function () {
     }
     function showResponse(responseText, statusText, xhr, $form) {
         if (xhr.status == 200) {
-            console.log("response");
-            console.log(responseText.responseJSON);
             if (!add_more) {
                 resetDetails();
                 if (responseText.total > 0) {
@@ -95,8 +92,6 @@ $(function () {
                     $("#offreList").on('scroll', $.debounce(addMore, 500));
 
                 } else {
-                    console.log("last_page");
-                    console.log(responseText);
                     last_page = true;
                     $('#offreList').append("Fin de la correspondance");
                 }
@@ -160,7 +155,6 @@ $(function () {
                 200: function (response) {
                     resetDetails();
                     $('#details').append(response.html);
-                    console.log(response);
                 },
                 412: function (response) {
                     resetDetails();
@@ -475,7 +469,6 @@ $(function () {
         $('#candidatureForm').submit(function (event) {
             event.preventDefault();
             var form_data = $(this).serialize();
-            console.log(form_data);
             $.ajax({
                 type: "POST",
                 url: $(this).attr('action'),

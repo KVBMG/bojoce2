@@ -356,6 +356,10 @@
                                  }
                             }
                             function isValid(){
+                                if(! (ecojob || cv_pj)){
+                                    alert("Veuillez séléctionner le CV qui va accompagner la lettre.");
+                                    return false;
+                                }                                
                                 if(ecojob){
                                     if($("#collapseOne .alert-warning").length > 0){
                                         alert("Veuillez corriger l'option numero 1 ou modifier votre de demande");

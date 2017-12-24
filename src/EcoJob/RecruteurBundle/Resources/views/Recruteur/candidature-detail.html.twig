@@ -31,7 +31,7 @@
                     {% else %}
                         Aucune photo
                     {% endif %}
-
+                    {% if candidature.getEnablecvEco %}
                     <div id="contact-info" class="vcard">
                         {% if cv.etatCivil is not null %}
                             <!-- Microformats! -->
@@ -120,7 +120,7 @@
                     </dl>
 
                     <div class="clear"></div>
-
+                    {% endif %}
                 </div> 
             {% else %}
                 Le candidat n'a pas rempli son cv numérique eco-job. Il vous a envoyé sa lettre de motivation et son CV.

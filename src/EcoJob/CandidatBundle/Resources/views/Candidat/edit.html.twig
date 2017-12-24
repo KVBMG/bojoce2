@@ -12,7 +12,7 @@
        <div class="col-sm-9">   
         Avancement du remplissage    
         <div class="progress">
-         <div class="progress-bar progress-bar-striped active" role="progressbar"
+         <div id="progression" class="progress-bar progress-bar-striped active" role="progressbar"
          aria-valuenow="{{app.user.getPercent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{app.user.getPercent}}%">
            {{app.user.getPercent}}%
          </div>
@@ -41,7 +41,7 @@
                     <div class="collapse" id="etatCivil">
                         {{ form_widget(etatcivilForm) }}
                         <button type="submit" class="btn-default btn-cf-submit">Valider l'état civil</button>
-                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#etatCivil">Annuler</button>
                         {{ form_end(etatcivilForm) }}    
                     </div>
             </div>
@@ -52,17 +52,27 @@
                 <div class="collapse" id="formationC">
                     {% if formations is defined  %}
                         Mes formations:            
-                        {% for formation in formations %}
-                            <div id="formation{{formation.id}}">
-                            {{formation.intituleDiplome}} {{formation.anneeObtention}}
-                            <a href="#formationC" class="btn btn1 btn editFormation" formationId="{{formation.id}}">Modifier</a>
-                            <a href="#formationC" class="btn btn1 btn deleteFormation" formationId="{{formation.id}}">Supprimer</a>                    
-                            </div>
-                        {% endfor %}
+                        <ul>
+            {% for formation in formations %}
+                <div id="formation{{formation.id}}">
+                    <li>{{formation.anneeObtention}}: {{formation.intituleDiplome}}</li>
+                    {{formation.detailsFormation}} <br>
+                    {{formation.specialisation}} <br>
+                    {{formation.lieu }} <br>
+                    {{formation.etablissement }} <br>
+                    {{formation.niveau.libelle}} <br>
+                    {% if formation.formationEtranger %}
+                        Formation à l'étranger.
+                    {% endif %}
+                <a href="#formationC" class="btn btn1 btn editFormation" formationId="{{formation.id}}">Modifier</a>
+                <a href="#formationC" class="btn btn1 btn deleteFormation" formationId="{{formation.id}}">Supprimer</a>                    
+                </div>
+            {% endfor %}
+            </ul>
                     {% endif %}        
                     {{ form_widget(formationForm) }}
                     <button type="submit" class="btn-default btn-cf-submit">Valider cette formation</button>
-                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                    <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#formationC">Annuler</button>
                     {{ form_end(formationForm) }}    
                 </div>
             </div>
@@ -74,14 +84,26 @@
                 <div class="collapse" id="experienceC">
                     {% if experiences is defined  %}
                         Mes expériences:            
-                        {% for experience in experiences %}
-                            {{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
-                            <a href="#experienceC" class="btn btn1 btn editExperience" experienceId="{{experience.id}}">Modifier</a>
-                        {% endfor %}
+                        <ul>
+            {% for experience in experiences %}
+                <div id="experience{{experience.id}}">
+                    <li>{{experience.dateDebut|date('d/m/y')}}-{{experience.dateFin|date('d/m/y')}}: {{experience.poste}}
+                    </li>
+                    {{experience.poste}}<br>
+                    {{experience.societe}}<br>
+                    {{experience.localisation}}<br>
+                    {{experience.detailsMission}}<br>
+                    {{experience.fonction}}<br>
+                    {{experience.secteurActivite.designation}}
+                <a href="#experienceC" class="btn btn1 btn editExperience" experienceId="{{experience.id}}">Modifier</a>
+                <a href="#experienceC" class="btn btn1 btn deleteExperience" experienceId="{{experience.id}}">Supprimer</a>                
+                </div>
+            {% endfor %}
+        </ul> 
                     {% endif %}        
                     {{ form_widget(experienceForm) }}
                     <button type="submit" class="btn-default btn-cf-submit">Valider cette experience</button>
-                    <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                    <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#experienceC">Annuler</button>
                     {{ form_end(experienceForm) }}    
                 </div>
         </div>
@@ -102,12 +124,12 @@
                         {% endfor %}
                         {{ form_widget(competenceForm) }}
                         <button type="submit" class="btn-default btn-cf-submit">Ajouter cette competence</button>
-                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#competenceC">Annuler</button>
                         {{ form_end(competenceForm) }}             
                     {% else %}        
                         {{ form_widget(competenceForm) }}
                         <button type="submit" class="btn-default btn-cf-submit">Valider cette competence</button>
-                        <button type="reset" class="btn-default btn-cf-submit">Annuler</button>
+                        <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#competenceC">Annuler</button>
                         {{ form_end(competenceForm) }}    
                     {% endif %}
                 </div>
@@ -129,10 +151,20 @@
                 {% endif %}          
                 {{ form_widget(langueForm) }}
                 <button type="submit" class="btn-default btn-cf-submit">Valider cette langue</button>
-                <button type="reset" class="btn-default btn-cf-submit">Annuler</button>                    
+                <button type="reset" class="btn-default btn-cf-submit" data-toggle="collapse" href="#langue">Annuler</button>
                 {{ form_end(langueForm) }}    
             </div>  
         </div>
+                {% if (cv.etatCivil is null or cv.image is null or cv.formations is null or cv.experiences is null or cv.competences is null
+                        or cv.langues is null) %}
+                <a href="#" data-toggle="modal" data-target="#activModal">Activer la publication de mon CV </a>
+                {% else %}                
+                    {% if cv.showable %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Suspendre la banque de CV</a>
+                    {% else %}
+                        <a href="{{path('eco_job_candidat_gerercv_stop',{'id': cv.id})}}"> Activer la publication de mon CV</a>
+                    {% endif %}
+                {% endif %}             
     </div>
        </div>    
     <div class="col-sm-3">
@@ -166,9 +198,6 @@
                 {% endif %}
             </ul>
        </div>
-
-</div>
-</div>
                     <div style="z-index:2016;" class="modal fade " id="activModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -315,6 +344,7 @@
         var exp_id = 0;
         var form_id = 0;
         var comp_id = 0;
+        var recall = true;
     $(document).on('click', '.validerDeleteCV', function () {
         window.location.href= "{{ path('eco_job_candidat_cv_delete')}}";
     });
@@ -429,7 +459,35 @@
                 $.unblockUI();
             }
         });
-    });     
+    });   
+    
+    $(document).ajaxStop(function() {
+        if(recall){
+            $.ajax({
+                type: 'POST',
+                url: Routing.generate('eco_job_candidat_get_progress'),
+                timeout: 30000,
+                beforeSend: function () {
+                    $.blockUI({
+                        message: '<p class="loader"></p>',
+                        css: {border: 'none', backgroundColor: 'transparent', width: '66px', top: ($(window).height() - 100) / 2 + 'px', left: ($(window).width() - 100) / 2 + 'px', }
+                    });
+                },
+                success: function (response) {                  
+                    $('#progression').attr('aria-valuenow', response.progress).css('width',response.progress+"%");
+                    $("#progression").text(response.progress+"%");
+                    recall = false;
+                    setTimeout(function(){ recall = true; }, 3000);                    
+                },
+                error: function () {
+                    alert('La requête n\'a pas abouti');
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            });
+        }
+    });    
     </script>    
 {% endblock %}
 {% block stylesheets %}

@@ -12,6 +12,11 @@
     <div class="latest_news" id="corps">
         <div class="title7">Liste des offres d'emploi du recruteur: {{recruteur}} </div>
         {% for offre in offres %}
+            {% if offre.logo is not null %}           
+                <img class='img-responsive pull-left' height='64px' id="pic" width='64px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+            {% else %}
+                Pas de logo
+            {% endif %}            
             <div class="txt1">Ajouté le {{offre.createdAt | date('d-m-y') }}</div>
             <div class="txt2"><a href="#">{{offre.titre}}</a></div>
             <div class="txt3">{{offre.description}}</div>

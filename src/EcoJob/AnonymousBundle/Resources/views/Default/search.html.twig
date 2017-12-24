@@ -76,6 +76,11 @@
                 <div class="col-sm-4 latest_news sroll_search_free" id="offreList">
 {% for offre in offres %}
                         <div class="news1" >
+                            {% if offre.logo is not null %}           
+                               <img class='img-responsive pull-left' height='64px' id="pic" width='64px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+                            {% else %}
+                                   Pas de logo
+                            {% endif %}                            
                             <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
 
                             <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
@@ -293,6 +298,10 @@
                                  }
                             }
                             function isValid(){
+                                if(! (ecojob || cv_pj)){
+                                    alert("Veuillez séléctionner le CV qui va accompagner la lettre.");
+                                    return false;
+                                }
                                 if(ecojob){
                                     if($("#collapseOne .alert-warning").length > 0){
                                         alert("Veuillez corriger l'option numero 1 ou modifier votre de demande");

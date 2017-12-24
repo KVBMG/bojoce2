@@ -137,10 +137,11 @@ $(function(){
                 });
             },
             success : function(result) {
-                $('#c-d').html(result);
+               $('#cvModal .modal-body').append(result);
+               $("#cvModal").show();
             },
             error : function (err) {
-                console.warn(err);
+                alert("Une erreur s'est produite. Veuillez réessayer.");
             },
             complete: function () {
                 $.unblockUI();

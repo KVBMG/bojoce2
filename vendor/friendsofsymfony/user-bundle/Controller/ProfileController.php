@@ -46,6 +46,22 @@ class ProfileController extends Controller {
         ));
     }
 
+    public function deleteAccountAction($username) {
+        $userManager = $this->get('fos_user.user_manager');
+        /* @var $userManager UserManager */
+
+        $user = $userManager->findUserByUsername($username);
+        if (($user == NULL)) {
+            // user not found, generate $notFoundResponse
+            throw new NotFoundHttpException(sprintf('Compte non-trouvé.'));
+        }
+
+        $userManager->deleteUser($user);
+
+        // okay, generate $okayResponse
+        return $this->redirectToRoute('fos_user_security_login');
+    }
+
     /**
      * Edit the user.
      *
@@ -104,24 +120,20 @@ class ProfileController extends Controller {
                     $userManager->updateUser($user);
 
                     if (null === $response = $event->getResponse()) {
-                        $url = "";    
+                        $url = "";
                         $session = $this->get('session');
-                        $session->getFlashBag()->add('notice_success', 'Votre profil a été mis à jour.');                        
+                        $session->getFlashBag()->add('notice_success', 'Votre profil a été mis à jour.');
                         $this->get('fos_user.mailer')->sendPasswordOrProfilChanged($user);
-                                                
-                        if(in_array('ROLE_CANDIDAT',$user->getRoles())){
-                        $url = $this->generateUrl('eco_job_candidat_index');
+
+                        if (in_array('ROLE_CANDIDAT', $user->getRoles())) {
+                            $url = $this->generateUrl('eco_job_candidat_index');
                             return $this->redirectToRoute('eco_job_candidat_index');
-                        }
-                        elseif(in_array('ROLE_RECRUTEUR',$user->getRoles())){
-                        $url = $this->generateUrl('eco_job_recruteur_index');
+                        } elseif (in_array('ROLE_RECRUTEUR', $user->getRoles())) {
+                            $url = $this->generateUrl('eco_job_recruteur_index');
                             return $this->redirectToRoute('eco_job_recruteur_index');
-                            
-                        }
-                        else{
-                        $url = $this->generateUrl('eco_job_admin_index');
+                        } else {
+                            $url = $this->generateUrl('eco_job_admin_index');
                             return $this->redirectToRoute('eco_job_admin_index');
-                            
                         }
                         $response = new RedirectResponse($url);
                     }

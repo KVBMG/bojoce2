@@ -1,5 +1,4 @@
 $(function () {
-
     var _toggleState = true;
     var _editor = $(document).find('.editor');
     var _editorOptions = {
@@ -8,22 +7,16 @@ $(function () {
         videoUpload: false,
     }
     _editor.richText(_editorOptions);
-
-
     var handleChange = function (event) {
         if (_toggleState) {
             $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').attr('required', false);
             $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').hide();
             _toggleState = false;
-            console.log(_toggleState);
         } else {
             $(document).find('#ecojob_candidatbundle_candidature_cvFile_cvFile').show();
             _toggleState = true;
-            console.log(_toggleState);
         }
     };
-
-    $(document).on('change', '#externalFile', handleChange.bind(this));
 
     $(document).on('submit', '#candidatureForm', function (event) {
         event.preventDefault();
@@ -57,7 +50,6 @@ $(function () {
                 $('#responseStore').addClass('alert-success').html(data.message).show();
                 $('#postulerBtn').replaceWith("<a href=\"#\" class=\"btn-default btn-warning\">Déja postulé</a>");
                 $('#m-m-u').modal('hide');
-                console.log(data);
             },
             complete: function () {
                 $.unblockUI();
@@ -72,7 +64,7 @@ $(function () {
             alert("Veuillez choisir votre de méthode de candidature");
             return;
         }
-        if(!isValid()){
+        if (!isValid()) {
             return;
         }
         var options = {

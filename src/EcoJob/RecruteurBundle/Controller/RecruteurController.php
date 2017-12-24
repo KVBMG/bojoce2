@@ -55,7 +55,7 @@ class RecruteurController extends Controller {
                 );
             }
         }
-        return $this->render('EcoJobRecruteurBundle:Recruteur:edit.html.twig', array('form' => $form->createView()));
+        return $this->render('EcoJobRecruteurBundle:Recruteur:edit.html.twig', array('form' => $form->createView(),'offre'=>$offre));
     }
 
     public function deleteAction(offre $offre, Request $request) {

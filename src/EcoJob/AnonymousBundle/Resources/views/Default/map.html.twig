@@ -81,6 +81,11 @@
                 <div class="col-sm-4 latest_news scroll_map" id="offreList">
                     {% for offre in offres %}
                         <div class="news1" >
+                            {% if offre.logo is not null %}           
+                               <img class='img-responsive pull-left' height='64px' id="pic" width='64px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+                            {% else %}
+                                   Pas de logo
+                            {% endif %}                            
                             <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>
 
                             <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>

@@ -6,8 +6,8 @@
 
 {% block content_stitle %}Candidatures{% endblock %}
 
-{% block offres %}
-    {{ parent() }}
+{% block scontent %}
+    {{parent()}}
     <div class="latest_news row" style="padding: 5px;">
         <div class="col-md-6"><h4>Offres</h4></div>
         <div class="col-md-6"><h4>Candidatures</h4></div>
@@ -19,20 +19,6 @@
         </div>
     </div>
     <div id="user-id-hidden" style="visibility: hidden;" data-user-id="{{user_id}}"></div>
-{% endblock %}
-
-{% block scontent %}
-    <div class="latest_news">
-        <div class="title2">Informations supplémentaires</div>
-
-    </div>
-    <div id="c-d" class="latest_news" >
-        <div class="alert alert-info">En attente de votre choix....</div>
-    </div>
-
-    {{parent()}}
-
-
     <!-- Modal -->
     <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -53,6 +39,23 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="cvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">CV</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>    
 {% endblock %}
 
 {% block javascripts %}

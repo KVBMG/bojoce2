@@ -17,6 +17,7 @@
             <form novalidate class="form-horizontal"  method="post" {{ form_enctype(form) }}>
                 {{ form_widget(form) }}
                 <button type="submit" class="btn-default btn-cf-submit">Valider</button>
+                <a href="{{path('eco_job_recruteur_offre_edit',{'id':offre.id})}}" class="btn-default btn-cf-submit">Annuler<a/>                
                 {{ form_end(form) }}   
         </div>               
     </form>    

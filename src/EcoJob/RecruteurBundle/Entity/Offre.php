@@ -44,11 +44,18 @@ class Offre
      * @ORM\Column(name="reference", type="string", length=255,nullable=true)         
      */
     private $reference;
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="niveauDiplome", type="string", length=255)
-     * @Assert\NotBlank()          
+     * @ORM\Column(name="bPresentation", type="string", length=255,nullable=false) 
+     * @Assert\NotBlank()                  
+     */
+    private $bPresentation;    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niveauDiplome", type="string", length=255,nullable=true)
      */
     private $niveauDiplome;
     
@@ -61,8 +68,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="langues", type="string", length=255,nullable=false)
-     * @Assert\NotBlank()           
+     * @ORM\Column(name="langues", type="string", length=255,nullable=true)
      */
     private $langues;    
     /**
@@ -100,8 +106,7 @@ class Offre
     /**
      * @var string
      *
-     * @ORM\Column(name="avantages", type="string", length=1000,nullable=true)
-     * @Assert\NotBlank()          
+     * @ORM\Column(name="avantages", type="string", length=1000,nullable=true)         
      */
     private $avantages;      
 
@@ -988,5 +993,29 @@ class Offre
     public function getRemuneration()
     {
         return $this->remuneration;
+    }
+
+    /**
+     * Set bPresentation
+     *
+     * @param string $bPresentation
+     *
+     * @return Offre
+     */
+    public function setBPresentation($bPresentation)
+    {
+        $this->bPresentation = $bPresentation;
+    
+        return $this;
+    }
+
+    /**
+     * Get bPresentation
+     *
+     * @return string
+     */
+    public function getBPresentation()
+    {
+        return $this->bPresentation;
     }
 }

@@ -1,7 +1,12 @@
 {% if offres is not empty %}
     {% if not app.user %}
         {% for offre in offres %}
-            <div class="news1 ">                    
+            <div class="news1 ">     
+                {% if offre.logo is not null %}           
+                   <img class='img-responsive pull-left' height='64px' id="pic" width='64px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+                {% else %}
+                       Pas de logo
+                {% endif %}                
                 <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
                 <div class="txt1">Ajoutée le {{offre.createdAt | date('d-m-y')}}</div>                
                 <div class="txt3">{{offre.localisation}}</div>
@@ -44,9 +49,13 @@
     {% else %}
         {% for offre in offres %}
             <div class="news1 ">
+                {% if offre.logo is not null %}           
+                   <img class='img-responsive pull-left' height='64px' id="pic" width='64px' src='{{asset('images/users/'~offre.logo.imageName~'')}}'/>                        
+                {% else %}
+                       Pas de logo
+                {% endif %}                
                 <div class="txt1">{{offre.createdAt | date('d-m-y')}}</div>
                 <div class="txt2 offre" offreId="{{offre.id}}"><a href="#details">{{offre.titre}}</a></div>
-                <div class="txt3">{{offre.description}}</div>
                 {% if is_granted('ROLE_CANDIDAT') %}
                     <div class="btn-group">
                         {% if offre.added %}

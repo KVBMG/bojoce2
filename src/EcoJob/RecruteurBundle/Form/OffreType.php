@@ -19,7 +19,8 @@ class OffreType extends AbstractType {
         $builder->add('titre','text',array('label' => "Titre de l'annonce"))
                 ->add('societe','text',array('label' => "Société qui recrute"))   
                 ->add('logo',new ImageType())
-                ->add('description', TextareaType::class, array('label' => 'Présentation'))
+                ->add('bPresentation','text',array('label' => "Briève présentation"))                   
+                ->add('description', TextareaType::class, array('label' => 'Description complète'))
                 ->add('categorie', 'entity', array(
                     'class' => 'EcoJobRecruteurBundle:ContratCategorie',
                     'label' => 'Secteur d\'activité',

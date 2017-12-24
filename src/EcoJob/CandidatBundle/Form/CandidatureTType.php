@@ -28,6 +28,7 @@ class CandidatureTType extends AbstractType {
                     'label' => "Lettre de motivation",
                     'class' => 'EcoJob\CandidatBundle\Entity\Lettre',
                     'property' => 'titre',
+                    'empty_data' => 'Aucune lettre envoyée',
                     'query_builder' => function ($eer) use ($user) {
                         return $eer
                                 ->createQueryBuilder('l')
@@ -37,6 +38,7 @@ class CandidatureTType extends AbstractType {
                 ->add('cvfichier', 'entity', array(
                     'label' => "CV",
                     'class' => 'EcoJob\CandidatBundle\Entity\CVFichier',
+                    'empty_data' => 'Aucun CV envoyé',                    
                     'property' => 'titre',
                     'query_builder' => function ($eer) use ($user) {
                         return $eer

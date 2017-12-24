@@ -65,7 +65,7 @@ class Formation
     /**
      * @var string
      *
-     * @ORM\Column(name="etablissement", type="string", length=15)
+     * @ORM\Column(name="etablissement", type="string", length=255)
      * @Assert\NotBlank()
      */
     private $etablissement;
