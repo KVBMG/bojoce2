@@ -138,7 +138,7 @@ $(function(){
             },
             success : function(result) {
                $('#cvModal .modal-body').append(result);
-               $("#cvModal").show();
+               $("#cvModal").modal('show');
             },
             error : function (err) {
                 alert("Une erreur s'est produite. Veuillez réessayer.");

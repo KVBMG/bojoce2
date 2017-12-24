@@ -142,11 +142,11 @@
 
                 </div>                
                 {{ form_start(tform) }}
-                    <input type="hidden" name="enableEco" id="enableEcoV"  /> 
+                    <input type="hidden" name="enableEco" value="sfsdfs" id="enableEcoH"  /> 
                     <br/>
-                    <input type="hidden" name="enableCVPJ" id="enableCVPJV" /> 
+                    <input type="hidden" name="enableCVPJ"  id="enableCVPJH" /> 
                     <br/>
-                    <input type="hidden" name="enableLMPJ" id="enableLMPJV"/>
+                    <input type="hidden" name="enableLMPJ" value="sfsdfs" id="enableLMPJH"/>
              
                 <div class='collapse' id="collapseOne">
                     {% if app.user and app.user.curriculum is not null %}
@@ -313,7 +313,7 @@
                                     $('#collapseOne').removeClass('in');                                    
                                     ecojob = false;
                                 }
-                                $('#enableEcoV').val(ecojob);
+                                $('#enableEcoH').val(ecojob);
                             }   
                             function enableCVPJ() {
                                 if($("#enableCVPJ").is(':checked')){
@@ -326,7 +326,7 @@
                                     $('#collapseTwo').removeClass('in');                                    
                                     cv_pj = false;
                                 }
-                                $('#enableCVPJV').val(cv_pj);
+                                $('#enableCVPJH').val(cv_pj);
 
                             }
                             function enableLMPJ() {
@@ -340,7 +340,8 @@
                                      $('#collapseThree').removeClass('in');                                    
                                     lm_pj = false;
                                 }
-                                $('#enableLMPJ').val(lm_pj);
+                                $('#enableLMPJH').val(lm_pj);                                
+                                alert($('#enableLMPJH').val());
 
                             }
                             function isOneChecked(){
